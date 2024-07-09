@@ -1,0 +1,98 @@
+/* Global styles */
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #f8f9fa;
+    margin: 20px;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden; /* Clear floats */
+}
+
+/* Styles for upload section */
+.upload-section {
+    padding: 30px; /* Increase padding for more height */
+    background: linear-gradient(to top, #c9c9ff 50%, #6e6ef6 90%) no-repeat;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    overflow: hidden; /* Clear floats */
+}
+
+.upload-section label {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.upload-section label:hover {
+    background-color: #0056b3;
+}
+
+.upload-section button {
+    margin-left: 10px;
+}
+
+/* Styles for add book button */
+.add-book-button {
+    float: right;
+    margin-bottom: 20px;
+      
+    margin-right: 20px;  
+
+}
+
+.add-book-button button {
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.add-book-button button:hover {
+    background-color: #218838;
+}
+
+/* Styles for table section */
+.table-section {
+    padding-right: 8px;
+    padding-left: 8px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    
+    
+}
+
+.table-section table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table-section table th,
+.table-section table td {
+    padding: 12px;
+    text-align: center;
+}
+
+.table-section .table-header {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.table-section table tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}

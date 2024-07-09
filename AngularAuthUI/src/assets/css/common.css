@@ -1,0 +1,144 @@
+.outer {
+    height: 100vh;
+    background: linear-gradient(to top, #c9c9ff 50%, #6e6ef6 90%) no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+.panel-heading {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    /* Couleur de texte appropriée */
+}
+
+#forget {
+    min-width: 100px;
+    margin-left: auto;
+    text-decoration: none; 
+    cursor: pointer;
+    color: #007bff;
+    /* Couleur du lien */
+}
+
+#forget:hover {
+    text-decoration: underline;
+    /* Effet de survol */
+}
+
+.form-inline label {
+    padding-left: 10px;
+    margin: 0;
+    cursor: pointer;
+    color: #555;
+    /* Couleur du texte du label */
+}
+
+.btn {
+    margin-top: 20px;
+    border-radius: 15px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    /* Couleur de fond du bouton */
+    color: #fff;
+    /* Couleur du texte du bouton */
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+    /* Couleur de fond du bouton au survol */
+}
+
+.panel {
+    min-height: 380px; 
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    margin-top: 50px;
+    padding: 20px;
+    background-color: #fff;
+}
+
+.input-field {
+    border-radius: 5px;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+}
+
+.input-field input[type='text'],
+.input-field input[type='password'] {
+    border: none;
+    outline: none;
+    width: 100%; 
+    
+    padding: 5px;
+    color: #333;
+}
+
+.input-field.error {
+    border-color: red;
+    color: red;
+}
+
+img {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.bordert {
+    border-top: 1px solid #aaa;
+    position: relative;
+}       
+
+.bordert:after {
+    content: "or connect with";
+    position: absolute;
+    top: -13px;
+    left: 50%;
+    /* Centre le texte horizontalement */
+    transform: translateX(-50%);
+    /* Centre le texte horizontalement */
+    background-color: #fff;
+    padding: 0 8px;   
+}
+
+.social-icon {
+    width: 50px;
+    /* Taille de l'icône */
+    height: 50px;
+    /* Taille de l'icône */
+    object-fit: cover;
+    border-radius: 50%;
+    /* Pour des icônes en cercle */
+    border: 2px solid transparent;
+    /* Pour un contour transparent initialement */
+    padding: 5px; 
+    transition: border-color 0.3s ease;
+    /* Transition douce pour le changement de couleur */
+}
+
+/* Ajouter une couleur de bordure personnalisée pour chaque icône */
+a[href*="facebook"] .social-icon {
+    border-color: #3b5998;
+    /* Couleur de Facebook */
+}
+
+a[href*="google"] .social-icon {
+    border-color: #db4437;
+    /* Couleur de Google */
+}
+
+a[href*="github"] .social-icon {
+    border-color: #333;
+    /* Couleur de GitHub */
+}

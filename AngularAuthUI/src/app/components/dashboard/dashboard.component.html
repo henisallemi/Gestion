@@ -1,0 +1,83 @@
+<div class="upload-section">
+  <input type="file" (change)="onFileSelected($event)" />
+  <button (click)="onUpload()">Upload</button>
+</div>
+
+<!-- Button to add a book -->
+<div class="add-book-button">
+  <button class="btn btn-success" (click)="openAddBookModal()">Ajouter un Livre</button>
+</div>
+
+<!-- Table section -->
+<div class="table-section">
+  <table class="table table-bordered table-striped">
+    <thead>
+      <tr class="table-header">
+        <th *ngFor="let header of headers">{{ header }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let book of books">
+        <td *ngFor="let header of headers">{{ book[header] }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Modal for adding a book -->
+<ng-template #addBookModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Ajouter un Livre</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form (ngSubmit)="onSubmit()" [formGroup]="bookForm"> 
+    <div class="modal-body">
+      <div class="form-group">
+        <label for="title">Titre</label>
+        <input type="text" class="form-control" id="title" formControlName="title" required>
+      </div>
+      <div class="form-group">
+        <label for="author">Auteur</label>
+        <input type="text" class="form-control" id="author" formControlName="author" required>
+      </div>
+      <div class="form-group">
+        <label for="isbn">ISBN</label>
+        <input type="text" class="form-control" id="isbn" formControlName="isbn" required>
+      </div>
+      <div class="form-group">
+        <label for="genre">Genre</label>
+        <input type="text" class="form-control" id="genre" formControlName="genre">
+      </div>
+      <div class="form-group">
+        <label for="datePublication">Date de publication</label>
+        <input type="text" class="form-control" id="datePublication" formControlName="datePublication">
+      </div>
+      <div class="form-group">
+        <label for="editeur">Editeur</label>
+        <input type="text" class="form-control" id="editeur" formControlName="editeur">
+      </div>
+      <div class="form-group">
+        <label for="langue">Langue</label>
+        <input type="text" class="form-control" id="langue" formControlName="langue">
+      </div>
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea class="form-control" id="description" formControlName="description"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="nbPage">Nombre de Pages</label>
+        <input type="number" class="form-control" id="nbPage" formControlName="nbPage">
+      </div>
+      <div class="form-group">
+        <label for="prix">Prix</label>
+        <input type="number" step="0.01" class="form-control" id="prix" formControlName="prix">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Fermer</button>
+      <button type="submit" class="btn btn-primary" [disabled]="bookForm.invalid">Ajouter</button>
+    </div>
+  </form>
+</ng-template>

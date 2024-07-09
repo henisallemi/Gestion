@@ -1,0 +1,54 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\henis\\OneDrive\\Bureau\\API_AngularAuthAPI\\AngularAuthAPI\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A3C6B37F-3548-4CB2-B13A-A0F2E8777F1B}|AngularAuthAPI\\AngularAuthAPI.csproj|c:\\users\\henis\\onedrive\\bureau\\api_angularauthapi\\angularauthapi\\angularauthapi\\controllers\\bookscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A3C6B37F-3548-4CB2-B13A-A0F2E8777F1B}|AngularAuthAPI\\AngularAuthAPI.csproj|solutionrelative:angularauthapi\\controllers\\bookscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A3C6B37F-3548-4CB2-B13A-A0F2E8777F1B}|AngularAuthAPI\\AngularAuthAPI.csproj|c:\\users\\henis\\onedrive\\bureau\\api_angularauthapi\\angularauthapi\\angularauthapi\\models\\book.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A3C6B37F-3548-4CB2-B13A-A0F2E8777F1B}|AngularAuthAPI\\AngularAuthAPI.csproj|solutionrelative:angularauthapi\\models\\book.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "BooksController.cs",
+              "DocumentMoniker": "C:\\Users\\henis\\OneDrive\\Bureau\\API_AngularAuthAPI\\AngularAuthAPI\\AngularAuthAPI\\Controllers\\BooksController.cs",
+              "RelativeDocumentMoniker": "AngularAuthAPI\\Controllers\\BooksController.cs",
+              "ToolTip": "C:\\Users\\henis\\OneDrive\\Bureau\\API_AngularAuthAPI\\AngularAuthAPI\\AngularAuthAPI\\Controllers\\BooksController.cs",
+              "RelativeToolTip": "AngularAuthAPI\\Controllers\\BooksController.cs",
+              "ViewState": "AQIAAF4AAAAAAAAAAAAUwHEAAAAWAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-08T13:01:07.645Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Book.cs",
+              "DocumentMoniker": "C:\\Users\\henis\\OneDrive\\Bureau\\API_AngularAuthAPI\\AngularAuthAPI\\AngularAuthAPI\\Models\\Book.cs",
+              "RelativeDocumentMoniker": "AngularAuthAPI\\Models\\Book.cs",
+              "ToolTip": "C:\\Users\\henis\\OneDrive\\Bureau\\API_AngularAuthAPI\\AngularAuthAPI\\AngularAuthAPI\\Models\\Book.cs",
+              "RelativeToolTip": "AngularAuthAPI\\Models\\Book.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAlAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-08T11:20:56.154Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
