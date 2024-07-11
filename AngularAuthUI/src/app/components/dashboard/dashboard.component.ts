@@ -1,8 +1,11 @@
 import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { BookService } from '../../services/book.service';
-import { FormBuilder, FormGroup, NgForm } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { BookService } from '../../services/book.service';
+
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-dashboard',
@@ -11,19 +14,38 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 })
 export class DashboardComponent implements OnInit {
   selectedFile: File | null = null;
-  books: any[] = [];
-  headers: string[] = [];
-  searchTerm: string = '';
+  books!: MatTableDataSource<any>;
+  headers: string[] = [
+      "id",
+      "title",
+      "author",
+      "isbn",
+      "genre",
+      "datePublication",
+      "editeur",
+      "langue",
+      "description",
+      "nb_Page",
+      "prix",
+      "action"
+  ];
 
   bookForm: FormGroup;
   addBookModal: NgbModalRef | undefined;
-  
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+
   @ViewChild('addBookModal') addBookModalContent!: TemplateRef<any>; // Reference to the modal content
 
-  constructor(private http: HttpClient, private bookService: BookService, private fb: FormBuilder, private modalService: NgbModal) {
+  constructor(
+    private bookService: BookService,
+    private fb: FormBuilder,
+    private modalService: NgbModal
+  ) {
     this.bookForm = this.fb.group({
       title: [''],
-      author: [''], 
+      author: [''],
       isbn: [''],
       genre: [''],
       datePublication: [''],
@@ -34,25 +56,8 @@ export class DashboardComponent implements OnInit {
       prix: ['']
     });
   }
-  newBook: any = {}; // Définissez newBook pour stocker les données du formulaire
 
-  onSubmit() {
-    if (this.bookForm.valid) {
-      const newBook = this.bookForm.value;
-      this.http.post<any>('https://localhost:7114/Books/add', newBook)
-        .subscribe(
-          response => {
-            console.log('Livre ajouté avec succès :', response);
-            this.addBookModal?.close(); // Ferme le modal après soumission réussie
-            this.loadBooks(); // Recharge la liste des livres
-          },
-          error => {
-            console.error('Erreur lors de l\'ajout du livre :', error);
-            // Gérez les erreurs (par exemple, affichez un message d'erreur)
-          }
-        );
-    }
-  }
+  newBook: any = {}; // Définissez newBook pour stocker les données du formulaire
 
   ngOnInit() {
     this.loadBooks();
@@ -62,42 +67,57 @@ export class DashboardComponent implements OnInit {
     this.selectedFile = event.target.files[0] ?? null;
   }
 
-  loadBooks() {
-    this.bookService.getBooks().subscribe(response => {
-      this.books = response;
-      if (this.books.length > 0) {
-        this.headers = Object.keys(this.books[0]);
-      }
-    }, error => {
-      console.error('Error loading books', error);
-    });
-  }
-
   onUpload() {
     if (this.selectedFile) {
-      const formData = new FormData();
-      formData.append('file', this.selectedFile, this.selectedFile.name);
-
-      this.http.post<any[]>('https://localhost:7114/Books/upload', formData)
-        .subscribe(data => {
+      this.bookService.uploadFile(this.selectedFile).subscribe(
+        data => {
           if (data.length > 0) {
-            this.headers = Object.keys(data[0]);
-            this.books = data;
+            this.books = new MatTableDataSource(data);
+            this.books.sort = this.sort;
+            this.books.paginator = this.paginator;
           }
-        });
+        },
+        error => {
+          console.error('Error uploading file', error);
+        }
+      );
     } else {
       console.error('No file selected');
     }
   }
 
-  openAddBookModal() {
-    this.addBookModal = this.modalService.open(this.addBookModalContent, { centered: true });
+  loadBooks() {
+    this.bookService.getBooks().subscribe(
+      response => {
+        if (response.length > 0) {
+          this.books = new MatTableDataSource(response);
+          this.books.sort = this.sort;
+          this.books.paginator = this.paginator;
+        }
+      },
+      error => {
+        console.error('Error loading books', error);
+      }
+    );
   }
 
-  // Ensure to add any necessary cleanup or other logic here as needed
-  ngOnDestroy() {
-    if (this.addBookModal) {
-      this.addBookModal.close();
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.books.filter = filterValue.trim().toLowerCase();
+
+    if (this.books.paginator) {
+      this.books.paginator.firstPage();
     }
+  }
+
+  deleteBook(id: number){
+    this.bookService.deleteBook(id).subscribe({
+      next:(res)=> {
+        alert('Book deleted !');
+        this.loadBooks();
+      },
+      error: console.log
+    })
   }
 }
