@@ -1,7 +1,8 @@
-<div class="input-group custom-input-group">
-  <input type="file" class="form-control input" (change)="onFileSelected($event)">
-  <button type="button" class="btn btn-success" type="button" (click)="onUpload()">Upload</button>
-</div>
+<mat-toolbar class="toolbar">
+  <span>My App</span>
+  <span class="example-spacer"></span>
+  <button mat-raised-button>Add Book</button>
+</mat-toolbar>
 
 <div class="main-body">
 
@@ -96,4 +97,9 @@
     <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
   </div>
 
+</div>
+
+<div class="input-group custom-input-group">
+  <input type="file" class="form-control input" (change)="onFileSelected($event)">
+  <button type="button" class="btn btn-success" type="button" (click)="onUpload()">Upload</button>
 </div>
