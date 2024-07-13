@@ -134,4 +134,11 @@ export class DashboardComponent implements OnInit {
       }
     })
   }
+
+  openEditBookForm(data :any){
+    this._dialog.open(BookAddEditComponent, {
+      data,
+    });
+    
+  }
 }
