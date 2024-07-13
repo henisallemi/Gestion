@@ -6,6 +6,10 @@ import { BookService } from '../../services/book.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatDialog } from '@angular/material/dialog';
+
+import { BookAddEditComponent } from '../book-add-edit/book-add-edit.component';
+import { subscribe } from 'diagnostics_channel';
 
 @Component({
   selector: 'app-dashboard',
@@ -36,12 +40,12 @@ export class DashboardComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  @ViewChild('addBookModal') addBookModalContent!: TemplateRef<any>; // Reference to the modal content
+  //@ViewChild('addBookModal') addBookModalContent!: TemplateRef<any>; // Reference to the modal content
 
   constructor(
     private bookService: BookService,
     private fb: FormBuilder,
-    private modalService: NgbModal
+    private _dialog : MatDialog
   ) {
     this.bookForm = this.fb.group({
       title: [''],
@@ -101,7 +105,6 @@ export class DashboardComponent implements OnInit {
     );
   }
 
-
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.books.filter = filterValue.trim().toLowerCase();
@@ -118,6 +121,17 @@ export class DashboardComponent implements OnInit {
         this.loadBooks();
       },
       error: console.log
+    })
+  }
+
+  openAddEditBookForm(){
+    const dialogRef = this._dialog.open(BookAddEditComponent);
+    dialogRef.afterClosed().subscribe({
+      next:(val) => {
+        if(val) {
+          this.loadBooks();
+        }
+      }
     })
   }
 }

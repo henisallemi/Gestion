@@ -18,15 +18,21 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatDialogModule } from '@angular/material/dialog'
+import { MatFormFieldModule } from '@angular/material/form-field';
+import {MatDatepickerModule} from '@angular/material/datepicker';
 
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { BookAddEditComponent } from './components/book-add-edit/book-add-edit.component';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     SignupComponent,
-    DashboardComponent
+    DashboardComponent,
+    BookAddEditComponent
   ],
   imports: [
     BrowserModule,
@@ -39,7 +45,11 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
     MatInputModule,
     MatIconModule,
     MatButtonModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   providers: [
     provideHttpClient(withFetch()),

@@ -1,0 +1,78 @@
+<div mat-dialog-title>
+    <h3>Book From</h3>
+</div>
+<form [formGroup]="bookForm" (ngSubmit)="onFormSubmit()">
+    <div mat-dialog-content style="padding-top: 10px;" class="container">
+    <div class="row">
+        <mat-form-field appearance="outline" class="form-field">
+            <mat-label>Title</mat-label>
+            <input matInput formControlName="title">
+        </mat-form-field>
+    </div>
+    
+
+    <div class="row">
+        <mat-form-field appearance="outline" class="form-field">
+            <mat-label>Author</mat-label>
+            <input matInput formControlName="author">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="form-field">
+            <mat-label>ISBN</mat-label>
+            <input matInput formControlName="isbn">
+        </mat-form-field>
+    </div>
+
+    <div class="row">
+        <mat-form-field appearance="outline" class="form-field">
+            <mat-label>Gender</mat-label>
+            <input matInput formControlName="genre">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="form-field">
+            <mat-label>Public Date</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="datePublication">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>          
+    </div>
+
+    <div class="row">
+        <mat-form-field appearance="outline" class="form-field">
+            <mat-label>Language</mat-label>
+            <input matInput formControlName="langue">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="form-field">
+            <mat-label>Editer</mat-label>
+            <input matInput formControlName="editeur">
+        </mat-form-field>
+    </div>
+
+    <div class="row">
+        <mat-form-field appearance="outline" class="form-field double-column">
+            <mat-label>Description</mat-label>
+            <textarea matInput formControlName="description"></textarea>
+        </mat-form-field>
+    </div>
+    
+
+    <div class="row">
+        <mat-form-field appearance="outline" class="form-field">
+            <mat-label>Number of Pages</mat-label>
+            <input matInput formControlName="nbPage">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="form-field">
+            <mat-label>Price</mat-label>
+            <input matInput formControlName="prix">
+            <mat-hint>In TND</mat-hint>
+        </mat-form-field>
+    </div>
+</div>
+<div mat-dialog-actions>
+    <button mat-raised-button>Cancel</button>
+    <button mat-raised-button color="primary" type="submit">Save</button>
+</div>
+</form>
