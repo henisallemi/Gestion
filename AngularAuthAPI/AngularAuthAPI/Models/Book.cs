@@ -13,5 +13,5 @@ public class Book
     public string Description { get; set; }
     public int Nb_Page { get; set; }
     public float Prix { get; set; }
-    }
+}
 

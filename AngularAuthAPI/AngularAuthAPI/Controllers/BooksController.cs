@@ -86,7 +86,7 @@ public class BooksController : ControllerBase
                         case "description":
                             book.Description = cellValue;
                             break;
-                        case "nb_page":
+                        case "nb_Page":
                         case "pages":
                             if (int.TryParse(cellValue, out int nbPages))
                                 book.Nb_Page = nbPages;
@@ -136,5 +136,34 @@ public class BooksController : ControllerBase
         await _context.SaveChangesAsync();
 
         return NoContent();
+    }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateBook(int id, [FromBody] Book updatedBook)
+    {
+        if (updatedBook == null)
+            return BadRequest("Invalid book data.");
+
+        var book = await _context.Books.FindAsync(id);
+        if (book == null)
+        {
+            return NotFound();
+        }
+
+        book.Title = updatedBook.Title;
+        book.Author = updatedBook.Author;
+        book.ISBN = updatedBook.ISBN;
+        book.Genre = updatedBook.Genre;
+        book.DatePublication = updatedBook.DatePublication;
+        book.Editeur = updatedBook.Editeur;
+        book.Langue = updatedBook.Langue;
+        book.Description = updatedBook.Description;
+        book.Nb_Page = updatedBook.Nb_Page;
+        book.Prix = updatedBook.Prix;
+
+        _context.Books.Update(book);
+        await _context.SaveChangesAsync();
+
+        return Ok(book);
     }
 }
