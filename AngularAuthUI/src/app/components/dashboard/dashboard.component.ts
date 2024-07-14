@@ -56,8 +56,8 @@ export class DashboardComponent implements OnInit {
       editeur: [''],
       langue: [''],
       description: [''],
-      nbPage: [''],
-      prix: ['']
+      nb_Page: [0],
+      prix: [0]
     });
   }
 
@@ -95,6 +95,7 @@ export class DashboardComponent implements OnInit {
       response => {
         if (response.length > 0) {
           this.books = new MatTableDataSource(response);
+          console.log(response);
           this.books.sort = this.sort;
           this.books.paginator = this.paginator;
         }
@@ -136,9 +137,15 @@ export class DashboardComponent implements OnInit {
   }
 
   openEditBookForm(data :any){
-    this._dialog.open(BookAddEditComponent, {
+    const dialogRef = this._dialog.open(BookAddEditComponent, {
       data,
     });
-    
+    dialogRef.afterClosed().subscribe({
+      next:(val) => {
+        if(val) {
+          this.loadBooks();
+        }
+      }
+    })
   }
 }

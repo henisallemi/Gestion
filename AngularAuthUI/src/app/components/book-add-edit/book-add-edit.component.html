@@ -61,7 +61,7 @@
     <div class="row">
         <mat-form-field appearance="outline" class="form-field">
             <mat-label>Number of Pages</mat-label>
-            <input matInput formControlName="nb_Page">
+            <input type="number" matInput formControlName="nb_Page">
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="form-field">
@@ -73,6 +73,6 @@
 </div>
 <div mat-dialog-actions>
     <button mat-raised-button type="button" [mat-dialog-close]="false">Cancel</button>
-    <button mat-raised-button color="primary" type="submit">Save</button>
+    <button mat-raised-button color="primary" type="submit">{{data ? 'Update' : 'save'}}</button>
 </div>
 </form>
