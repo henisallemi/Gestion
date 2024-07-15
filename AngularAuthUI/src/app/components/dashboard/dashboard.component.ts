@@ -20,18 +20,18 @@ export class DashboardComponent implements OnInit {
   selectedFile: File | null = null;
   books!: MatTableDataSource<any>;
   headers: string[] = [
-      "id",
-      "title",
-      "author",
-      "isbn",
-      "genre",
-      "datePublication",
-      "editeur",
-      "langue",
-      "description",
-      "nb_Page",
-      "prix",
-      "action"
+    "id",
+    "title",
+    "author",
+    "isbn",
+    "genre",
+    "datePublication",
+    "editeur",
+    "langue",
+    "description",
+    "nb_Page",
+    "prix",
+    "action"
   ];
 
   bookForm: FormGroup;
@@ -45,7 +45,7 @@ export class DashboardComponent implements OnInit {
   constructor(
     private bookService: BookService,
     private fb: FormBuilder,
-    private _dialog : MatDialog
+    private _dialog: MatDialog
   ) {
     this.bookForm = this.fb.group({
       title: [''],
@@ -115,9 +115,9 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  deleteBook(id: number){
+  deleteBook(id: number) {
     this.bookService.deleteBook(id).subscribe({
-      next:(res)=> {
+      next: (res) => {
         alert('Book deleted !');
         this.loadBooks();
       },
@@ -125,24 +125,24 @@ export class DashboardComponent implements OnInit {
     })
   }
 
-  openAddEditBookForm(){
+  openAddEditBookForm() {
     const dialogRef = this._dialog.open(BookAddEditComponent);
     dialogRef.afterClosed().subscribe({
-      next:(val) => {
-        if(val) {
+      next: (val) => {
+        if (val) {
           this.loadBooks();
         }
       }
     })
   }
 
-  openEditBookForm(data :any){
+  openEditBookForm(data: any) {
     const dialogRef = this._dialog.open(BookAddEditComponent, {
       data,
     });
     dialogRef.afterClosed().subscribe({
-      next:(val) => {
-        if(val) {
+      next: (val) => {
+        if (val) {
           this.loadBooks();
         }
       }
