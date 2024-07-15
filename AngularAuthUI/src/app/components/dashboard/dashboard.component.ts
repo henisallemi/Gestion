@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { BookService } from '../../services/book.service';
 
@@ -9,7 +9,6 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 
 import { BookAddEditComponent } from '../book-add-edit/book-add-edit.component';
-import { subscribe } from 'diagnostics_channel';
 
 @Component({
   selector: 'app-dashboard',
@@ -56,8 +55,8 @@ export class DashboardComponent implements OnInit {
       editeur: [''],
       langue: [''],
       description: [''],
-      nb_Page: [0],
-      prix: [0]
+      nb_Page: [''], 
+      prix: [''],   
     });
   }
 
@@ -148,4 +147,4 @@ export class DashboardComponent implements OnInit {
       }
     })
   }
-}
+}     

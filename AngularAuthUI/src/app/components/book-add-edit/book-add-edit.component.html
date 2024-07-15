@@ -1,78 +1,115 @@
-<div mat-dialog-title>
-    <h3>Book From</h3>
+<div>
+    <h3>Book Form</h3>
 </div>
 <form [formGroup]="bookForm" (ngSubmit)="onFormSubmit()">
-    <div mat-dialog-content style="padding-top: 10px;" class="container">
-    <div class="row">
-        <mat-form-field appearance="outline" class="form-field">
-            <mat-label>Title</mat-label>
-            <input matInput formControlName="title">
-        </mat-form-field>
+    <div class="container">
+
+        <!-- Titre -->
+        <div class="row">
+            <mat-form-field appearance="outline" class="form-field">
+                <mat-label>Title</mat-label>
+                <input matInput formControlName="title" required>
+                <mat-error *ngIf="bookForm.get('title')?.hasError('required')">
+                    Title is required
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <!-- Auteur et ISBN -->
+        <div class="row">
+            <mat-form-field appearance="outline" class="form-field">
+                <mat-label>Author</mat-label>
+                <input matInput formControlName="author" required>
+                <mat-error *ngIf="bookForm.get('author')?.hasError('required')">
+                    Author is required
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="form-field">
+                <mat-label>ISBN</mat-label>
+                <input matInput formControlName="isbn" required appIntegerValidator>
+                <mat-error *ngIf="bookForm.get('isbn')?.hasError('required')">
+                    ISBN is required
+                </mat-error>
+                <mat-error *ngIf="bookForm.get('isbn')?.hasError('integer')">
+                    ISBN must contain only digits
+                </mat-error>
+            </mat-form-field>
+
+        </div>
+
+        <!-- Genre et Date de publication -->
+        <div class="row">
+            <mat-form-field appearance="outline" class="form-field">
+                <mat-label>Genre</mat-label>
+                <input matInput formControlName="genre">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="form-field">
+                <mat-label>Publication Date</mat-label>
+                <input matInput [matDatepicker]="picker" formControlName="datePublication" required>
+                <mat-hint>MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+                <mat-error *ngIf="bookForm.get('datePublication')?.hasError('required')">
+                    Publication Date is required
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <!-- Langue et Éditeur -->
+        <div class="row">
+            <mat-form-field appearance="outline" class="form-field">
+                <mat-label>Language</mat-label>
+                <mat-select formControlName="langue" required>
+                    <mat-option value="">Select Language</mat-option>
+                    <mat-option value="English">English</mat-option>
+                    <mat-option value="French">French</mat-option>
+                    <mat-option value="Spanish">Spanish</mat-option>
+                    <!-- Ajoutez d'autres options au besoin -->
+                </mat-select>
+                <mat-error *ngIf="bookForm.get('langue')?.hasError('required')">
+                    Language is required
+                </mat-error>
+            </mat-form-field>
+
+
+            <mat-form-field appearance="outline" class="form-field">
+                <mat-label>Editeur</mat-label>
+                <input matInput formControlName="editeur">
+            </mat-form-field>
+        </div>
+        <!-- Nombre de pages et Prix -->
+        <div class="row">
+            <mat-form-field appearance="outline" class="form-field">
+                <mat-label>Number of Pages</mat-label>
+                <input type="number" matInput formControlName="nb_Page" required placeholder="Enter number of pages">
+                <mat-error *ngIf="bookForm.get('nb_Page')?.hasError('required')">
+                    Number of Pages is required
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="form-field">
+                <mat-label>Price</mat-label>
+                <input matInput formControlName="prix" required placeholder="Enter price">
+                <mat-hint>In TND</mat-hint>
+                <mat-error *ngIf="bookForm.get('prix')?.hasError('required')">
+                    Price is required
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <!-- Description -->
+        <div class="row">
+            <mat-form-field appearance="outline" class="form-field double-column">
+                <mat-label>Description</mat-label>
+                <textarea matInput formControlName="description"></textarea>
+            </mat-form-field>
+        </div>
+
     </div>
-    
-
-    <div class="row">
-        <mat-form-field appearance="outline" class="form-field">
-            <mat-label>Author</mat-label>
-            <input matInput formControlName="author">
-        </mat-form-field>
-
-        <mat-form-field appearance="outline" class="form-field">
-            <mat-label>ISBN</mat-label>
-            <input matInput formControlName="isbn">
-        </mat-form-field>
+    <div mat-dialog-actions>
+        <button mat-raised-button type="button" [mat-dialog-close]="false">Cancel</button>
+        <button mat-raised-button color="primary" type="submit">{{ data ? 'Update' : 'Save' }}</button>
     </div>
-
-    <div class="row">
-        <mat-form-field appearance="outline" class="form-field">
-            <mat-label>Gender</mat-label>
-            <input matInput formControlName="genre">
-        </mat-form-field>
-
-        <mat-form-field appearance="outline" class="form-field">
-            <mat-label>Public Date</mat-label>
-            <input matInput [matDatepicker]="picker" formControlName="datePublication">
-            <mat-hint>MM/DD/YYYY</mat-hint>
-            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-          </mat-form-field>          
-    </div>
-
-    <div class="row">
-        <mat-form-field appearance="outline" class="form-field">
-            <mat-label>Language</mat-label>
-            <input matInput formControlName="langue">
-        </mat-form-field>
-
-        <mat-form-field appearance="outline" class="form-field">
-            <mat-label>Editer</mat-label>
-            <input matInput formControlName="editeur">
-        </mat-form-field>
-    </div>
-
-    <div class="row">
-        <mat-form-field appearance="outline" class="form-field double-column">
-            <mat-label>Description</mat-label>
-            <textarea matInput formControlName="description"></textarea>
-        </mat-form-field>
-    </div>
-    
-
-    <div class="row">
-        <mat-form-field appearance="outline" class="form-field">
-            <mat-label>Number of Pages</mat-label>
-            <input type="number" matInput formControlName="nb_Page">
-        </mat-form-field>
-
-        <mat-form-field appearance="outline" class="form-field">
-            <mat-label>Price</mat-label>
-            <input matInput formControlName="prix">
-            <mat-hint>In TND</mat-hint>
-        </mat-form-field>
-    </div>
-</div>
-<div mat-dialog-actions>
-    <button mat-raised-button type="button" [mat-dialog-close]="false">Cancel</button>
-    <button mat-raised-button color="primary" type="submit">{{data ? 'Update' : 'save'}}</button>
-</div>
 </form>

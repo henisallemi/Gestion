@@ -11,7 +11,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 export class BookAddEditComponent implements OnInit{
   bookForm : FormGroup;
 
-  constructor(private _fb : FormBuilder, private _bookservice : BookService, private _dialogrRef: MatDialogRef<BookAddEditComponent>,
+  constructor(private _fb : FormBuilder, private _bookservice : BookService, private _dialogRef: MatDialogRef<BookAddEditComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ){
     this.bookForm = this._fb.group({
@@ -32,33 +32,44 @@ export class BookAddEditComponent implements OnInit{
       this.bookForm.patchValue(this.data)
   }
 
-  onFormSubmit(){
-    if(this.bookForm.valid){
-      if(this.data){
-        //convert string to date !!
-        const formData = this.bookForm.value;
-        formData.datePublication = new Date(formData.datePublication);
+  onFormSubmit() {
+    if (this.bookForm.valid) {
+      const formData = this.bookForm.value;
+      formData.datePublication = new Date(formData.datePublication);
 
-        this._bookservice.updateBook(this.data.id, this.bookForm.value).subscribe({
-          next: (val: any) => {
-              alert('Book updated!');
-              this._dialogrRef.close(true);
-          },
-          error: (err: any) => {
-            console.error(err);
+      this._bookservice.checkIsbnExists(formData.isbn).subscribe({
+        next: (isbnExists: boolean) => {
+          if (isbnExists) { 
+            alert('ISBN already exists!');
+          } else {
+            if (this.data) {
+              this._bookservice.updateBook(this.data.id, formData).subscribe({
+                next: (val: any) => {
+                  alert('Book updated!');
+                  this._dialogRef.close(true);
+                },
+                error: (err: any) => {
+                  console.error(err);
+                }
+              });
+            } else {
+              this._bookservice.addBook(formData).subscribe({
+                next: (val: any) => {
+                  alert('Book added successfully!');
+                  this._dialogRef.close(true); 
+                },
+                error: (err: any) => {
+                  console.error(err);
+                }
+              });
+            }
           }
-        })
-      }else{
-        this._bookservice.addBook(this.bookForm.value).subscribe({
-          next: (val: any) => {
-              alert('Book added successfully!');
-              this._dialogrRef.close(true);
-          },
-          error: (err: any) => {
-            console.error(err);
-          }  
-        })
-      }
+        },
+        error: (err: any) => { 
+          console.error(err);
+        }
+      });
     }
   }
+
 }
