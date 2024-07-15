@@ -1,16 +1,16 @@
-<div mat-dialog-title>
+<div>
     <h3>Book Form</h3>
 </div>
 <form [formGroup]="bookForm" (ngSubmit)="onFormSubmit()">
-    <div mat-dialog-content class="container">
- 
+    <div class="container">
+
         <!-- Titre -->
         <div class="row">
             <mat-form-field appearance="outline" class="form-field">
                 <mat-label>Title</mat-label>
                 <input matInput formControlName="title" required>
                 <mat-error *ngIf="bookForm.get('title')?.hasError('required')">
-                      Title is required
+                    Title is required
                 </mat-error>
             </mat-form-field>
         </div>
@@ -27,11 +27,15 @@
 
             <mat-form-field appearance="outline" class="form-field">
                 <mat-label>ISBN</mat-label>
-                <input matInput formControlName="isbn" required>
+                <input matInput formControlName="isbn" required appIntegerValidator>
                 <mat-error *ngIf="bookForm.get('isbn')?.hasError('required')">
                     ISBN is required
                 </mat-error>
+                <mat-error *ngIf="bookForm.get('isbn')?.hasError('integer')">
+                    ISBN must contain only digits
+                </mat-error>
             </mat-form-field>
+
         </div>
 
         <!-- Genre et Date de publication -->
@@ -57,15 +61,41 @@
         <div class="row">
             <mat-form-field appearance="outline" class="form-field">
                 <mat-label>Language</mat-label>
-                <input matInput formControlName="langue" required>
+                <mat-select formControlName="langue" required>
+                    <mat-option value="">Select Language</mat-option>
+                    <mat-option value="English">English</mat-option>
+                    <mat-option value="French">French</mat-option>
+                    <mat-option value="Spanish">Spanish</mat-option>
+                    <!-- Ajoutez d'autres options au besoin -->
+                </mat-select>
                 <mat-error *ngIf="bookForm.get('langue')?.hasError('required')">
                     Language is required
                 </mat-error>
             </mat-form-field>
 
+
             <mat-form-field appearance="outline" class="form-field">
-                <mat-label>Publisher</mat-label>
+                <mat-label>Editeur</mat-label>
                 <input matInput formControlName="editeur">
+            </mat-form-field>
+        </div>
+        <!-- Nombre de pages et Prix -->
+        <div class="row">
+            <mat-form-field appearance="outline" class="form-field">
+                <mat-label>Number of Pages</mat-label>
+                <input type="number" matInput formControlName="nb_Page" required placeholder="Enter number of pages">
+                <mat-error *ngIf="bookForm.get('nb_Page')?.hasError('required')">
+                    Number of Pages is required
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="form-field">
+                <mat-label>Price</mat-label>
+                <input matInput formControlName="prix" required placeholder="Enter price">
+                <mat-hint>In TND</mat-hint>
+                <mat-error *ngIf="bookForm.get('prix')?.hasError('required')">
+                    Price is required
+                </mat-error>
             </mat-form-field>
         </div>
 
@@ -74,26 +104,6 @@
             <mat-form-field appearance="outline" class="form-field double-column">
                 <mat-label>Description</mat-label>
                 <textarea matInput formControlName="description"></textarea>
-            </mat-form-field>
-        </div>
-
-        <!-- Nombre de pages et Prix -->
-        <div class="row">
-            <mat-form-field appearance="outline" class="form-field">
-                <mat-label>Number of Pages</mat-label>
-                <input type="number" matInput formControlName="nb_Page" required>
-                <mat-error *ngIf="bookForm.get('nb_Page')?.hasError('required')">
-                    Number of Pages is required
-                </mat-error>
-            </mat-form-field>
-
-            <mat-form-field appearance="outline" class="form-field">
-                <mat-label>Price</mat-label>
-                <input matInput formControlName="prix" required>
-                <mat-hint>In TND</mat-hint>
-                <mat-error *ngIf="bookForm.get('prix')?.hasError('required')">
-                    Price is required
-                </mat-error>
             </mat-form-field>
         </div>
 
