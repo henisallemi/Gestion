@@ -165,5 +165,12 @@ public class BooksController : ControllerBase
         await _context.SaveChangesAsync();
 
         return Ok(book);
+    } 
+    [HttpGet("check-isbn/{isbn}")] 
+    public async Task<IActionResult> CheckIsbnExists(string isbn)
+    {
+        var bookExists = await _context.Books.AnyAsync(b => b.ISBN == isbn);
+        return Ok(bookExists);
     }
-}
+
+} 

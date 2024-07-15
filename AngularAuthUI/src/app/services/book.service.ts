@@ -32,4 +32,7 @@ export class BookService {
   deleteBook(id: number): Observable<any>{
     return this.http.delete(`${this.apiUrl}/${id}`);
   }
+  checkIsbnExists(isbn: string) {
+    return this.http.get<boolean>(`${this.apiUrl}/check-isbn/${isbn}`);
+  } 
 }
