@@ -9,6 +9,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 
 import { BookAddEditComponent } from '../book-add-edit/book-add-edit.component';
+import { CoreService } from '../../services/core.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -19,18 +20,18 @@ export class DashboardComponent implements OnInit {
   selectedFile: File | null = null;
   books!: MatTableDataSource<any>;
   headers: string[] = [
-      "id",
-      "title",
-      "author",
-      "isbn",
-      "genre",
-      "datePublication",
-      "editeur",
-      "langue",
-      "description",
-      "nb_Page",
-      "prix",
-      "action"
+    "id",
+    "title",
+    "author",
+    "isbn",
+    "genre",
+    "datePublication",
+    "editeur",
+    "langue",
+    "description",
+    "nb_Page",
+    "prix",
+    "action"
   ];
 
   bookForm: FormGroup;
@@ -44,7 +45,8 @@ export class DashboardComponent implements OnInit {
   constructor(
     private bookService: BookService,
     private fb: FormBuilder,
-    private _dialog : MatDialog
+    private _dialog: MatDialog,
+    private _coreService: CoreService
   ) {
     this.bookForm = this.fb.group({
       title: [''],
@@ -114,34 +116,34 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  deleteBook(id: number){
+  deleteBook(id: number) {
     this.bookService.deleteBook(id).subscribe({
-      next:(res)=> {
-        alert('Book deleted !');
+      next: (res) => {
+        this._coreService.openSnackBar('Book deleted!', 'done')
         this.loadBooks();
       },
       error: console.log
     })
   }
 
-  openAddEditBookForm(){
+  openAddEditBookForm() {
     const dialogRef = this._dialog.open(BookAddEditComponent);
     dialogRef.afterClosed().subscribe({
-      next:(val) => {
-        if(val) {
+      next: (val) => {
+        if (val) {
           this.loadBooks();
         }
       }
     })
   }
 
-  openEditBookForm(data :any){
+  openEditBookForm(data: any) {
     const dialogRef = this._dialog.open(BookAddEditComponent, {
       data,
     });
     dialogRef.afterClosed().subscribe({
-      next:(val) => {
-        if(val) {
+      next: (val) => {
+        if (val) {
           this.loadBooks();
         }
       }
