@@ -21,6 +21,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatDialogModule } from '@angular/material/dialog'
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatSnackBarModule } from '@angular/material/snack-bar'; 
 
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BookAddEditComponent } from './components/book-add-edit/book-add-edit.component';
@@ -54,6 +55,7 @@ import { IntegerValidatorDirective } from './directives/integer-validator.direct
     MatDatepickerModule,
     MatNativeDateModule,
     MatSelectModule,
+    MatSnackBarModule
 
   ], 
   exports: [

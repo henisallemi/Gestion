@@ -9,6 +9,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 
 import { BookAddEditComponent } from '../book-add-edit/book-add-edit.component';
+import { CoreService } from '../../services/core.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -44,7 +45,8 @@ export class DashboardComponent implements OnInit {
   constructor(
     private bookService: BookService,
     private fb: FormBuilder,
-    private _dialog: MatDialog
+    private _dialog: MatDialog,
+    private _coreService: CoreService
   ) {
     this.bookForm = this.fb.group({
       title: [''],
@@ -117,7 +119,7 @@ export class DashboardComponent implements OnInit {
   deleteBook(id: number) {
     this.bookService.deleteBook(id).subscribe({
       next: (res) => {
-        alert('Book deleted !');
+        this._coreService.openSnackBar('Book deleted!', 'done')
         this.loadBooks();
       },
       error: console.log
