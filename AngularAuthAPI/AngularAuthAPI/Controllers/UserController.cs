@@ -88,7 +88,7 @@ namespace AngularAuthAPI.Controllers
                 sb.Append("Password should be alphanumeric.\n");
             }
 
-            if (!Regex.IsMatch(password, "[<>,@!#$%^&*()\\-_=+{}|\\:;\"'?`~]"))
+            if (!Regex.IsMatch(password, "[<>,@!#$%^&*()\\-_=+{}|\\:;\"'?`~]")) 
             {
                 sb.Append("Password should contain at least one of the following special characters.\n");
             }

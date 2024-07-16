@@ -41,40 +41,68 @@ export class BookAddEditComponent implements OnInit{
     if (this.bookForm.valid) {
       const formData = this.bookForm.value;
       formData.datePublication = new Date(formData.datePublication);
-
-      this._bookservice.checkIsbnExists(formData.isbn).subscribe({
-        next: (isbnExists: boolean) => {
-          if (isbnExists) { 
-            this._coreService.openSnackBar('ISBN already exists!')
-          } else {
-            if (this.data) {
-              this._bookservice.updateBook(this.data.id, formData).subscribe({
+  
+      if (this.data) {
+        // If updating an existing book, compare the original ISBN with the new ISBN
+        if (this.data.isbn === formData.isbn) {
+          // ISBN has not changed, proceed with the update
+          this._bookservice.updateBook(this.data.id, formData).subscribe({
+            next: (val: any) => {
+              this._coreService.openSnackBar('Book updated successfully!');
+              this._dialogRef.close(true);
+            },
+            error: (err: any) => {
+              console.error(err);
+            }
+          });
+        } else {
+          // ISBN has changed, check if the new ISBN already exists
+          this._bookservice.checkIsbnExists(formData.isbn).subscribe({
+            next: (isbnExists: boolean) => {
+              if (isbnExists) {
+                this._coreService.openSnackBar('ISBN already exists!');
+              } else {
+                this._bookservice.updateBook(this.data.id, formData).subscribe({
+                  next: (val: any) => {
+                    this._coreService.openSnackBar('Book updated successfully!');
+                    this._dialogRef.close(true);
+                  },
+                  error: (err: any) => {
+                    console.error(err);
+                  }
+                });
+              }
+            },
+            error: (err: any) => {
+              console.error(err);
+            }
+          });
+        }
+      } else {
+        // If adding a new book, always check if the ISBN already exists
+        this._bookservice.checkIsbnExists(formData.isbn).subscribe({
+          next: (isbnExists: boolean) => {
+            if (isbnExists) {
+              this._coreService.openSnackBar('ISBN already exists!');
+            } else {
+              this._bookservice.addBook(formData).subscribe({
                 next: (val: any) => {
-                  this._coreService.openSnackBar('Book updated!');
+                  this._coreService.openSnackBar('Book added successfully!');
                   this._dialogRef.close(true);
                 },
                 error: (err: any) => {
                   console.error(err);
                 }
               });
-            } else {
-              this._bookservice.addBook(formData).subscribe({
-                next: (val: any) => {
-                  this._coreService.openSnackBar('Book added successfully!');
-                  this._dialogRef.close(true); 
-                },
-                error: (err: any) => {
-                  console.error(err);
-                }
-              });
             }
+          },
+          error: (err: any) => {
+            console.error(err);
           }
-        },
-        error: (err: any) => { 
-          console.error(err);
-        }
-      });
+        });
+      }
     }
   }
+   
 
 }

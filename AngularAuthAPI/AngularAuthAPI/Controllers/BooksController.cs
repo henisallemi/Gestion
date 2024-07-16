@@ -30,7 +30,7 @@ public class BooksController : ControllerBase
     public async Task<IActionResult> UploadFile(IFormFile file)
     {
         if (file == null || file.Length == 0)
-            return BadRequest("No file uploaded.");
+            return BadRequest(new { message = "No file uploaded." });
 
         var books = new List<Book>();
 
@@ -52,6 +52,9 @@ public class BooksController : ControllerBase
             for (int row = 1; row <= cells.MaxDataRow; row++)
             {
                 var book = new Book();
+                bool isTitleEmpty = true;
+                bool isPriceEmpty = true;
+
                 for (int col = 0; col <= cells.MaxDataColumn; col++)
                 {
                     var cellValue = cells[row, col].StringValue;
@@ -60,7 +63,11 @@ public class BooksController : ControllerBase
                         case "title":
                         case "titre":
                         case "titr":
-                            book.Title = cellValue;
+                            if (!string.IsNullOrEmpty(cellValue))
+                            {
+                                book.Title = cellValue;
+                                isTitleEmpty = false;
+                            }
                             break;
                         case "author":
                         case "auteur":
@@ -73,9 +80,9 @@ public class BooksController : ControllerBase
                             book.Genre = cellValue;
                             break;
                         case "datepublication":
-                        case "date_publication": 
+                        case "date_publication":
                         case "date":
-                            book.DatePublication = cellValue; 
+                            book.DatePublication = cellValue;
                             break;
                         case "editeur":
                             book.Editeur = cellValue;
@@ -94,22 +101,34 @@ public class BooksController : ControllerBase
                         case "prix":
                         case "price":
                             if (float.TryParse(cellValue, out float prix))
-                                book.Prix = prix;    
-                            break; 
-                            // Add other properties as needed
+                            {
+                                book.Prix = prix;
+                                isPriceEmpty = false;
+                            }
+                            break;
                     }
                 }
+
+                if (isTitleEmpty || isPriceEmpty)
+                {
+                    return BadRequest(new { message = "Please fill in the Title or Price fields for all books in the uploaded file." });
+                }
+
                 books.Add(book);
             }
-        }
+        }           
 
         await _context.Books.AddRangeAsync(books);
         await _context.SaveChangesAsync();
 
         var x = await _context.Books.ToListAsync();
 
-        return Ok(x);  
+        return Ok(x);
     }
+ 
+
+
+
     // Endpoint pour ajouter un seul livre
     [HttpPost("add")] 
     public async Task<IActionResult> AddBook([FromBody] Book book)

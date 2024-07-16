@@ -10,6 +10,7 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { BookAddEditComponent } from '../book-add-edit/book-add-edit.component';
 import { CoreService } from '../../services/core.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-dashboard',
@@ -20,16 +21,12 @@ export class DashboardComponent implements OnInit {
   selectedFile: File | null = null;
   books!: MatTableDataSource<any>;
   headers: string[] = [
-    "id",
     "title",
     "author",
     "isbn",
-    "genre",
     "datePublication",
     "editeur",
     "langue",
-    "description",
-    "nb_Page",
     "prix",
     "action"
   ];
@@ -50,14 +47,11 @@ export class DashboardComponent implements OnInit {
   ) {
     this.bookForm = this.fb.group({
       title: [''],
-      author: [''],
+      author: [''], 
       isbn: [''],
-      genre: [''],
       datePublication: [''],
       editeur: [''],
-      langue: [''],
-      description: [''],
-      nb_Page: [''], 
+      langue: [''],     
       prix: [''],   
     });
   }
@@ -71,26 +65,33 @@ export class DashboardComponent implements OnInit {
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0] ?? null;
   }
-
   onUpload() {
     if (this.selectedFile) {
       this.bookService.uploadFile(this.selectedFile).subscribe(
-        data => {
-          if (data.length > 0) {
+        (data: any) => {
+          if (data && data.length > 0) {
             this.books = new MatTableDataSource(data);
             this.books.sort = this.sort;
             this.books.paginator = this.paginator;
+            this._coreService.openSnackBar('Fichier EXCEL ajouté avec succès !', '✔️', 3000); // Durée de 3000 ms pour succès
+          } else {
+            console.error('No data returned or data length is zero.');
           }
         },
-        error => {
-          console.error('Error uploading file', error);
+        (error) => {
+          if (error.error && error.error.message) {   
+            this._coreService.openSnackBar(error.error.message, '⚠️', 5000); // Durée de 5000 ms pour erreur
+          } else {
+            console.error('Error uploading file', error);
+          }
         }
       );
     } else {
       console.error('No file selected');
     }
   }
-
+        
+  
   loadBooks() {
     this.bookService.getBooks().subscribe(
       response => {

@@ -14,11 +14,11 @@
   <div class="table-container">
     <table mat-table [dataSource]="books" matSort>
 
-      
+<!--       
       <ng-container matColumnDef="id">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
         <td mat-cell *matCellDef="let row"> {{row.id}} </td>
-      </ng-container>
+      </ng-container> -->
 
       
       <ng-container matColumnDef="title">
@@ -58,16 +58,16 @@
         <td mat-cell *matCellDef="let row"> {{row.langue}} </td>
       </ng-container>
 
-      <ng-container matColumnDef="description">
+      <!-- <ng-container matColumnDef="description">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
         <td mat-cell *matCellDef="let row"> {{row.description}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="nb_Page">
+      </ng-container> --> 
+ 
+      <!-- <ng-container matColumnDef="nb_Page">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Nb de Page </th>
         <td mat-cell *matCellDef="let row"> {{row.nb_Page}} </td>
-      </ng-container>
-
+      </ng-container> -->
+ 
       <ng-container matColumnDef="prix">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Prix </th>
         <td mat-cell *matCellDef="let row"> {{row.prix | currency :'TND'}} </td>
@@ -102,4 +102,4 @@
 <div class="input-group custom-input-group">
   <input type="file" class="form-control input" (change)="onFileSelected($event)">
   <button type="button" class="btn btn-success" type="button" (click)="onUpload()">Upload</button>
-</div>
+</div> 

@@ -1,14 +1,15 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { last } from 'rxjs';
-import validateForm from '../../helpers/validateform';
-import { AuthService } from '../../services/auth.service';
-import { Router } from '@angular/router'; 
 
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar'; // Import du MatSnackBar
+import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
+import validateForm from '../../helpers/validateform';
+ 
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
-  styleUrl: './signup.component.scss'
+  styleUrls: ['./signup.component.scss']
 })
 export class SignupComponent {
   type: string = "password";
@@ -16,15 +17,20 @@ export class SignupComponent {
   eyeIcon: string = "fa-eye-slash";
 
   signUpFrom!: FormGroup;
-  constructor(private fb: FormBuilder, private auth: AuthService, private router:Router) { }
+
+  constructor(private fb: FormBuilder, 
+              private auth: AuthService, 
+              private router: Router,
+              private snackBar: MatSnackBar) { } // Injection du MatSnackBar
+
   ngOnInit(): void {
     this.signUpFrom = this.fb.group({
       firstname: ['', Validators.required],
       lastname: ['', Validators.required], 
       username: ['', Validators.required],
-      email: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],    
       password: ['', Validators.required],
-    })
+    });
   }
 
   hideShowPass() {
@@ -37,22 +43,18 @@ export class SignupComponent {
     if (this.signUpFrom.valid) {
       this.auth.signUp(this.signUpFrom.value).subscribe({
         next: (res) => {
-          alert(res.message);
+          this.snackBar.open(res.message, 'Close', { duration: 4500 }); // Affichage du message via MatSnackBar
           this.signUpFrom.reset();
           this.router.navigate(['login']);
         },
         error: (err) => {
-          alert(err.error.message)
-
-        } 
-      })
+          this.snackBar.open(err.error.message, 'Close', { duration: 8000, panelClass: ['error-snackbar'] }); // Affichage du message d'erreur
+        }   
+      }); 
 
     } else {
-      validateForm.validateAllFromFields(this.signUpFrom);
-      alert("your form is invalid")
-    }
-  }
-
-
-
+       validateForm.validateAllFromFields(this.signUpFrom);
 }
+  }
+}
+ 
