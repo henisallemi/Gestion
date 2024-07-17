@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AngularAuthAPI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ed34e83cd5166f6abf927b8f9b2b5e94df99319c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+be7b82273f049c316047715a26d6c3cad51944dd")]
 [assembly: System.Reflection.AssemblyProductAttribute("AngularAuthAPI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AngularAuthAPI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
