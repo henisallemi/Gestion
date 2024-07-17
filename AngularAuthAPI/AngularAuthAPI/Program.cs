@@ -1,4 +1,5 @@
 using AngularAuthAPI.Context;
+using AngularAuthAPI.Repository;
 using Aspose.Cells.Charts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -28,6 +29,9 @@ builder.Services.AddDbContext<AppDbContext>(option =>
 
 builder.Services.AddDbContext<AppDbContext>(options => 
     options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServerConnStrBook")));
+
+builder.Services.AddScoped<IUserRepo, UserRepo>();
+builder.Services.AddScoped<IBookRepo, BookRepo>(); 
 
 var app = builder.Build();
 

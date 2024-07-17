@@ -1,24 +1,23 @@
-﻿using AngularAuthAPI.Context;
-using AngularAuthAPI.Helpers;
+﻿using AngularAuthAPI.Helpers;
 using AngularAuthAPI.Models;
+using AngularAuthAPI.Repository;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace AngularAuthAPI.Controllers
 {
-    [Route("api/[controller]")] 
+    [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly AppDbContext _authContext;
+        private readonly IUserRepo _userRepo;
 
-        public UserController(AppDbContext appDbContext)
+        public UserController(IUserRepo userRepo)
         {
-            _authContext = appDbContext;
-        }
+            _userRepo = userRepo;
+        } 
 
         [HttpPost("authenticate")]
         public async Task<IActionResult> Authenticate([FromBody] User userObj)
@@ -26,7 +25,7 @@ namespace AngularAuthAPI.Controllers
             if (userObj == null)
                 return BadRequest();
 
-            var user = await _authContext.Users.FirstOrDefaultAsync(x => x.UserName == userObj.UserName);
+            var user = await _userRepo.AuthenticateAsync(userObj);
             if (user == null || !PasswordHasher.VerifyPassword(userObj.Password, user.Password))
                 return Unauthorized(new { Message = "Invalid Username or Password!" });
 
@@ -40,11 +39,11 @@ namespace AngularAuthAPI.Controllers
                 return BadRequest();
 
             // Check email
-            if (await CheckEmailExistAsync(userObj.Email))
+            if (await _userRepo.CheckEmailExistAsync(userObj.Email))
                 return BadRequest(new { Message = "Email Already Exists!" });
 
             // Check username
-            if (await CheckUserNameExistAsync(userObj.UserName))
+            if (await _userRepo.CheckUserNameExistAsync(userObj.UserName))
                 return BadRequest(new { Message = "Username Already Exists!" });
 
             // Check password strength
@@ -58,20 +57,9 @@ namespace AngularAuthAPI.Controllers
             userObj.Role = "User";
             userObj.Token = "";
 
-            await _authContext.Users.AddAsync(userObj);
-            await _authContext.SaveChangesAsync();
+            await _userRepo.RegisterUserAsync(userObj);
 
             return Ok(new { Message = "User Registered!" });
-        }
-
-        private async Task<bool> CheckUserNameExistAsync(string username)
-        {
-            return await _authContext.Users.AnyAsync(x => x.UserName == username);
-        }
-
-        private async Task<bool> CheckEmailExistAsync(string email)
-        {
-            return await _authContext.Users.AnyAsync(x => x.Email == email);
         }
 
         private string CheckPasswordStrength(string password)
@@ -88,7 +76,7 @@ namespace AngularAuthAPI.Controllers
                 sb.Append("Password should be alphanumeric.\n");
             }
 
-            if (!Regex.IsMatch(password, "[<>,@!#$%^&*()\\-_=+{}|\\:;\"'?`~]")) 
+            if (!Regex.IsMatch(password, "[<>,@!#$%^&*()\\-_=+{}|\\:;\"'?`~]"))
             {
                 sb.Append("Password should contain at least one of the following special characters.\n");
             }
