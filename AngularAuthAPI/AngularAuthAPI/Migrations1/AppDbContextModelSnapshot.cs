@@ -21,6 +21,46 @@ namespace AngularAuthAPI.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("AngularAuthAPI.Models.Book", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Author")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DatePublication")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Editeur")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Genre")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ISBN")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Langue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Nb_Page")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Prix")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Books");
+                });
+
             modelBuilder.Entity("AngularAuthAPI.Models.User", b =>
                 {
                     b.Property<int>("Id")
@@ -53,49 +93,6 @@ namespace AngularAuthAPI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users", (string)null);
-                });
-
-            modelBuilder.Entity("Book", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Author")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("DatePublication")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Editeur")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Genre")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ISBN")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Langue")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Nb_Page")
-                        .HasColumnType("int");
-
-                    b.Property<float>("Prix")
-                        .HasColumnType("real");
-
-                    b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Books", (string)null);
                 });
 #pragma warning restore 612, 618
         }
