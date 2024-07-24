@@ -75,28 +75,66 @@ namespace AngularAuthAPI.Controllers
                 column.DataType ??= typeof(string);
             }
 
-            // Generate SQL script for creating the table
             string tableName = "Books"; // Using "Books" as the table name
             string conString = _configuration.GetConnectionString("SqlServerConnStr");
             using var connection = new SqlConnection(conString);
             connection.Open();
 
-            string sqlScript = $"CREATE TABLE {tableName} (\n";
-            sqlScript += "    Id INT IDENTITY(1,1) PRIMARY KEY,\n"; // Add Id column with auto-increment
+            // Check if the table already exists
+            var checkTableCmd = new SqlCommand($"IF OBJECT_ID(N'{tableName}', N'U') IS NOT NULL SELECT 1 ELSE SELECT 0", connection);
+            bool tableExists = (int)checkTableCmd.ExecuteScalar() == 1;
 
-            foreach (DataColumn column in dt.Columns)
+            if (!tableExists)
             {
-                string sqlDataType = GetSqlDataType(column.DataType);
-                sqlScript += $"    [{column.ColumnName}] {sqlDataType},\n";
+                // Generate SQL script for creating the table
+                string sqlScript = $"CREATE TABLE {tableName} (\n";
+                sqlScript += "    Id INT IDENTITY(1,1) PRIMARY KEY,\n"; // Add Id column with auto-increment
+
+                foreach (DataColumn column in dt.Columns)
+                {
+                    string sqlDataType = GetSqlDataType(column.DataType);
+                    sqlScript += $"    [{column.ColumnName}] {sqlDataType},\n";
+                }
+
+                // Remove the trailing comma and newline
+                sqlScript = sqlScript.Substring(0, sqlScript.Length - 2);
+                sqlScript += $")";
+
+                // Execute the SQL script to create the table
+                SqlCommand createCmd = new SqlCommand(sqlScript, connection);
+                createCmd.ExecuteNonQuery();
             }
+            else
+            {
+                // Get existing columns from the table
+                var existingColumns = new List<string>();
+                var getColumnsCmd = new SqlCommand($"SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '{tableName}'", connection);
+                using (var reader = getColumnsCmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        existingColumns.Add(reader.GetString(0));
+                    }
+                }
 
-            // Remove the trailing comma and newline
-            sqlScript = sqlScript.Substring(0, sqlScript.Length - 2);
-            sqlScript += $")";
+                // Add new columns if they don't exist in the table
+                var newColumns = new List<string>();
+                foreach (DataColumn column in dt.Columns)
+                {
+                    if (!existingColumns.Contains(column.ColumnName))
+                    {
+                        string sqlDataType = GetSqlDataType(column.DataType);
+                        var alterTableCmd = new SqlCommand($"ALTER TABLE {tableName} ADD [{column.ColumnName}] {sqlDataType}", connection);
+                        alterTableCmd.ExecuteNonQuery();
+                        newColumns.Add(column.ColumnName);
+                    }
+                }
 
-            // Execute the SQL script to create the table
-            SqlCommand cmd = new SqlCommand(sqlScript, connection);
-            cmd.ExecuteNonQuery();
+                if (newColumns.Count > 0)
+                {
+                    return Ok($"New columns added successfully: {string.Join(", ", newColumns)}");
+                }
+            }
 
             // Insert data into the table
             for (int row = 1; row <= cells.MaxRow; row++)
@@ -140,7 +178,7 @@ namespace AngularAuthAPI.Controllers
             Directory.CreateDirectory(Path.GetDirectoryName(classFilePath)); // Ensure directory exists
             System.IO.File.WriteAllText(classFilePath, classCode);
 
-            return Ok("Table and class created successfully with data.");
+            return Ok("Data inserted successfully.");
         }
 
         [HttpDelete("{id}")]
