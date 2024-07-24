@@ -285,14 +285,6 @@ C:\Users\henis\OneDrive\Bureau\gestion\Gestion\AngularAuthAPI\AngularAuthAPI\obj
 C:\Users\henis\OneDrive\Bureau\gestion\Gestion\AngularAuthAPI\AngularAuthAPI\obj\Debug\net8.0\AngularAuthAPI.pdb
 C:\Users\henis\OneDrive\Bureau\gestion\Gestion\AngularAuthAPI\AngularAuthAPI\obj\Debug\net8.0\AngularAuthAPI.genruntimeconfig.cache
 C:\Users\henis\OneDrive\Bureau\gestion\Gestion\AngularAuthAPI\AngularAuthAPI\obj\Debug\net8.0\ref\AngularAuthAPI.dll
-C:\Users\21697\OneDrive\Documents\Visual Studio\HTML\Angular\Gestion\AngularAuthAPI\AngularAuthAPI\obj\Debug\net8.0\AngularAuthAPI.csproj.AssemblyReference.cache
-C:\Users\21697\OneDrive\Documents\Visual Studio\HTML\Angular\Gestion\AngularAuthAPI\AngularAuthAPI\obj\Debug\net8.0\AngularAuthAPI.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\21697\OneDrive\Documents\Visual Studio\HTML\Angular\Gestion\AngularAuthAPI\AngularAuthAPI\obj\Debug\net8.0\AngularAuthAPI.AssemblyInfoInputs.cache
-C:\Users\21697\OneDrive\Documents\Visual Studio\HTML\Angular\Gestion\AngularAuthAPI\AngularAuthAPI\obj\Debug\net8.0\AngularAuthAPI.AssemblyInfo.cs
-C:\Users\21697\OneDrive\Documents\Visual Studio\HTML\Angular\Gestion\AngularAuthAPI\AngularAuthAPI\obj\Debug\net8.0\AngularAuthAPI.csproj.CoreCompileInputs.cache
-C:\Users\21697\OneDrive\Documents\Visual Studio\HTML\Angular\Gestion\AngularAuthAPI\AngularAuthAPI\obj\Debug\net8.0\AngularAuthAPI.MvcApplicationPartsAssemblyInfo.cs
-C:\Users\21697\OneDrive\Documents\Visual Studio\HTML\Angular\Gestion\AngularAuthAPI\AngularAuthAPI\obj\Debug\net8.0\AngularAuthAPI.MvcApplicationPartsAssemblyInfo.cache
-C:\Users\21697\OneDrive\Documents\Visual Studio\HTML\Angular\Gestion\AngularAuthAPI\AngularAuthAPI\obj\Debug\net8.0\AngularAuthAPI.sourcelink.json
 C:\Users\21697\OneDrive\Documents\Visual Studio\HTML\Angular\Gestion\AngularAuthAPI\AngularAuthAPI\bin\Debug\net8.0\appsettings.Development.json
 C:\Users\21697\OneDrive\Documents\Visual Studio\HTML\Angular\Gestion\AngularAuthAPI\AngularAuthAPI\bin\Debug\net8.0\appsettings.json
 C:\Users\21697\OneDrive\Documents\Visual Studio\HTML\Angular\Gestion\AngularAuthAPI\AngularAuthAPI\bin\Debug\net8.0\AngularAuthAPI.exe
@@ -416,6 +408,14 @@ C:\Users\21697\OneDrive\Documents\Visual Studio\HTML\Angular\Gestion\AngularAuth
 C:\Users\21697\OneDrive\Documents\Visual Studio\HTML\Angular\Gestion\AngularAuthAPI\AngularAuthAPI\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Runtime.Caching.dll
 C:\Users\21697\OneDrive\Documents\Visual Studio\HTML\Angular\Gestion\AngularAuthAPI\AngularAuthAPI\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
 C:\Users\21697\OneDrive\Documents\Visual Studio\HTML\Angular\Gestion\AngularAuthAPI\AngularAuthAPI\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
+C:\Users\21697\OneDrive\Documents\Visual Studio\HTML\Angular\Gestion\AngularAuthAPI\AngularAuthAPI\obj\Debug\net8.0\AngularAuthAPI.csproj.AssemblyReference.cache
+C:\Users\21697\OneDrive\Documents\Visual Studio\HTML\Angular\Gestion\AngularAuthAPI\AngularAuthAPI\obj\Debug\net8.0\AngularAuthAPI.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\21697\OneDrive\Documents\Visual Studio\HTML\Angular\Gestion\AngularAuthAPI\AngularAuthAPI\obj\Debug\net8.0\AngularAuthAPI.AssemblyInfoInputs.cache
+C:\Users\21697\OneDrive\Documents\Visual Studio\HTML\Angular\Gestion\AngularAuthAPI\AngularAuthAPI\obj\Debug\net8.0\AngularAuthAPI.AssemblyInfo.cs
+C:\Users\21697\OneDrive\Documents\Visual Studio\HTML\Angular\Gestion\AngularAuthAPI\AngularAuthAPI\obj\Debug\net8.0\AngularAuthAPI.csproj.CoreCompileInputs.cache
+C:\Users\21697\OneDrive\Documents\Visual Studio\HTML\Angular\Gestion\AngularAuthAPI\AngularAuthAPI\obj\Debug\net8.0\AngularAuthAPI.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\21697\OneDrive\Documents\Visual Studio\HTML\Angular\Gestion\AngularAuthAPI\AngularAuthAPI\obj\Debug\net8.0\AngularAuthAPI.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\21697\OneDrive\Documents\Visual Studio\HTML\Angular\Gestion\AngularAuthAPI\AngularAuthAPI\obj\Debug\net8.0\AngularAuthAPI.sourcelink.json
 C:\Users\21697\OneDrive\Documents\Visual Studio\HTML\Angular\Gestion\AngularAuthAPI\AngularAuthAPI\obj\Debug\net8.0\staticwebassets.build.json
 C:\Users\21697\OneDrive\Documents\Visual Studio\HTML\Angular\Gestion\AngularAuthAPI\AngularAuthAPI\obj\Debug\net8.0\staticwebassets.development.json
 C:\Users\21697\OneDrive\Documents\Visual Studio\HTML\Angular\Gestion\AngularAuthAPI\AngularAuthAPI\obj\Debug\net8.0\staticwebassets\msbuild.AngularAuthAPI.Microsoft.AspNetCore.StaticWebAssets.props
