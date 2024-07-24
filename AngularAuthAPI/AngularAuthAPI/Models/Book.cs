@@ -4,5 +4,8 @@ public class Book
     public string titre { get; set; }
     public string author { get; set; }
     public double isbn  { get; set; }
-    public string langage { get; set; } 
+    public string langage { get; set; }
+    public string descrip { get; set; }
+    public double prix { get; set; }
+    public double melek { get; set; }
 }

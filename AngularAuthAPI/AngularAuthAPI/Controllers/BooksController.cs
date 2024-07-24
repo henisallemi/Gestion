@@ -1,6 +1,5 @@
 ﻿using AngularAuthAPI.Context;
 using Aspose.Cells;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Data.SqlClient;
@@ -8,8 +7,8 @@ using System.Data;
 using System.Text;
 
 namespace AngularAuthAPI.Controllers
-{
-    [ApiController]
+{ 
+    [ApiController] 
     [Route("[controller]")]
     public class HomeController : ControllerBase
     {
