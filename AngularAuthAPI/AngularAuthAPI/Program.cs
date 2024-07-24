@@ -1,9 +1,9 @@
 using AngularAuthAPI.Context;
-using Aspose.Cells.Charts;
+using AngularAuthAPI.Helpers;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
+
 
 // Add services to the container.
 
@@ -26,10 +26,15 @@ builder.Services.AddDbContext<AppDbContext>(option =>
 }
 );
 
-builder.Services.AddDbContext<AppDbContext>(options => 
-    options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServerConnStrBook")));
 
 var app = builder.Build();
+
+// Automatically apply migrations
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    dbContext.Database.Migrate();
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

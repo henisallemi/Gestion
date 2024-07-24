@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\21697\\OneDrive\\Documents\\Visual Studio\\HTML\\Angular\\Gestion\\AngularAuthAPI\\AngularAuthAPI\\AngularAuthAPI.csproj": {}
+    "C:\\Users\\henis\\OneDrive\\Bureau\\gestion\\Gestion\\AngularAuthAPI\\AngularAuthAPI\\AngularAuthAPI.csproj": {}
   },
   "projects": {
-    "C:\\Users\\21697\\OneDrive\\Documents\\Visual Studio\\HTML\\Angular\\Gestion\\AngularAuthAPI\\AngularAuthAPI\\AngularAuthAPI.csproj": {
+    "C:\\Users\\henis\\OneDrive\\Bureau\\gestion\\Gestion\\AngularAuthAPI\\AngularAuthAPI\\AngularAuthAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\21697\\OneDrive\\Documents\\Visual Studio\\HTML\\Angular\\Gestion\\AngularAuthAPI\\AngularAuthAPI\\AngularAuthAPI.csproj",
+        "projectUniqueName": "C:\\Users\\henis\\OneDrive\\Bureau\\gestion\\Gestion\\AngularAuthAPI\\AngularAuthAPI\\AngularAuthAPI.csproj",
         "projectName": "AngularAuthAPI",
-        "projectPath": "C:\\Users\\21697\\OneDrive\\Documents\\Visual Studio\\HTML\\Angular\\Gestion\\AngularAuthAPI\\AngularAuthAPI\\AngularAuthAPI.csproj",
-        "packagesPath": "C:\\Users\\21697\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\21697\\OneDrive\\Documents\\Visual Studio\\HTML\\Angular\\Gestion\\AngularAuthAPI\\AngularAuthAPI\\obj\\",
+        "projectPath": "C:\\Users\\henis\\OneDrive\\Bureau\\gestion\\Gestion\\AngularAuthAPI\\AngularAuthAPI\\AngularAuthAPI.csproj",
+        "packagesPath": "C:\\Users\\henis\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\henis\\OneDrive\\Bureau\\gestion\\Gestion\\AngularAuthAPI\\AngularAuthAPI\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\21697\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\henis\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -53,6 +53,18 @@
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
               "target": "Package",
               "version": "[8.0.6, )"
+            },
+            "Microsoft.CSharp": {
+              "target": "Package",
+              "version": "[4.7.0, )"
+            },
+            "Microsoft.CodeAnalysis.CSharp": {
+              "target": "Package",
+              "version": "[4.5.0, )"
+            },
+            "Microsoft.DotNet.Watcher.Tools": {
+              "target": "Package",
+              "version": "[2.0.2, )"
             },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",

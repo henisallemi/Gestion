@@ -28,7 +28,7 @@ export class DashboardComponent implements OnInit {
     "datePublication",
     "editeur",
     "langue",
-    "description",
+    // "description",
     "nb_Page",
     "prix",
     "action"
@@ -56,7 +56,7 @@ export class DashboardComponent implements OnInit {
       datePublication: [''],
       editeur: [''],
       langue: [''],
-      description: [''],
+      // description: [''],
       nb_Page: [''], 
       prix: [''],   
     });
@@ -84,19 +84,30 @@ export class DashboardComponent implements OnInit {
         },
         error => {
           console.error('Error uploading file', error);
+  
+          let errorMessage = 'An unexpected error occurred while uploading the file.';
+          if (error.status === 400) {
+            if (error.error && typeof error.error === 'object') {
+              errorMessage = error.error.error; // Assuming the error is in the "error" field
+            } else if (typeof error.error === 'string') {
+              errorMessage = error.error;
+            }
+          }
+          alert(`Error: ${errorMessage}`);
         }
       );
     } else {
       console.error('No file selected');
+      alert('No file selected. Please choose a file to upload.');
     }
   }
+  
 
   loadBooks() {
     this.bookService.getBooks().subscribe(
       response => {
         if (response.length > 0) {
           this.books = new MatTableDataSource(response);
-          console.log(response);
           this.books.sort = this.sort;
           this.books.paginator = this.paginator;
         }
@@ -113,7 +124,7 @@ export class DashboardComponent implements OnInit {
 
     if (this.books.paginator) {
       this.books.paginator.firstPage();
-    }
+    } 
   }
 
   deleteBook(id: number) {

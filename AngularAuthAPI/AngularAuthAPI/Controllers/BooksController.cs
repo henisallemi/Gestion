@@ -1,176 +1,264 @@
-﻿using AngularAuthAPI.Context; 
+﻿using AngularAuthAPI.Context;
 using Aspose.Cells;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Threading.Tasks;
+using Microsoft.Data.SqlClient;
+using System.Data;
+using System.Text;
 
-[ApiController]
-[Route("[controller]")]
-public class BooksController : ControllerBase
+namespace AngularAuthAPI.Controllers
 {
-    private readonly AppDbContext _context;
-
-    public BooksController(AppDbContext context)
+    [ApiController]
+    [Route("[controller]")]
+    public class HomeController : ControllerBase
     {
-        _context = context;
-    }
+        private readonly AppDbContext _context;
+        private readonly ILogger<HomeController> _logger;
+        private readonly IConfiguration _configuration;
 
-    [HttpGet]
-    public async Task<IActionResult> GetBooks()
-    {
-        var books = await _context.Books.ToListAsync();
-        return Ok(books);
-    }
-
-    [HttpPost("upload")]
-    public async Task<IActionResult> UploadFile(IFormFile file)
-    {
-        if (file == null || file.Length == 0)
-            return BadRequest("No file uploaded.");
-
-        var books = new List<Book>();
-
-        using (var stream = new MemoryStream())
+        public HomeController(ILogger<HomeController> logger, IConfiguration configuration, AppDbContext context)
         {
-            await file.CopyToAsync(stream);
-            stream.Position = 0;
+            _logger = logger;
+            _configuration = configuration;
+            _context = context;
+        }
 
-            var workbook = new Workbook(stream);
+        [HttpPost("upload")]
+        public async Task<IActionResult> UploadExcel(IFormFile file)
+        {
+            if (file == null || file.Length == 0)       
+            {
+                return BadRequest("No file uploaded.");
+            }
+
+            string filePath = Path.GetTempFileName();
+
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+            // Load Excel file using Aspose.Cells
+            var workbook = new Workbook(filePath);
             var worksheet = workbook.Worksheets[0];
             var cells = worksheet.Cells;
+            var dt = new DataTable();
 
-            var headers = new List<string>();
-            for (int col = 0; col <= cells.MaxDataColumn; col++)
+            // Create table structure based on Excel header and infer data types
+            for (int col = 0; col <= cells.MaxColumn; col++)
             {
-                headers.Add(cells[0, col].StringValue.ToLower());
-            }
+                string columnName = cells[0, col].StringValue;
+                DataColumn column = dt.Columns.Add(columnName);
 
-            for (int row = 1; row <= cells.MaxDataRow; row++)
-            {
-                var book = new Book();
-                for (int col = 0; col <= cells.MaxDataColumn; col++)
+                // Infer data type based on the values in the column
+                for (int row = 1; row <= cells.MaxRow; row++)
                 {
-                    var cellValue = cells[row, col].StringValue;
-                    switch (headers[col])
+                    string cellValue = cells[row, col].StringValue;
+
+                    if (!string.IsNullOrWhiteSpace(cellValue))
                     {
-                        case "title":
-                        case "titre":
-                        case "titr":
-                            book.Title = cellValue;
+                        if (DateTime.TryParse(cellValue, out _))
+                        {
+                            column.DataType = typeof(DateTime);
                             break;
-                        case "author":
-                        case "auteur":
-                            book.Author = cellValue;
+                        }
+                        else if (double.TryParse(cellValue, out _))
+                        {
+                            column.DataType = typeof(double);
                             break;
-                        case "isbn":
-                            book.ISBN = cellValue;
-                            break;
-                        case "genre":
-                            book.Genre = cellValue;
-                            break;
-                        case "datepublication":
-                        case "date_publication": 
-                        case "date":
-                            book.DatePublication = cellValue; 
-                            break;
-                        case "editeur":
-                            book.Editeur = cellValue;
-                            break;
-                        case "langue":
-                            book.Langue = cellValue;
-                            break;
-                        case "description":
-                            book.Description = cellValue;
-                            break;
-                        case "nb_Page":
-                        case "pages":
-                            if (int.TryParse(cellValue, out int nbPages))
-                                book.Nb_Page = nbPages;
-                            break;
-                        case "prix":
-                        case "price":
-                            if (float.TryParse(cellValue, out float prix))
-                                book.Prix = prix;    
-                            break; 
-                            // Add other properties as needed
+                        }
                     }
                 }
-                books.Add(book);
+
+                // Set default data type if not inferred
+                column.DataType ??= typeof(string);
+            }
+
+            // Generate SQL script for creating the table
+            string tableName = "Books"; // Using "Books" as the table name
+            string conString = _configuration.GetConnectionString("SqlServerConnStr");
+            using var connection = new SqlConnection(conString);
+            connection.Open();
+
+            // Check if the table exists and create it if it doesn't
+            if (!TableExists(connection, tableName))
+            {
+                string createTableScript = $"CREATE TABLE {tableName} (\n";
+                createTableScript += "    Id INT IDENTITY(1,1) PRIMARY KEY,\n"; // Add Id column with auto-increment
+
+                foreach (DataColumn column in dt.Columns)
+                {
+                    string sqlDataType = GetSqlDataType(column.DataType);
+                    createTableScript += $"    [{column.ColumnName}] {sqlDataType},\n";
+                }
+
+                // Remove the trailing comma and newline
+                createTableScript = createTableScript.Substring(0, createTableScript.Length - 2);
+                createTableScript += $")";
+
+                // Execute the SQL script to create the table
+                using var createCmd = new SqlCommand(createTableScript, connection);
+                createCmd.ExecuteNonQuery();
+            }
+
+            // Check existing columns in the table
+            var existingColumns = GetExistingColumns(connection, tableName);
+
+            // Identify new columns to add
+            var newColumns = new List<string>();
+            foreach (DataColumn column in dt.Columns)
+            { 
+                if (!existingColumns.Contains(column.ColumnName))
+                {
+                    newColumns.Add(column.ColumnName);
+                }
+            }
+
+            // Alter the table to add new columns
+            foreach (var columnName in newColumns)
+            {
+                string sqlDataType = GetSqlDataType(dt.Columns[columnName].DataType);
+                string alterTableScript = $"ALTER TABLE {tableName} ADD [{columnName}] {sqlDataType}";
+                using var alterCmd = new SqlCommand(alterTableScript, connection);
+                alterCmd.ExecuteNonQuery();
+            }
+
+            // Insert data into the table
+            for (int row = 1; row <= cells.MaxRow; row++)
+            {
+                var insertCommand = new StringBuilder();
+                insertCommand.Append($"INSERT INTO {tableName} (");
+
+                for (int col = 0; col <= cells.MaxColumn; col++)
+                {
+                    string columnName = cells[0, col].StringValue;
+                    insertCommand.Append($"[{columnName}], ");
+                }
+
+                // Remove the trailing comma and space
+                insertCommand.Length -= 2;
+                insertCommand.Append(") VALUES (");
+
+                for (int col = 0; col <= cells.MaxColumn; col++)
+                {
+                    string cellValue = cells[row, col].StringValue;
+                    insertCommand.Append($"'{cellValue}', ");
+                }
+
+                // Remove the trailing comma and space
+                insertCommand.Length -= 2;
+                insertCommand.Append(")");
+
+                // Execute the insert command
+                using var insertCmd = new SqlCommand(insertCommand.ToString(), connection);
+                insertCmd.ExecuteNonQuery();
+            }
+
+            // Close the database connection
+            connection.Close();
+
+            // Generate C# class code
+            string classCode = GenerateClassCode("Book", dt, newColumns);
+
+            // Save the class code to a file
+            string classFilePath = Path.Combine(Directory.GetCurrentDirectory(), "Models", "Book.cs");
+            Directory.CreateDirectory(Path.GetDirectoryName(classFilePath)); // Ensure directory exists
+            System.IO.File.WriteAllText(classFilePath, classCode);
+
+            return Ok("Table and class created/updated successfully with data.");
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteBook(double id)
+        {
+            var book = await _context.Books.FindAsync(id);
+            if (book == null)
+            {
+                return NotFound();
+            }
+
+            _context.Books.Remove(book);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        private bool TableExists(SqlConnection connection, string tableName)
+        {
+            string checkTableQuery = $"SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = '{tableName}'";
+            using var cmd = new SqlCommand(checkTableQuery, connection);
+            int count = (int)cmd.ExecuteScalar();
+            return count > 0;
+        }
+
+        private List<string> GetExistingColumns(SqlConnection connection, string tableName)
+        {
+            var columns = new List<string>();
+            string query = $"SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '{tableName}'";
+            using var command = new SqlCommand(query, connection);
+            using var reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                columns.Add(reader.GetString(0));
+            }
+            return columns;
+        }
+
+        static string GetSqlDataType(Type dataType)
+        {
+            if (dataType == typeof(int))
+            {
+                return "INT";
+            }
+            else if (dataType == typeof(double))
+            {
+                return "FLOAT";
+            }
+            else if (dataType == typeof(DateTime))
+            {
+                return "DATETIME";
+            }
+            else
+            {
+                return "NVARCHAR(MAX)";
             }
         }
 
-        await _context.Books.AddRangeAsync(books);
-        await _context.SaveChangesAsync();
-
-        var x = await _context.Books.ToListAsync();
-
-        return Ok(x);  
-    }
-    // Endpoint pour ajouter un seul livre
-    [HttpPost("add")] 
-    public async Task<IActionResult> AddBook([FromBody] Book book)
-    {
-        if (book == null)
-            return BadRequest("Invalid book object.");
-
-        _context.Books.Add(book);
-        await _context.SaveChangesAsync();
-
-        return Ok(book);
-    }
-
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteBook(int id)
-    {
-        var book = await _context.Books.FindAsync(id);
-        if (book == null)
+        private string GenerateClassCode(string className, DataTable dt, List<string> newColumns)
         {
-            return NotFound();
+            var sb = new StringBuilder();
+            sb.AppendLine($"public class {className}");
+            sb.AppendLine("{");
+            sb.AppendLine("    public int Id { get; set; }");
+
+            foreach (DataColumn column in dt.Columns)
+            {
+                sb.AppendLine($"    public {GetCSharpDataType(column.DataType)} {column.ColumnName} {{ get; set; }}");
+            }
+
+            sb.AppendLine("}");
+            return sb.ToString();
         }
 
-        _context.Books.Remove(book);
-        await _context.SaveChangesAsync();
-
-        return NoContent();
-    }
-
-    [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateBook(int id, [FromBody] Book updatedBook)
-    {
-        if (updatedBook == null)
-            return BadRequest("Invalid book data.");
-
-        var book = await _context.Books.FindAsync(id);
-        if (book == null)
+        static string GetCSharpDataType(Type dataType)
         {
-            return NotFound();
+            if (dataType == typeof(int))
+            {
+                return "int";
+            }
+            else if (dataType == typeof(double))
+            {
+                return "double";
+            }
+            else if (dataType == typeof(DateTime))
+            {
+                return "DateTime";
+            }
+            else
+            {
+                return "string";
+            }
         }
-
-        book.Title = updatedBook.Title;
-        book.Author = updatedBook.Author;
-        book.ISBN = updatedBook.ISBN;
-        book.Genre = updatedBook.Genre;
-        book.DatePublication = updatedBook.DatePublication;
-        book.Editeur = updatedBook.Editeur;
-        book.Langue = updatedBook.Langue;
-        book.Description = updatedBook.Description;
-        book.Nb_Page = updatedBook.Nb_Page;
-        book.Prix = updatedBook.Prix;
-
-        _context.Books.Update(book);
-        await _context.SaveChangesAsync();
-
-        return Ok(book);
-    } 
-    [HttpGet("check-isbn/{isbn}")] 
-    public async Task<IActionResult> CheckIsbnExists(string isbn)
-    {
-        var bookExists = await _context.Books.AnyAsync(b => b.ISBN == isbn);
-        return Ok(bookExists);
     }
-
-} 
+}
