@@ -11,4 +11,5 @@ public class Book
     public string Description { get; set; }
     public double Nb_Page { get; set; }
     public double Prix { get; set; }
+    public double Khanfour { get; set; }
 }

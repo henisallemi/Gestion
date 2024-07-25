@@ -117,14 +117,14 @@ namespace AngularAuthAPI.Controllers
                 {
                     InsertDataIntoTable(connection, tableName, cells, dt);
                     connection.Close();
-                    return Ok($"New columns added successfully: {string.Join(", ", newColumns)}");
                 }
             }
 
             InsertDataIntoTable(connection, tableName, cells, dt);
             connection.Close();
 
-            return Ok("Data inserted successfully.");
+            var books = await _context.Books.ToListAsync();
+            return Ok(books);
         }
 
         [HttpDelete("{id}")]

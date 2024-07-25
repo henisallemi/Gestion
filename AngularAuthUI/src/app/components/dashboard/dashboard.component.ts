@@ -46,7 +46,6 @@ export class DashboardComponent implements OnInit {
   newBook: any = {}; // Définissez newBook pour stocker les données du formulaire
 
   ngOnInit() {
-    //this.fetchColumns();
     this.loadBooks();
   }
 

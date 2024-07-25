@@ -20,16 +20,16 @@ export class BookAddEditComponent implements OnInit{
     
   ){
     this.bookForm = this._fb.group({
-      title: [''],
-      author: [''],
-      isbn: [''],
-      genre: [''],
-      datePublication: [''],
-      editeur: [''],
-      langue: [''],
-      description: [''],
-      nb_Page: [0],
-      prix: [0]
+      // title: [''],
+      // author: [''],
+      // isbn: [''],
+      // genre: [''],
+      // datePublication: [''],
+      // editeur: [''],
+      // langue: [''],
+      // description: [''],
+      // nb_Page: [0],
+      // prix: [0]
     })
   }
 
