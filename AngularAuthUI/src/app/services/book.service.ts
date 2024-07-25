@@ -34,5 +34,5 @@ export class BookService {
   }
   checkIsbnExists(isbn: string) {
     return this.http.get<boolean>(`${this.apiUrl}/check-isbn/${isbn}`);
-  } 
+  }
 }

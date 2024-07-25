@@ -1,13 +1,11 @@
 import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { BookService } from '../../services/book.service';
-
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
-
 import { BookAddEditComponent } from '../book-add-edit/book-add-edit.component';
 import { CoreService } from '../../services/core.service';
 
@@ -19,28 +17,12 @@ import { CoreService } from '../../services/core.service';
 export class DashboardComponent implements OnInit {
   selectedFile: File | null = null;
   books!: MatTableDataSource<any>;
-  headers: string[] = [
-    "id",
-    "title",
-    "author",
-    "isbn",
-    "genre",
-    "datePublication",
-    "editeur",
-    "langue",
-    // "description",
-    "nb_Page",
-    "prix",
-    "action"
-  ];
-
+  headers: string[] = [];
   bookForm: FormGroup;
   addBookModal: NgbModalRef | undefined;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-
-  //@ViewChild('addBookModal') addBookModalContent!: TemplateRef<any>; // Reference to the modal content
 
   constructor(
     private bookService: BookService,
@@ -56,15 +38,15 @@ export class DashboardComponent implements OnInit {
       datePublication: [''],
       editeur: [''],
       langue: [''],
-      // description: [''],
-      nb_Page: [''], 
-      prix: [''],   
+      nb_Page: [''],
+      prix: [''],
     });
   }
 
   newBook: any = {}; // Définissez newBook pour stocker les données du formulaire
 
   ngOnInit() {
+    //this.fetchColumns();
     this.loadBooks();
   }
 
@@ -101,12 +83,14 @@ export class DashboardComponent implements OnInit {
       alert('No file selected. Please choose a file to upload.');
     }
   }
-  
 
   loadBooks() {
     this.bookService.getBooks().subscribe(
       response => {
-        if (response.length > 0) {
+        if (response) {
+          console.log("Books:",response);
+          this.setHeaders(response);
+          console.log("headers:",this.headers);
           this.books = new MatTableDataSource(response);
           this.books.sort = this.sort;
           this.books.paginator = this.paginator;
@@ -118,13 +102,20 @@ export class DashboardComponent implements OnInit {
     );
   }
 
+
+  setHeaders(data: any[]) {
+    if (data.length > 0) {
+      this.headers = Object.keys(data[0]).map(item => item.toLowerCase());
+    }
+  }
+
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.books.filter = filterValue.trim().toLowerCase();
 
     if (this.books.paginator) {
       this.books.paginator.firstPage();
-    } 
+    }
   }
 
   deleteBook(id: number) {
@@ -160,4 +151,4 @@ export class DashboardComponent implements OnInit {
       }
     })
   }
-}     
+}

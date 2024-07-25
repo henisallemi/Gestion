@@ -3,6 +3,7 @@ using Aspose.Cells;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using System.Data;
 using System.Text;
 
@@ -10,17 +11,23 @@ namespace AngularAuthAPI.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class HomeController : ControllerBase
+    public class BooksController : ControllerBase
     {
         private readonly AppDbContext _context;
-        private readonly ILogger<HomeController> _logger;
+        private readonly ILogger<BooksController> _logger;
         private readonly IConfiguration _configuration;
 
-        public HomeController(ILogger<HomeController> logger, IConfiguration configuration, AppDbContext context)
+        public BooksController(ILogger<BooksController> logger, IConfiguration configuration, AppDbContext context)
         {
             _logger = logger;
             _configuration = configuration;
             _context = context;
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Book>>> GetBooks()
+        {
+            return await _context.Books.ToListAsync();
         }
 
         [HttpPost("upload")]
@@ -121,7 +128,7 @@ namespace AngularAuthAPI.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteBook(double id)
+        public async Task<IActionResult> DeleteBook(int id)
         {
             var book = await _context.Books.FindAsync(id);
             if (book == null)
