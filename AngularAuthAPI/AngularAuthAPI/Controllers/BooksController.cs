@@ -2,7 +2,6 @@
 using Aspose.Cells;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Data.SqlClient;
 using System.Data;
 using System.Text;
@@ -39,19 +38,16 @@ namespace AngularAuthAPI.Controllers
                 await file.CopyToAsync(stream);
             }
 
-            // Load Excel file using Aspose.Cells
             var workbook = new Workbook(filePath);
             var worksheet = workbook.Worksheets[0];
             var cells = worksheet.Cells;
             var dt = new DataTable();
 
-            // Create table structure based on Excel header and infer data types
             for (int col = 0; col <= cells.MaxColumn; col++)
             {
                 string columnName = cells[0, col].StringValue;
                 DataColumn column = dt.Columns.Add(columnName);
 
-                // Infer data type based on the values in the column
                 for (int row = 1; row <= cells.MaxRow; row++)
                 {
                     string cellValue = cells[row, col].StringValue;
@@ -71,42 +67,24 @@ namespace AngularAuthAPI.Controllers
                     }
                 }
 
-                // Set default data type if not inferred
                 column.DataType ??= typeof(string);
             }
 
-            string tableName = "Books"; // Using "Books" as the table name
+            string tableName = "Books";
             string conString = _configuration.GetConnectionString("SqlServerConnStr");
             using var connection = new SqlConnection(conString);
             connection.Open();
 
-            // Check if the table already exists
             var checkTableCmd = new SqlCommand($"IF OBJECT_ID(N'{tableName}', N'U') IS NOT NULL SELECT 1 ELSE SELECT 0", connection);
             bool tableExists = (int)checkTableCmd.ExecuteScalar() == 1;
 
             if (!tableExists)
             {
-                // Generate SQL script for creating the table
-                string sqlScript = $"CREATE TABLE {tableName} (\n";
-                sqlScript += "    Id INT IDENTITY(1,1) PRIMARY KEY,\n"; // Add Id column with auto-increment
-
-                foreach (DataColumn column in dt.Columns)
-                {
-                    string sqlDataType = GetSqlDataType(column.DataType);
-                    sqlScript += $"    [{column.ColumnName}] {sqlDataType},\n";
-                }
-
-                // Remove the trailing comma and newline
-                sqlScript = sqlScript.Substring(0, sqlScript.Length - 2);
-                sqlScript += $")";
-
-                // Execute the SQL script to create the table
-                SqlCommand createCmd = new SqlCommand(sqlScript, connection);
-                createCmd.ExecuteNonQuery();
+                CreateTable(connection, tableName, dt);
+                GenerateClassCode("Book", dt);
             }
             else
             {
-                // Get existing columns from the table
                 var existingColumns = new List<string>();
                 var getColumnsCmd = new SqlCommand($"SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '{tableName}'", connection);
                 using (var reader = getColumnsCmd.ExecuteReader())
@@ -117,66 +95,27 @@ namespace AngularAuthAPI.Controllers
                     }
                 }
 
-                // Add new columns if they don't exist in the table
                 var newColumns = new List<string>();
                 foreach (DataColumn column in dt.Columns)
                 {
                     if (!existingColumns.Contains(column.ColumnName))
                     {
-                        string sqlDataType = GetSqlDataType(column.DataType);
-                        var alterTableCmd = new SqlCommand($"ALTER TABLE {tableName} ADD [{column.ColumnName}] {sqlDataType}", connection);
-                        alterTableCmd.ExecuteNonQuery();
+                        AddColumnToTable(connection, tableName, column);
+                        AddPropertyToClass("Book", column);
                         newColumns.Add(column.ColumnName);
                     }
                 }
 
                 if (newColumns.Count > 0)
                 {
+                    InsertDataIntoTable(connection, tableName, cells, dt);
+                    connection.Close();
                     return Ok($"New columns added successfully: {string.Join(", ", newColumns)}");
                 }
             }
 
-            // Insert data into the table
-            for (int row = 1; row <= cells.MaxRow; row++)
-            {
-                var insertCommand = new StringBuilder();
-                insertCommand.Append($"INSERT INTO {tableName} (");
-
-                for (int col = 0; col <= cells.MaxColumn; col++)
-                {
-                    string columnName = cells[0, col].StringValue;
-                    insertCommand.Append($"[{columnName}], ");
-                }
-
-                // Remove the trailing comma and space
-                insertCommand.Length -= 2;
-                insertCommand.Append(") VALUES (");
-
-                for (int col = 0; col <= cells.MaxColumn; col++)
-                {
-                    string cellValue = cells[row, col].StringValue;
-                    insertCommand.Append($"'{cellValue}', ");
-                }
-
-                // Remove the trailing comma and space
-                insertCommand.Length -= 2;
-                insertCommand.Append(")");
-
-                // Execute the insert command
-                using var insertCmd = new SqlCommand(insertCommand.ToString(), connection);
-                insertCmd.ExecuteNonQuery();
-            }
-
-            // Close the database connection
+            InsertDataIntoTable(connection, tableName, cells, dt);
             connection.Close();
-
-            // Generate C# class code
-            string classCode = GenerateClassCode("Book", dt);
-
-            // Save the class code to a file
-            string classFilePath = Path.Combine(Directory.GetCurrentDirectory(), "Models", "Book.cs");
-            Directory.CreateDirectory(Path.GetDirectoryName(classFilePath)); // Ensure directory exists
-            System.IO.File.WriteAllText(classFilePath, classCode);
 
             return Ok("Data inserted successfully.");
         }
@@ -196,27 +135,85 @@ namespace AngularAuthAPI.Controllers
             return NoContent();
         }
 
-        static string GetSqlDataType(Type dataType)
+        private static void CreateTable(SqlConnection connection, string tableName, DataTable dt)
         {
-            if (dataType == typeof(int))
+            string sqlScript = $"CREATE TABLE {tableName} (\n";
+            sqlScript += "    Id INT IDENTITY(1,1) PRIMARY KEY,\n";
+
+            foreach (DataColumn column in dt.Columns)
             {
-                return "INT";
+                string sqlDataType = GetSqlDataType(column.DataType);
+                sqlScript += $"    [{column.ColumnName}] {sqlDataType},\n";
             }
-            else if (dataType == typeof(double))
+
+            sqlScript = sqlScript.Substring(0, sqlScript.Length - 2);
+            sqlScript += $")";
+
+            SqlCommand createCmd = new SqlCommand(sqlScript, connection);
+            createCmd.ExecuteNonQuery();
+        }
+
+        private static void AddColumnToTable(SqlConnection connection, string tableName, DataColumn column)
+        {
+            string sqlDataType = GetSqlDataType(column.DataType);
+            var alterTableCmd = new SqlCommand($"ALTER TABLE {tableName} ADD [{column.ColumnName}] {sqlDataType}", connection);
+            alterTableCmd.ExecuteNonQuery();
+        }
+
+        private void AddPropertyToClass(string className, DataColumn column)
+        {
+            string classFilePath = Path.Combine(Directory.GetCurrentDirectory(), "Models", $"{className}.cs");
+            var classCode = System.IO.File.ReadAllText(classFilePath);
+
+            if (!classCode.Contains($"public {GetCSharpDataType(column.DataType)} {column.ColumnName}"))
             {
-                return "FLOAT";
-            }
-            else if (dataType == typeof(DateTime))
-            {
-                return "DATETIME";
-            }
-            else
-            {
-                return "NVARCHAR(MAX)";
+                var property = $"    public {GetCSharpDataType(column.DataType)} {column.ColumnName} {{ get; set; }}\n";
+                int lastIndex = classCode.LastIndexOf('}');
+                if (lastIndex > 0)
+                {
+                    classCode = classCode.Insert(lastIndex, property);
+                    System.IO.File.WriteAllText(classFilePath, classCode);
+                }
             }
         }
 
-        private string GenerateClassCode(string className, DataTable dt)
+        private static void InsertDataIntoTable(SqlConnection connection, string tableName, Cells cells, DataTable dt)
+        {
+            for (int row = 1; row <= cells.MaxRow; row++)
+            {
+                var insertCommand = new StringBuilder();
+                insertCommand.Append($"INSERT INTO {tableName} (");
+
+                foreach (DataColumn column in dt.Columns)
+                {
+                    insertCommand.Append($"[{column.ColumnName}], ");
+                }
+
+                insertCommand.Length -= 2;
+                insertCommand.Append(") VALUES (");
+
+                foreach (DataColumn column in dt.Columns)
+                {
+                    string cellValue = cells[row, column.Ordinal].StringValue;
+                    insertCommand.Append($"'{cellValue}', ");
+                }
+
+                insertCommand.Length -= 2;
+                insertCommand.Append(")");
+
+                using var insertCmd = new SqlCommand(insertCommand.ToString(), connection);
+                insertCmd.ExecuteNonQuery();
+            }
+        }
+
+        static string GetSqlDataType(Type dataType)
+        {
+            return dataType == typeof(int) ? "INT" :
+                   dataType == typeof(double) ? "FLOAT" :
+                   dataType == typeof(DateTime) ? "DATETIME" : "NVARCHAR(MAX)";
+        }
+
+        private void GenerateClassCode(string className, DataTable dt)
         {
             var sb = new StringBuilder();
             sb.AppendLine($"public class {className}");
@@ -229,27 +226,18 @@ namespace AngularAuthAPI.Controllers
             }
 
             sb.AppendLine("}");
-            return sb.ToString();
+            string classCode = sb.ToString();
+
+            string classFilePath = Path.Combine(Directory.GetCurrentDirectory(), "Models", $"{className}.cs");
+            Directory.CreateDirectory(Path.GetDirectoryName(classFilePath));
+            System.IO.File.WriteAllText(classFilePath, classCode);
         }
 
         static string GetCSharpDataType(Type dataType)
         {
-            if (dataType == typeof(int))
-            {
-                return "int";
-            }
-            else if (dataType == typeof(double))
-            {
-                return "double";
-            }
-            else if (dataType == typeof(DateTime))
-            {
-                return "DateTime";
-            }
-            else
-            {
-                return "string";
-            }
+            return dataType == typeof(int) ? "int" :
+                   dataType == typeof(double) ? "double" :
+                   dataType == typeof(DateTime) ? "DateTime" : "string";
         }
     }
 }

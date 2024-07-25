@@ -430,3 +430,4 @@ C:\Users\21697\OneDrive\Documents\Visual Studio\HTML\Angular\Gestion\AngularAuth
 C:\Users\21697\OneDrive\Documents\Visual Studio\HTML\Angular\Gestion\AngularAuthAPI\AngularAuthAPI\obj\Debug\net8.0\AngularAuthAPI.pdb
 C:\Users\21697\OneDrive\Documents\Visual Studio\HTML\Angular\Gestion\AngularAuthAPI\AngularAuthAPI\obj\Debug\net8.0\AngularAuthAPI.genruntimeconfig.cache
 C:\Users\21697\OneDrive\Documents\Visual Studio\HTML\Angular\Gestion\AngularAuthAPI\AngularAuthAPI\obj\Debug\net8.0\ref\AngularAuthAPI.dll
+C:\Users\henis\OneDrive\Bureau\gestion\Gestion\AngularAuthAPI\AngularAuthAPI\bin\Debug\net8.0\dotnet-watch.dll
