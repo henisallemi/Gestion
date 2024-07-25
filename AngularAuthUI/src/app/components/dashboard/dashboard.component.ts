@@ -105,7 +105,7 @@ export class DashboardComponent implements OnInit {
 
   setHeaders(data: any[]) {
     if (data.length > 0) {
-      this.headers = Object.keys(data[0]).map(item => item.toLowerCase());
+      this.headers = Object.keys(data[0]).filter(header => header !== 'id').concat('action');
     }
   }
 

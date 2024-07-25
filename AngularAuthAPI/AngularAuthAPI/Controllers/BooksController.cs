@@ -61,9 +61,9 @@ namespace AngularAuthAPI.Controllers
 
                     if (!string.IsNullOrWhiteSpace(cellValue))
                     {
-                        if (DateTime.TryParse(cellValue, out _))
+                        if (DateOnly.TryParse(cellValue, out _))
                         {
-                            column.DataType = typeof(DateTime);
+                            column.DataType = typeof(DateOnly);
                             break;
                         }
                         else if (double.TryParse(cellValue, out _))
@@ -217,7 +217,7 @@ namespace AngularAuthAPI.Controllers
         {
             return dataType == typeof(int) ? "INT" :
                    dataType == typeof(double) ? "FLOAT" :
-                   dataType == typeof(DateTime) ? "DATETIME" : "NVARCHAR(MAX)";
+                   dataType == typeof(DateOnly) ? "DATE" : "NVARCHAR(MAX)";
         }
 
         private void GenerateClassCode(string className, DataTable dt)
@@ -244,7 +244,7 @@ namespace AngularAuthAPI.Controllers
         {
             return dataType == typeof(int) ? "int" :
                    dataType == typeof(double) ? "double" :
-                   dataType == typeof(DateTime) ? "DateTime" : "string";
+                   dataType == typeof(DateOnly) ? "DateOnly" : "string";
         }
     }
 }
