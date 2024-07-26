@@ -18,7 +18,7 @@ export class DashboardComponent implements OnInit {
   selectedFile: File | null = null;
   books!: MatTableDataSource<any>;
   headers: string[] = [];
-  bookForm: FormGroup;
+  // bookForm: FormGroup;
   addBookModal: NgbModalRef | undefined;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -30,17 +30,17 @@ export class DashboardComponent implements OnInit {
     private _dialog: MatDialog,
     private _coreService: CoreService
   ) {
-    this.bookForm = this.fb.group({
-      title: [''],
-      author: [''],
-      isbn: [''],
-      genre: [''],
-      datePublication: [''],
-      editeur: [''],
-      langue: [''],
-      nb_Page: [''],
-      prix: [''],
-    });
+    // this.bookForm = this.fb.group({
+    //   title: [''],
+    //   author: [''],
+    //   isbn: [''],
+    //   genre: [''],
+    //   datePublication: [''],
+    //   editeur: [''],
+    //   langue: [''],
+    //   nb_Page: [''],
+    //   prix: [''],
+    // });
   }
 
   newBook: any = {}; // Définissez newBook pour stocker les données du formulaire
@@ -128,19 +128,8 @@ export class DashboardComponent implements OnInit {
   }
 
   openAddEditBookForm() {
-    const dialogRef = this._dialog.open(BookAddEditComponent);
-    dialogRef.afterClosed().subscribe({
-      next: (val) => {
-        if (val) {
-          this.loadBooks();
-        }
-      }
-    })
-  }
-
-  openEditBookForm(data: any) {
     const dialogRef = this._dialog.open(BookAddEditComponent, {
-      data,
+      data: { headers: this.headers } // Pass headers here
     });
     dialogRef.afterClosed().subscribe({
       next: (val) => {
@@ -148,6 +137,20 @@ export class DashboardComponent implements OnInit {
           this.loadBooks();
         }
       }
-    })
+    });
   }
+  
+  openEditBookForm(data: any) {
+    const dialogRef = this._dialog.open(BookAddEditComponent, {
+      data: { ...data, headers: this.headers } // Pass headers here along with the data
+    });
+    dialogRef.afterClosed().subscribe({
+      next: (val) => {
+        if (val) {
+          this.loadBooks();
+        }
+      }
+    });
+  }
+  
 }

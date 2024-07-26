@@ -27,7 +27,8 @@ namespace AngularAuthAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Book>>> GetBooks()
         {
-            return await _context.Books.ToListAsync();
+            var books = await _context.Books.ToListAsync();
+            return Ok(books);
         }
 
         [HttpPost("upload")]
@@ -108,20 +109,18 @@ namespace AngularAuthAPI.Controllers
                     if (!existingColumns.Contains(column.ColumnName))
                     {
                         AddColumnToTable(connection, tableName, column);
-                        AddPropertyToClass("Book", column);
                         newColumns.Add(column.ColumnName);
                     }
                 }
 
                 if (newColumns.Count > 0)
                 {
+                    GenerateClassCode("Book", dt);
                     InsertDataIntoTable(connection, tableName, cells, dt);
-                    connection.Close();
                 }
             }
 
             InsertDataIntoTable(connection, tableName, cells, dt);
-            connection.Close();
 
             var books = await _context.Books.ToListAsync();
             return Ok(books);
@@ -165,23 +164,6 @@ namespace AngularAuthAPI.Controllers
             string sqlDataType = GetSqlDataType(column.DataType);
             var alterTableCmd = new SqlCommand($"ALTER TABLE {tableName} ADD [{column.ColumnName}] {sqlDataType}", connection);
             alterTableCmd.ExecuteNonQuery();
-        }
-
-        private void AddPropertyToClass(string className, DataColumn column)
-        {
-            string classFilePath = Path.Combine(Directory.GetCurrentDirectory(), "Models", $"{className}.cs");
-            var classCode = System.IO.File.ReadAllText(classFilePath);
-
-            if (!classCode.Contains($"public {GetCSharpDataType(column.DataType)} {column.ColumnName}"))
-            {
-                var property = $"    public {GetCSharpDataType(column.DataType)} {column.ColumnName} {{ get; set; }}\n";
-                int lastIndex = classCode.LastIndexOf('}');
-                if (lastIndex > 0)
-                {
-                    classCode = classCode.Insert(lastIndex, property);
-                    System.IO.File.WriteAllText(classFilePath, classCode);
-                }
-            }
         }
 
         private static void InsertDataIntoTable(SqlConnection connection, string tableName, Cells cells, DataTable dt)
@@ -229,7 +211,7 @@ namespace AngularAuthAPI.Controllers
 
             foreach (DataColumn column in dt.Columns)
             {
-                sb.AppendLine($"    public {GetCSharpDataType(column.DataType)} {column.ColumnName} {{ get; set; }}");
+                sb.AppendLine($"    public {GetCSharpDataType(column.DataType)}? {column.ColumnName} {{ get; set; }}");
             }
 
             sb.AppendLine("}");
