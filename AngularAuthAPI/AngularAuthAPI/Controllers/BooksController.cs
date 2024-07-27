@@ -141,6 +141,17 @@ namespace AngularAuthAPI.Controllers
             return NoContent();
         }
 
+        [HttpPost("add")]
+        public async Task<IActionResult> AddBook([FromBody] Book book)
+        {
+            if (book == null)
+                return BadRequest("Invalid book object.");
+
+            _context.Books.Add(book);
+            await _context.SaveChangesAsync();
+            return Ok(book);
+        }
+
         private static void CreateTable(SqlConnection connection, string tableName, DataTable dt)
         {
             string sqlScript = $"CREATE TABLE {tableName} (\n";
@@ -228,5 +239,38 @@ namespace AngularAuthAPI.Controllers
                    dataType == typeof(double) ? "double" :
                    dataType == typeof(DateOnly) ? "DateOnly" : "string";
         }
+
+
+        [HttpPut("update/{id}")]
+        public async Task<IActionResult> UpdateBook(int id, [FromBody] Book updatedBook)
+        {
+            if (updatedBook == null)
+            {
+                return BadRequest("Objet livre invalide.");
+            }
+
+            var existingBook = await _context.Books.FindAsync(id);
+            if (existingBook == null)
+            {
+                return NotFound("Livre non trouvé.");
+            }
+
+            // Utiliser la réflexion pour mettre à jour les propriétés de l'objet existant
+            var properties = typeof(Book).GetProperties();
+            foreach (var property in properties)
+            {
+                var newValue = property.GetValue(updatedBook);
+                if (newValue != null)
+                {
+                    property.SetValue(existingBook, newValue);
+                }
+            }
+            existingBook.Id=id;
+            _context.Books.Update(existingBook);
+            await _context.SaveChangesAsync();
+
+            return Ok(existingBook);
+        }
+
     }
 }

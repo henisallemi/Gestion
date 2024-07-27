@@ -8,6 +8,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { BookAddEditComponent } from '../book-add-edit/book-add-edit.component';
 import { CoreService } from '../../services/core.service';
+import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -18,7 +19,6 @@ export class DashboardComponent implements OnInit {
   selectedFile: File | null = null;
   books!: MatTableDataSource<any>;
   headers: string[] = [];
-  // bookForm: FormGroup;
   addBookModal: NgbModalRef | undefined;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -26,24 +26,11 @@ export class DashboardComponent implements OnInit {
 
   constructor(
     private bookService: BookService,
-    private fb: FormBuilder,
     private _dialog: MatDialog,
-    private _coreService: CoreService
-  ) {
-    // this.bookForm = this.fb.group({
-    //   title: [''],
-    //   author: [''],
-    //   isbn: [''],
-    //   genre: [''],
-    //   datePublication: [''],
-    //   editeur: [''],
-    //   langue: [''],
-    //   nb_Page: [''],
-    //   prix: [''],
-    // });
-  }
+    private _coreService: CoreService,
+    private dialog: MatDialog  
+  ) {}
 
-  newBook: any = {}; // Définissez newBook pour stocker les données du formulaire
 
   ngOnInit() {
     this.loadBooks();
@@ -117,19 +104,31 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  deleteBook(id: number) {
-    this.bookService.deleteBook(id).subscribe({
-      next: (res) => {
-        this._coreService.openSnackBar('Book deleted!', 'done')
-        this.loadBooks();
-      },
-      error: console.log
-    })
-  }
+ 
+deleteBook(id: number) {
+  const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+    width: '300px'
+  });
+
+  dialogRef.afterClosed().subscribe(result => {
+    if (result) {
+      this.bookService.deleteBook(id).subscribe({
+        next: () => {
+          this._coreService.openSnackBar('Book deleted!', 'done');
+          this.loadBooks();
+        },
+        error: (err) => {
+          console.error('Error deleting book:', err);
+          this._coreService.openSnackBar('Error deleting book. Please try again.');
+        }
+      });
+    }
+  });
+}
 
   openAddEditBookForm() {
     const dialogRef = this._dialog.open(BookAddEditComponent, {
-      data: { headers: this.headers } // Pass headers here
+      data: { headers: this.headers.filter(header => header !== 'action') } // Pass headers here
     });
     dialogRef.afterClosed().subscribe({
       next: (val) => {
@@ -142,7 +141,7 @@ export class DashboardComponent implements OnInit {
   
   openEditBookForm(data: any) {
     const dialogRef = this._dialog.open(BookAddEditComponent, {
-      data: { ...data, headers: this.headers } // Pass headers here along with the data
+      data: { ...data, headers: this.headers.filter(header => header !== 'action') } // Pass headers here along with the data
     });
     dialogRef.afterClosed().subscribe({
       next: (val) => {

@@ -1,21 +1,21 @@
-<div>
-    <h3>Book Form</h3>
-  </div>
+<h3 mat-dialog-title>Book Form</h3>
+
+<div mat-dialog-content>
   <form [formGroup]="bookForm" (ngSubmit)="onFormSubmit()">
-    <div class="container">
-      <div class="row" *ngFor="let header of headers">
-        <mat-form-field appearance="outline" class="form-field">
-          <mat-label>{{ header | titlecase }}</mat-label>
-          <input matInput [formControlName]="header" />
-          <mat-error *ngIf="bookForm.get(header)?.hasError('required')">
-            {{ header | titlecase }} is required
-          </mat-error>
-        </mat-form-field>
+      <div class="form-row">
+        <div  *ngFor="let header of headers; let i = index">
+          <mat-form-field appearance="outline" class="form-field">
+            <mat-label>{{ header | titlecase }}</mat-label>
+            <input matInput [formControlName]="header" />
+            <mat-error *ngIf="bookForm.get(header)?.hasError('required')">
+              {{ header | titlecase }} is required
+            </mat-error>
+          </mat-form-field>
+        </div>
       </div>
-    </div>
-    <div mat-dialog-actions>
-      <button mat-raised-button type="button" [mat-dialog-close]="false">Cancel</button>
-      <button mat-raised-button color="primary" type="submit">{{ data ? 'Update' : 'Save' }}</button>
+      <div mat-dialog-actions>
+        <button mat-raised-button type="button" [mat-dialog-close]="false">Cancel</button>
+        <button mat-raised-button color="primary" type="submit">{{ isSaveMode() ? 'Save' : 'Update' }}</button>
     </div>
   </form>
-  
+</div>

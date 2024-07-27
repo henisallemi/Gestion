@@ -28,6 +28,7 @@ import { BookAddEditComponent } from './components/book-add-edit/book-add-edit.c
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { IntegerValidatorDirective } from './directives/integer-validator.directive';
+import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { IntegerValidatorDirective } from './directives/integer-validator.direct
     DashboardComponent,
     BookAddEditComponent,
     IntegerValidatorDirective,
+    ConfirmDialogComponent,
   ],
   imports: [
     BrowserModule,

@@ -12,6 +12,7 @@ import { CoreService } from '../../services/core.service';
 export class BookAddEditComponent implements OnInit {
   bookForm: FormGroup;
   headers: string[] = [];
+  bookData: any;
 
   constructor(
     private _fb: FormBuilder,
@@ -20,6 +21,8 @@ export class BookAddEditComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private _coreService: CoreService
   ) {
+    this.bookData = data; // Access all properties passed via data
+    this.headers = data.headers; // Extract headers if needed
     // Initialize form group with an empty object
     this.bookForm = this._fb.group({});
   }
@@ -29,55 +32,59 @@ export class BookAddEditComponent implements OnInit {
       this.headers = this.data.headers;
       this.createFormControls();
       this.bookForm.patchValue(this.data); // Patch existing data if any
+      console.log(this.data)
     }
   }
 
+  isSaveMode(): boolean {
+    // Check if the data object only contains the headers property
+    return Object.keys(this.bookData).length === 1 && this.bookData.hasOwnProperty('headers');
+  }
+  
   createFormControls() {
-    // Use Record<string, any> to define the shape of controls
     const controls: Record<string, any> = {};
     this.headers.forEach(header => {
       controls[header] = ['']; // Initialize with empty values or set default values as needed
     });
     this.bookForm = this._fb.group(controls);
   }
-
   onFormSubmit() {
-    if (this.bookForm.valid) {
-      const formData = this.bookForm.value;
-      formData.datePublication = new Date(formData.datePublication);
-
-      this._bookservice.checkIsbnExists(formData.isbn).subscribe({
-        next: (isbnExists: boolean) => {
-          if (isbnExists) {
-            this._coreService.openSnackBar('ISBN already exists!');
-          } else {
-            if (this.data && this.data.id) {
-              this._bookservice.updateBook(this.data.id, formData).subscribe({
-                next: (val: any) => {
-                  this._coreService.openSnackBar('Book updated!');
-                  this._dialogRef.close(true);
-                },
-                error: (err: any) => {
-                  console.error(err);
-                }
-              });
-            } else {
-              this._bookservice.addBook(formData).subscribe({
-                next: (val: any) => {
-                  this._coreService.openSnackBar('Book added successfully!');
-                  this._dialogRef.close(true);
-                },
-                error: (err: any) => {
-                  console.error(err);
-                }
-              });
-            }
-          }
+    console.log('Is Save Mode:', this.isSaveMode());
+  
+    const formData = this.bookForm.value;
+  
+    if (this.isSaveMode()) {
+      console.log("I am adding a new book");
+      this._bookservice.addBook(formData).subscribe({
+        next: (val: any) => {
+          this._coreService.openSnackBar('Book added successfully!');
+          this._dialogRef.close(true);
         },
         error: (err: any) => {
-          console.error(err);
+          console.error('Error adding book:', err);
+          this._coreService.openSnackBar('Error adding book. Please try again.');
         }
       });
+    } else {
+      console.log("I am updating an existing book");
+      if (this.data && this.data.id) {
+        console.log('Updating book with ID:', this.data.id);
+        console.log('Form data :', formData);
+        this._bookservice.updateBook(this.data.id, formData).subscribe({
+          next: (val: any) => {
+            this._coreService.openSnackBar('Book updated successfully!');
+            this._dialogRef.close(true);
+          },
+          error: (err: any) => {
+            console.error('Error updating book:', err);
+            this._coreService.openSnackBar('Error updating book. Please try again.');
+          }
+        });
+      } else {
+        console.error('No book ID available for update.');
+        this._coreService.openSnackBar('No book ID available for update.');
+      }
     }
   }
+  
 }
