@@ -10,7 +10,8 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { BookAddEditComponent } from '../book-add-edit/book-add-edit.component';
 import { CoreService } from '../../services/core.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
+
+import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -43,7 +44,8 @@ export class DashboardComponent implements OnInit {
     private bookService: BookService,
     private fb: FormBuilder,
     private _dialog: MatDialog,
-    private _coreService: CoreService
+    private _coreService: CoreService,
+    private dialog: MatDialog
   ) {
     this.bookForm = this.fb.group({
       title: [''],
@@ -65,6 +67,7 @@ export class DashboardComponent implements OnInit {
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0] ?? null;
   }
+
   onUpload() {
     if (this.selectedFile) {
       this.bookService.uploadFile(this.selectedFile).subscribe(
@@ -91,7 +94,6 @@ export class DashboardComponent implements OnInit {
     }
   }
         
-  
   loadBooks() {
     this.bookService.getBooks().subscribe(
       response => {
@@ -118,13 +120,24 @@ export class DashboardComponent implements OnInit {
   }
 
   deleteBook(id: number) {
-    this.bookService.deleteBook(id).subscribe({
-      next: (res) => {
-        this._coreService.openSnackBar('Book deleted!', 'done')
-        this.loadBooks();
-      },
-      error: console.log
-    })
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '300px'
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.bookService.deleteBook(id).subscribe({
+          next: () => {
+            this._coreService.openSnackBar('Book deleted!', 'done');
+            this.loadBooks();
+          },
+          error: (err) => {
+            console.error('Error deleting book:', err);
+            this._coreService.openSnackBar('Error deleting book. Please try again.');
+          }
+        });
+      }
+    });
   }
 
   openAddEditBookForm() {

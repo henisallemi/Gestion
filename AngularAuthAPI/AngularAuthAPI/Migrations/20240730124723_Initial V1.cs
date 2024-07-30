@@ -5,7 +5,7 @@
 namespace AngularAuthAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class initial : Migration
+    public partial class InitialV1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

@@ -1,8 +1,5 @@
 .toolbar {
     background-color: #005cbb;
-    button {
-        color : #005cbb;
-    };
     color: white;
 }
 
@@ -10,18 +7,10 @@
     flex: 1 1 auto;
 }
 
-.custom-input-group .btn {
-    margin-top: 0px;
-    height: 38px;
-    background-color: #005cbb;
-}
-
 .custom-input-group .input {
     margin: auto;
-    height: 100%;
+    height: 40px;
     margin-bottom: 50px; 
-
-    
 }
 .custom-input-group {
     width: 50%; 
@@ -47,5 +36,3 @@
         width: 100%;
     }
 }
-
-

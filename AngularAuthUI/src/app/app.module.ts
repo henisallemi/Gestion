@@ -29,6 +29,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { IntegerValidatorDirective } from './directives/integer-validator.directive';
 import { OnlyLettersDirective } from './directives/only-letters.directive';
+import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { OnlyLettersDirective } from './directives/only-letters.directive';
     BookAddEditComponent,
     IntegerValidatorDirective,
     OnlyLettersDirective,
+    ConfirmDialogComponent,
   ],
   imports: [
     BrowserModule,
