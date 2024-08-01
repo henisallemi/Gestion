@@ -1,0 +1,57 @@
+.toolbar {
+    background-color: #005cbb;
+    button {
+        color : #005cbb;
+    };
+    color: white;
+}
+
+.example-spacer {
+    flex: 1 1 auto;
+}
+
+.custom-input-group .btn {
+    margin-top: 0px;
+    height: 38px;
+    background-color: #005cbb;
+}
+
+.custom-input-group .input {
+    margin: auto;
+    height: 100%;
+    margin-bottom: 50px; 
+
+    
+}
+.custom-input-group {
+    width: 50%; 
+    margin-top: 10px;
+    margin-left: 25%;
+} 
+ 
+.mat-table {
+    width: 100%;
+} 
+  
+.mat-header-cell, .mat-cell {
+    text-align: center;
+    
+}
+
+.main-body{
+    padding-top: 20px;
+    margin: 0 auto;
+    max-width: 90%;
+    mat-form-field{
+        width: 100%;
+    }
+}
+.no-data-message {
+    text-align: center;
+    font-size: 16px;
+    color: #888; // Couleur grise pour indiquer l'absence de données
+    padding: 20px;
+  }
+  
+
+

@@ -1,51 +1,93 @@
-.toolbar {
-    background-color: #005cbb;
-    button {
-        color : #005cbb;
-    };
-    color: white;
-}
+.dashboard-container {
+  padding: 20px;
+  background-color: #f4f4f4;
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  max-width: 1200px;
+  margin: auto;
 
-.example-spacer {
-    flex: 1 1 auto;
-}
-
-.custom-input-group .btn {
-    margin-top: 0px;
-    height: 38px;
-    background-color: #005cbb;
-}
-
-.custom-input-group .input {
-    margin: auto;
-    height: 100%;
-    margin-bottom: 50px; 
-
-    
-}
-.custom-input-group {
-    width: 50%; 
-    margin-top: 10px;
-    margin-left: 25%;
-}
-
- 
-.mat-table {
-    width: 100%;
-}
-  
-.mat-header-cell, .mat-cell {
+  .dashboard-title {
     text-align: center;
-    
-}
+    margin-bottom: 40px;
+    color: #333;
+    font-size: 2.5em;
+    font-weight: bold;
+  }
 
-.main-body{
-    padding-top: 20px;
-    margin: 0 auto;
-    max-width: 90%;
-    mat-form-field{
-        width: 100%;
+  .statistics {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+
+    .statistic {
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      flex: 1 1 calc(25% - 20px); /* 4 items per row, adjusted for gap */
+      position: relative;
+      transition: all 0.3s ease;
+
+      i.icon {
+        font-size: 2em;
+        margin-bottom: 10px;
+      }
+
+      &.total-books {
+        background: #d1e7dd; /* Light green */
+        border-left: 5px solid #0f6e0f; /* Dark green */
+      }
+
+      &.total-authors {
+        background: #dbe9f4; /* Light blue */
+        border-left: 5px solid #004b6f; /* Dark blue */
+      }
+
+      &.total-editeurs {
+        background: #f8d7da; /* Light red */
+        border-left: 5px solid #a71d2a; /* Dark red */
+      }
+
+      &.average-price {
+        background: #fff3cd; /* Light yellow */
+        border-left: 5px solid #856404; /* Dark yellow */
+      }
+
+      &:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      }
+
+      .statistic-title {
+        font-size: 1.3em;
+        color: #444;
+        margin-bottom: 10px;
+        font-weight: bold;
+      }
+
+      .statistic-value {
+        font-size: 2em;
+        color: #555;
+        margin: 0;
+      }
     }
+  }
 }
-
-
+.chart-container {
+  flex: 1 1 100%;  // Prenez toute la largeur disponible
+  margin-bottom: 20px; // Espacement entre les graphiques
+  padding: 20px;
+  background-color: #ffffff; // Fond blanc pour les conteneurs de graphiques
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  
+  .chart-title {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 1.5em;
+    font-weight: bold;
+  }
+}

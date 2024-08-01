@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\henis\\OneDrive\\Bureau\\gestion\\Gestion\\AngularAuthAPI\\AngularAuthAPI\\AngularAuthAPI.csproj": {}
+    "C:\\Users\\henis\\OneDrive\\Bureau\\PFA-project\\Gestion\\AngularAuthAPI\\AngularAuthAPI\\AngularAuthAPI.csproj": {}
   },
   "projects": {
-    "C:\\Users\\henis\\OneDrive\\Bureau\\gestion\\Gestion\\AngularAuthAPI\\AngularAuthAPI\\AngularAuthAPI.csproj": {
+    "C:\\Users\\henis\\OneDrive\\Bureau\\PFA-project\\Gestion\\AngularAuthAPI\\AngularAuthAPI\\AngularAuthAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\henis\\OneDrive\\Bureau\\gestion\\Gestion\\AngularAuthAPI\\AngularAuthAPI\\AngularAuthAPI.csproj",
+        "projectUniqueName": "C:\\Users\\henis\\OneDrive\\Bureau\\PFA-project\\Gestion\\AngularAuthAPI\\AngularAuthAPI\\AngularAuthAPI.csproj",
         "projectName": "AngularAuthAPI",
-        "projectPath": "C:\\Users\\henis\\OneDrive\\Bureau\\gestion\\Gestion\\AngularAuthAPI\\AngularAuthAPI\\AngularAuthAPI.csproj",
+        "projectPath": "C:\\Users\\henis\\OneDrive\\Bureau\\PFA-project\\Gestion\\AngularAuthAPI\\AngularAuthAPI\\AngularAuthAPI.csproj",
         "packagesPath": "C:\\Users\\henis\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\henis\\OneDrive\\Bureau\\gestion\\Gestion\\AngularAuthAPI\\AngularAuthAPI\\obj\\",
+        "outputPath": "C:\\Users\\henis\\OneDrive\\Bureau\\PFA-project\\Gestion\\AngularAuthAPI\\AngularAuthAPI\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\henis\\AppData\\Roaming\\NuGet\\NuGet.Config",

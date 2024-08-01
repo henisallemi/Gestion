@@ -25,7 +25,7 @@ namespace AngularAuthAPI.Migrations
                     Langue = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Nb_Page = table.Column<int>(type: "int", nullable: false),
-                    Prix = table.Column<float>(type: "real", nullable: false)
+                    Prix = table.Column<float>(type: "real", nullable: false) 
                 },
                 constraints: table =>
                 {

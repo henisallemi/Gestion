@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "49B1p26Die0=",
+  "dgSpecHash": "IazeATBRAOQ=",
   "success": true,
-  "projectFilePath": "C:\\Users\\henis\\OneDrive\\Bureau\\gestion\\Gestion\\AngularAuthAPI\\AngularAuthAPI\\AngularAuthAPI.csproj",
+  "projectFilePath": "C:\\Users\\henis\\OneDrive\\Bureau\\PFA-project\\Gestion\\AngularAuthAPI\\AngularAuthAPI\\AngularAuthAPI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\henis\\.nuget\\packages\\aspose.cells\\24.6.0\\aspose.cells.24.6.0.nupkg.sha512",
     "C:\\Users\\henis\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
