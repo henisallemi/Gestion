@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -20,12 +20,11 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BookAddEditComponent } from './components/book-add-edit/book-add-edit.component';
 import { IntegerValidatorDirective } from './directives/integer-validator.directive';
 import { OnlyLettersDirective } from './directives/only-letters.directive';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { ChartsModule } from 'ng2-charts'; // Assurez-vous que c'est bien importé
+import { CanvasJSChartComponent } from './components/canvasjs-chart/canvasjs-chart.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +35,8 @@ import { ChartsModule } from 'ng2-charts'; // Assurez-vous que c'est bien import
     BookAddEditComponent,
     IntegerValidatorDirective,
     OnlyLettersDirective,
-    DashboardComponent
+    DashboardComponent, // Declare DashboardComponent here
+    CanvasJSChartComponent,
   ],
   imports: [
     BrowserModule,
@@ -56,29 +56,12 @@ import { ChartsModule } from 'ng2-charts'; // Assurez-vous que c'est bien import
     MatNativeDateModule,
     MatSelectModule,
     MatSnackBarModule,
-    ChartsModule // Assurez-vous que ceci est importé correctement
   ],
   exports: [
-    BrowserModule,
-    AppRoutingModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    MatTableModule,
-    MatSortModule,
-    MatPaginatorModule,
-    MatInputModule,
-    MatIconModule,
-    MatButtonModule,
-    MatToolbarModule,
-    MatDialogModule,
-    MatFormFieldModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatSelectModule,
-    IntegerValidatorDirective // Exportez la directive ici si vous avez besoin de l'utiliser ailleurs
+    IntegerValidatorDirective, // Export the directive if needed elsewhere
   ],
   providers: [],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  bootstrap: [AppComponent]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA], // Allows custom elements in templates
+  bootstrap: [AppComponent],
 })
 export class AppModule { }

@@ -1,63 +1,34 @@
 import { Component, OnInit } from '@angular/core';
 import { BookService } from '../../services/book.service';
-import { ChartOptions, ChartType, ChartData } from 'chart.js';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+  styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
-  // Statistiques
-  totalBooks: number = 0;
-  totalAuthors: number = 0;
-  totalEditeurs: number = 0;
-  averagePrice: number = 0;
+  private chart: any;
+  private yearChart: any;
+  private publisherChart: any;
+  private authorAndYearChart: any;  // New chart instance for author and year data
+ // Statistiques
+ totalBooks: number = 0;
+ totalAuthors: number = 0;
+ totalEditeurs: number = 0;
+ averagePrice: number = 0;
 
-  // Graphiques
-  public genreChartLabels: string[] = [];
-  public genreChartData: ChartData<'pie'> = {
-    labels: [],
-    datasets: [{ data: [] }]
-  };
+  constructor(private bookService: BookService) { }
 
-  public yearChartLabels: string[] = [];
-  public yearChartData: ChartData<'bar'> = {
-    labels: [],
-    datasets: [{ data: [] }]
-  };
-
-  public publisherChartLabels: string[] = [];
-  public publisherChartData: ChartData<'doughnut'> = {
-    labels: [],
-    datasets: [{ data: [] }]
-  };
-
-  public authorYearChartLabels: string[] = [];
-  public authorYearChartData: ChartData<'line'> = {
-    labels: [],
-    datasets: [{ data: [] }]
-  };
-
-  // Options des Graphiques
-  public chartOptions: ChartOptions<'bar' | 'line' | 'pie' | 'doughnut'> = {
-    responsive: true,
-    maintainAspectRatio: false,
-    scales: {
-      x: {
-        beginAtZero: true
-      },
-      y: {
-        beginAtZero: true
-      }
-    }
-  };
-
-  constructor(private bookService: BookService) {}
-
-  ngOnInit(): void {
+  ngOnInit(): void {  
     this.loadBookStatistics();
+
+    this.loadChartData();
+    this.loadYearChartData();
+    this.loadPublisherChartData();
+    this.loadAuthorAndYearChartData();  // Load author and year chart data
   }
+
+
 
   private loadBookStatistics(): void {
     this.bookService.getBooks().subscribe(
@@ -68,8 +39,6 @@ export class DashboardComponent implements OnInit {
           this.totalEditeurs = new Set(books.map(book => book.editeur)).size;
           this.averagePrice = books.reduce((acc, book) => acc + book.prix, 0) / this.totalBooks;
 
-          // Générer les données pour les graphiques
-          this.generateChartsData(books);
         } else {
           this.resetStatistics();
         }
@@ -81,57 +50,220 @@ export class DashboardComponent implements OnInit {
     );
   }
 
-  private generateChartsData(books: any[]): void {
-    // Pourcentage de livres par genre
-    const genreCounts = books.reduce((acc, book) => {
-      acc[book.genre] = (acc[book.genre] || 0) + 1;
-      return acc;
-    }, {});
-    this.genreChartLabels = Object.keys(genreCounts);
-    this.genreChartData = {
-      labels: this.genreChartLabels,
-      datasets: [{ data: Object.values(genreCounts), label: 'Books by Genre' }]
-    };
-
-    // Pourcentage de livres par année de publication
-    const yearCounts = books.reduce((acc, book) => {
-      acc[book.datePublication] = (acc[book.datePublication] || 0) + 1;
-      return acc;
-    }, {});
-    this.yearChartLabels = Object.keys(yearCounts);
-    this.yearChartData = {
-      labels: this.yearChartLabels,
-      datasets: [{ data: Object.values(yearCounts), label: 'Books by Year' }]
-    };
-
-    // Pourcentage de livres par éditeur
-    const publisherCounts = books.reduce((acc, book) => {
-      acc[book.editeur] = (acc[book.editeur] || 0) + 1;
-      return acc;
-    }, {});
-    this.publisherChartLabels = Object.keys(publisherCounts);
-    this.publisherChartData = {
-      labels: this.publisherChartLabels,
-      datasets: [{ data: Object.values(publisherCounts), label: 'Books by Publisher' }]
-    };
-
-    // Nombre de livres par auteur et par année
-    const authorYearCounts = books.reduce((acc, book) => {
-      const key = `${book.author} (${book.datePublication})`;
-      acc[key] = (acc[key] || 0) + 1;
-      return acc;
-    }, {});
-    this.authorYearChartLabels = Object.keys(authorYearCounts);
-    this.authorYearChartData = {
-      labels: this.authorYearChartLabels,
-      datasets: [{ data: Object.values(authorYearCounts), label: 'Books by Author and Year' }]
-    };
-  }
+  
 
   private resetStatistics(): void {
     this.totalBooks = 0;
     this.totalAuthors = 0;
     this.totalEditeurs = 0;
     this.averagePrice = 0;
+  }
+
+
+
+
+
+  private loadChartData(): void {
+    this.bookService.getBooksByGenre().subscribe({
+      next: (data) => {
+        const chartOptions = {
+          animationEnabled: true,
+          theme: "dark2",
+          exportEnabled: true,
+          title: {
+            text: "Percentage of Books by Genre"
+          },
+          copyright: {
+            text: ''
+          },
+          data: [{
+            type: "pie",
+            indexLabel: "{name}: {y}%",
+            toolTipContent: "{name}: {y}%",
+            dataPoints: data.map(genre => ({
+              name: genre.genreName,
+              y: genre.percentage
+            }))
+          }]
+        };
+
+        this.renderChart(chartOptions, 'chartContainer');
+      },
+      error: (err) => {
+        console.error('Error loading chart data', err);
+      }
+    });
+  }
+
+  private loadYearChartData(): void {
+    this.bookService.getBooksByYear().subscribe({
+      next: (data) => {
+        const yearChartOptions = {
+          animationEnabled: true,
+          theme: "dark2",
+          exportEnabled: true,
+          title: {
+            text: "Percentage of Books by Publication Year"
+          },
+          copyright: {
+            text: ''
+          },
+          data: [{
+            type: "bar",
+            indexLabel: "{label}: {y}%",
+            toolTipContent: "Year {label}: {y}%",
+            dataPoints: data.map(year => ({
+              label: `${year.publicationYear}`,
+              y: year.percentage
+            }))
+          }]
+        };
+
+        this.renderChart(yearChartOptions, 'yearChartContainer');
+      },
+      error: (err) => {
+        console.error('Error loading year chart data', err);
+      }
+    });
+  }
+
+  private loadPublisherChartData(): void {
+    this.bookService.getBooksByPublisher().subscribe({
+      next: (data) => {
+        const publisherChartOptions = {
+          animationEnabled: true,
+          theme: "dark2",
+          exportEnabled: true,
+          title: {
+            text: "Percentage of Books by Publisher"
+          },
+          copyright: { 
+            text: ''
+          },
+          data: [{
+            type: "doughnut",
+            startAngle: 90,
+            indexLabel: "{name}: {y}%",
+            toolTipContent: "{name}: {y}%",
+            dataPoints: data.map(publisher => ({
+              name: publisher.publisherName,
+              y: publisher.percentage
+            }))
+          }]
+        };
+
+        this.renderChart(publisherChartOptions, 'publisherChartContainer');
+      },
+      error: (err) => {
+        console.error('Error loading publisher chart data', err);
+      }
+    });
+  }
+
+  private loadAuthorAndYearChartData(): void {
+    this.bookService.getBooksByAuthorAndYear().subscribe({
+      next: (data) => {
+        console.log(data); // Vérifiez la structure des données ici
+  
+        // Trier les données par année
+        const sortedData = data.sort((a, b) => a.publicationYear - b.publicationYear);
+  
+        // Regrouper les données par année
+        const yearAuthorMap = sortedData.reduce<Record<number, { author: string, count: number }[]>>((acc, item) => {
+          if (!acc[item.publicationYear]) {
+            acc[item.publicationYear] = [];
+          }
+          acc[item.publicationYear].push({ author: item.author, count: item.count });
+          return acc;
+        }, {});
+  
+        // Préparer les points de données
+        const dataPoints = Object.keys(yearAuthorMap).map(year => {
+          const yearNum = parseInt(year, 10);
+          const authors = yearAuthorMap[yearNum];
+          const totalBooks = authors.reduce((total, item) => total + item.count, 0);
+          return {
+            x: yearNum,
+            y: totalBooks,
+            indexLabel: `${totalBooks} ${totalBooks === 1 ? 'book' : 'books'}`, // Afficher le nombre total avec "book" ou "books"
+            toolTipContent: authors.map(authorInfo => {
+              const bookText = authorInfo.count === 1 ? 'book' : 'books';
+              return `${authorInfo.author}: ${authorInfo.count} ${bookText}`;
+            }).join('<br/>')
+          };
+        });
+  
+        const authorAndYearChartOptions = {
+          animationEnabled: true,
+          theme: "dark2",
+          exportEnabled: true,
+          title: {
+            text: "Number of Books by Year"
+          },
+          axisX: {
+            title: "Year",
+            interval: 1,  // Pour afficher chaque année
+            labelAngle: -45, // Inclinaison des labels pour éviter le chevauchement
+            labelFormatter: function(e: any) {
+              // Assurez-vous que l'année est affichée correctement
+              return e.value.toString();
+            }
+          },          
+          axisY: {
+            title: "Number of Books",
+            includeZero: true
+          },
+          data: [{
+            type: "line",  // Change to "bar" or other type if preferred
+            indexLabel: "{indexLabel}", // Afficher le nombre total à côté de chaque point
+            toolTipContent: "{toolTipContent}", // Afficher uniquement les éditeurs et le nombre de livres dans l'info-bulle
+            dataPoints: dataPoints
+          }]
+        };
+  
+        // Personnaliser la méthode de rendu du graphique pour afficher l'info-bulle
+        this.renderChart(authorAndYearChartOptions, 'authorAndYearChartContainer');
+      },
+      error: (err) => {
+        console.error('Error loading author and year chart data', err);
+      }
+    });
+  }
+  
+  
+  
+  
+   
+  
+  private renderChart(options: any, containerId: string): void {
+    if (typeof (window as any).CanvasJS !== 'undefined') {
+      const chartContainer = document.getElementById(containerId);
+      if (chartContainer) {
+        if (containerId === 'chartContainer' && this.chart) {
+          this.chart.destroy();
+        } else if (containerId === 'yearChartContainer' && this.yearChart) {
+          this.yearChart.destroy();
+        } else if (containerId === 'publisherChartContainer' && this.publisherChart) {
+          this.publisherChart.destroy();
+        } else if (containerId === 'authorAndYearChartContainer' && this.authorAndYearChart) {
+          this.authorAndYearChart.destroy();
+        }
+
+        const chart = new (window as any).CanvasJS.Chart(chartContainer, options);
+        chart.render();
+
+        if (containerId === 'chartContainer') {
+          this.chart = chart;
+        } else if (containerId === 'yearChartContainer') {
+          this.yearChart = chart;
+        } else if (containerId === 'publisherChartContainer') {
+          this.publisherChart = chart;
+        } else if (containerId === 'authorAndYearChartContainer') {
+          this.authorAndYearChart = chart;
+        }
+      }
+    } else {
+      console.error('CanvasJS is not loaded');
+    }
   }
 }
