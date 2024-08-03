@@ -29,7 +29,7 @@ export class CanvasJSChartComponent implements AfterViewInit, OnDestroy {
     if (isPlatformBrowser(this.platformId) && (window as any).CanvasJS) {
       // Ensure the copyright property is correctly set
       this.options = {
-        ...this.options,
+        ...this.options, 
         copyright: {
           text: ''
         }

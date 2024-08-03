@@ -17,17 +17,17 @@ export class DashboardComponent implements OnInit {
  totalEditeurs: number = 0;
  averagePrice: number = 0;
 
-  constructor(private bookService: BookService) { }
+  constructor(private bookService: BookService) {}    
 
   ngOnInit(): void {  
-    this.loadBookStatistics();
+    this.loadBookStatistics();      
 
     this.loadChartData();
-    this.loadYearChartData();
     this.loadPublisherChartData();
-    this.loadAuthorAndYearChartData();  // Load author and year chart data
+    this.loadYearChartData();
+    this.loadAuthorAndYearChartData();  
   }
-
+ 
 
 
   private loadBookStatistics(): void {
@@ -54,14 +54,10 @@ export class DashboardComponent implements OnInit {
 
   private resetStatistics(): void {
     this.totalBooks = 0;
-    this.totalAuthors = 0;
+    this.totalAuthors = 0;    
     this.totalEditeurs = 0;
     this.averagePrice = 0;
   }
-
-
-
-
 
   private loadChartData(): void {
     this.bookService.getBooksByGenre().subscribe({
@@ -71,12 +67,16 @@ export class DashboardComponent implements OnInit {
           theme: "dark2",
           exportEnabled: true,
           title: {
-            text: "Percentage of Books by Genre"
+            text: "Percentage of Books by Genre",
+            fontSize: 16
+
           },
           copyright: {
             text: ''
           },
-          data: [{
+          height: 330, // Set the desired height
+          width: 530,  // Set the desired width
+          data: [{ 
             type: "pie",
             indexLabel: "{name}: {y}%",
             toolTipContent: "{name}: {y}%",
@@ -95,37 +95,6 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  private loadYearChartData(): void {
-    this.bookService.getBooksByYear().subscribe({
-      next: (data) => {
-        const yearChartOptions = {
-          animationEnabled: true,
-          theme: "dark2",
-          exportEnabled: true,
-          title: {
-            text: "Percentage of Books by Publication Year"
-          },
-          copyright: {
-            text: ''
-          },
-          data: [{
-            type: "bar",
-            indexLabel: "{label}: {y}%",
-            toolTipContent: "Year {label}: {y}%",
-            dataPoints: data.map(year => ({
-              label: `${year.publicationYear}`,
-              y: year.percentage
-            }))
-          }]
-        };
-
-        this.renderChart(yearChartOptions, 'yearChartContainer');
-      },
-      error: (err) => {
-        console.error('Error loading year chart data', err);
-      }
-    });
-  }
 
   private loadPublisherChartData(): void {
     this.bookService.getBooksByPublisher().subscribe({
@@ -135,11 +104,14 @@ export class DashboardComponent implements OnInit {
           theme: "dark2",
           exportEnabled: true,
           title: {
-            text: "Percentage of Books by Publisher"
+            text: "Percentage of Books by Publisher",
+            fontSize: 16
           },
-          copyright: { 
+          copyright: {
             text: ''
           },
+          height: 330, // Set the desired height
+          width: 530,  // Set the desired width
           data: [{
             type: "doughnut",
             startAngle: 90,
@@ -151,7 +123,7 @@ export class DashboardComponent implements OnInit {
             }))
           }]
         };
-
+  
         this.renderChart(publisherChartOptions, 'publisherChartContainer');
       },
       error: (err) => {
@@ -159,6 +131,64 @@ export class DashboardComponent implements OnInit {
       }
     });
   }
+  
+
+  private loadYearChartData(): void {
+    this.bookService.getBooksByYear().subscribe({
+      next: (data) => {
+        const yearChartOptions = { 
+          animationEnabled: true,
+          theme: "dark2",
+          exportEnabled: true, 
+          title: {
+            text: "Percentage of Books by Publication Year",
+            fontSize: 16
+
+          },
+          copyright: {
+            text: ''
+          },
+          axisX: {
+            labelAngle: -90, // Rotate labels if necessary (optional)
+            labelFontSize: 0, // Hide labels completely
+            lineThickness: 0, // Hide axis line
+            tickThickness: 0, // Hide axis ticks
+          },
+          axisY: {
+            title: "Percentage",
+            includeZero: true,
+            labelFormatter: function(e: { value: string; }) {
+              return e.value + "%"; // Append '%' to Y-axis labels
+            }
+          },
+          height: 330, // Set the desired height
+          width: 530,  // Set the desired width
+          data: [{
+            type: "bar",
+            indexLabel: "{label}: {y}%",
+            toolTipContent: "Year {label}: {y}%",
+            dataPoints: data.map(year => ({
+              label: `${year.publicationYear}`,
+              y: year.percentage
+            }))
+          }]
+        };
+  
+        this.renderChart(yearChartOptions, 'yearChartContainer');
+      },
+      error: (err) => {
+        console.error('Error loading year chart data', err);
+      }
+    });
+  }
+  
+
+
+
+
+
+
+
 
   private loadAuthorAndYearChartData(): void {
     this.bookService.getBooksByAuthorAndYear().subscribe({
@@ -198,7 +228,9 @@ export class DashboardComponent implements OnInit {
           theme: "dark2",
           exportEnabled: true,
           title: {
-            text: "Number of Books by Year"
+            text: "Number of Books by Year",
+            fontSize: 16
+
           },
           axisX: {
             title: "Year",
@@ -212,8 +244,10 @@ export class DashboardComponent implements OnInit {
           axisY: {
             title: "Number of Books",
             includeZero: true
-          },
-          data: [{
+          },   
+          height: 330, // Set the desired height
+          width: 530,  // Set the desired width 
+          data: [{  
             type: "line",  // Change to "bar" or other type if preferred
             indexLabel: "{indexLabel}", // Afficher le nombre total à côté de chaque point
             toolTipContent: "{toolTipContent}", // Afficher uniquement les éditeurs et le nombre de livres dans l'info-bulle
@@ -228,7 +262,7 @@ export class DashboardComponent implements OnInit {
         console.error('Error loading author and year chart data', err);
       }
     });
-  }
+  }     
   
   
   
