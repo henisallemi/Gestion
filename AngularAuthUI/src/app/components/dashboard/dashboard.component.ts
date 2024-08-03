@@ -1,24 +1,32 @@
 import { Component, OnInit } from '@angular/core';
 import { BookService } from '../../services/book.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
+  
 })
 export class DashboardComponent implements OnInit {
   private chart: any;
   private yearChart: any;
   private publisherChart: any;
-  private authorAndYearChart: any;  // New chart instance for author and year data
+  private authorAndYearChart: any;      
  // Statistiques
  totalBooks: number = 0;
  totalAuthors: number = 0;
  totalEditeurs: number = 0;
  averagePrice: number = 0;
 
-  constructor(private bookService: BookService) {}    
-
+ constructor(
+  private bookService: BookService,
+  private router: Router // Inject Router
+) {}
+   
+  navigateToBookList(): void {
+    this.router.navigate(['/book-list']);
+  }
   ngOnInit(): void {  
     this.loadBookStatistics();      
 
@@ -28,8 +36,6 @@ export class DashboardComponent implements OnInit {
     this.loadAuthorAndYearChartData();  
   }
  
-
-
   private loadBookStatistics(): void {
     this.bookService.getBooks().subscribe(
       books => {
@@ -75,7 +81,7 @@ export class DashboardComponent implements OnInit {
             text: ''
           },
           height: 330, // Set the desired height
-          width: 530,  // Set the desired width
+          width: 592,  // Set the desired width
           data: [{ 
             type: "pie",
             indexLabel: "{name}: {y}%",
@@ -111,7 +117,7 @@ export class DashboardComponent implements OnInit {
             text: ''
           },
           height: 330, // Set the desired height
-          width: 530,  // Set the desired width
+          width: 592,  // Set the desired width
           data: [{
             type: "doughnut",
             startAngle: 90,
@@ -162,7 +168,7 @@ export class DashboardComponent implements OnInit {
             }
           },
           height: 330, // Set the desired height
-          width: 530,  // Set the desired width
+          width: 592,  // Set the desired width
           data: [{
             type: "bar",
             indexLabel: "{label}: {y}%",
@@ -246,7 +252,7 @@ export class DashboardComponent implements OnInit {
             includeZero: true
           },   
           height: 330, // Set the desired height
-          width: 530,  // Set the desired width 
+          width: 592,  // Set the desired width
           data: [{  
             type: "line",  // Change to "bar" or other type if preferred
             indexLabel: "{indexLabel}", // Afficher le nombre total à côté de chaque point
@@ -300,4 +306,5 @@ export class DashboardComponent implements OnInit {
       console.error('CanvasJS is not loaded');
     }
   }
+
 }

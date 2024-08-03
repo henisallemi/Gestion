@@ -10,7 +10,10 @@ const routes: Routes = [
   {path : 'signup' , component : SignupComponent },
   {path : 'book-list' , component : BookListComponent },
   {path : 'dashboard' , component : DashboardComponent }, 
-];
+  // { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+  { path: '**', redirectTo: '/login' } // Redirige toutes les autres routes vers la page de connexion
+  
+];    
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

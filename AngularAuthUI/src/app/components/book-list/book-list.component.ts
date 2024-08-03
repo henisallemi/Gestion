@@ -9,6 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { BookAddEditComponent } from '../book-add-edit/book-add-edit.component';
 import { CoreService } from '../../services/core.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-book-list', 
@@ -41,7 +42,9 @@ export class BookListComponent implements OnInit {
     private bookService: BookService,
     private fb: FormBuilder,
     private _dialog: MatDialog,
-    private _coreService: CoreService 
+    private _coreService: CoreService,
+    private router: Router 
+
   ) {
     this.bookForm = this.fb.group({
       title: [''],
@@ -151,5 +154,8 @@ export class BookListComponent implements OnInit {
         }
       }
     })
+  }
+  navigateToDashboard() {
+    this.router.navigate(['/dashboard']); // Adjust the route according to your app's routing configuration
   }
 }      

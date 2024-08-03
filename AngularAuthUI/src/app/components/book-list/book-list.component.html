@@ -1,4 +1,7 @@
 <mat-toolbar class="toolbar">
+  <button mat-icon-button (click)="navigateToDashboard()" class="clear-button">
+    <mat-icon>arrow_back</mat-icon>
+  </button>   
   <span>BOOKS MANAGEMENT</span>
   <span class="example-spacer"></span>
   <button mat-raised-button (click)="openAddEditBookForm()">Add Book</button>

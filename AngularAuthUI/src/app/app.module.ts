@@ -25,6 +25,7 @@ import { IntegerValidatorDirective } from './directives/integer-validator.direct
 import { OnlyLettersDirective } from './directives/only-letters.directive';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { CanvasJSChartComponent } from './components/canvasjs-chart/canvasjs-chart.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,7 @@ import { CanvasJSChartComponent } from './components/canvasjs-chart/canvasjs-cha
   imports: [
     BrowserModule,
     AppRoutingModule,
-    ReactiveFormsModule,
+    ReactiveFormsModule,  
     HttpClientModule,
     MatTableModule,
     MatSortModule,
@@ -56,6 +57,8 @@ import { CanvasJSChartComponent } from './components/canvasjs-chart/canvasjs-cha
     MatNativeDateModule,
     MatSelectModule,
     MatSnackBarModule,
+    BrowserAnimationsModule,
+
   ],
   exports: [
     IntegerValidatorDirective, // Export the directive if needed elsewhere

@@ -5,11 +5,13 @@
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
   max-width: 1200px;
   margin: auto;
+  position: relative; /* Make sure the button container can be positioned relative to this */
+
 }
 
 .dashboard-title {
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: 0px;
   color: #333;
   font-size: 2.5em;
   font-weight: bold;
@@ -127,4 +129,49 @@
   margin-top: 0;
   font-size: 18px;
   color: #333;
+}
+
+
+
+.button-container {
+  display: flex;
+  justify-content: flex-end; /* Aligns the button to the right */
+  margin-bottom: 20px; /* Space between button and statistics */
+}
+
+.manage-books-button {
+  margin-bottom: 10px;
+  margin-left: 985px; 
+  height: 60px;
+  display: inline-flex;
+  align-items: center; 
+  background-color: #ff5100; /* Blue color for the button */
+  color: white; /* White text color */
+  font-size: 16px; /* Font size for the text */
+  padding: 10px 20px; /* Padding around the text and icon */
+  border: none;
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s; /* Smooth transition for hover effects */
+  text-decoration: none;
+} 
+ 
+.manage-books-button i {
+  margin-right: 8px; /* Space between the icon and the text */
+  font-size: 1.4em; /* Size of the icon */
+} 
+ 
+.manage-books-button span {
+  font-weight: bold; /* Bold text for better emphasis */
+}
+
+.manage-books-button:hover {
+  background-color: #b33900; /* Darker shade on hover */
+  transform: translateY(-2px); /* Slight lift effect */
+}
+
+.manage-books-button:active {
+  background-color: #8d0081; /* Even darker shade when clicked */
+  transform: translateY(0); /* Reset lift effect on click */
 }
