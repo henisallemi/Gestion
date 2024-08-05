@@ -34,10 +34,15 @@
   </div>
 </div>
         
-<div class="charts-container">
-  <div id="chartContainer" class="chart-card" ></div>
+<!-- Message for empty database -->
+<div *ngIf="isDataEmpty" class="empty-message">
+  <p>No data available. Please add some books to view the statistics.</p>
+</div> 
+
+<!-- Charts Container -->
+<div *ngIf="!isDataEmpty" class="charts-container">
+  <div id="chartContainer" class="chart-card"></div>
   <div id="publisherChartContainer" class="chart-card"></div>
   <div id="yearChartContainer" class="chart-card"></div>
   <div id="authorAndYearChartContainer" class="chart-card"></div> 
 </div>
-  

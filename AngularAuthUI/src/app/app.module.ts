@@ -26,6 +26,7 @@ import { OnlyLettersDirective } from './directives/only-letters.directive';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { CanvasJSChartComponent } from './components/canvasjs-chart/canvasjs-chart.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     IntegerValidatorDirective,
     OnlyLettersDirective,
     DashboardComponent, // Declare DashboardComponent here
-    CanvasJSChartComponent,
+    CanvasJSChartComponent, ConfirmDialogComponent,
   ],
   imports: [
     BrowserModule,
