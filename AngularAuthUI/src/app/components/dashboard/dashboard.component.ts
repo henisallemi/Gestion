@@ -76,6 +76,7 @@ export class DashboardComponent implements OnInit {
             this.books = new MatTableDataSource(data);
             this.books.sort = this.sort;
             this.books.paginator = this.paginator;
+            this.loadBooks();
             this._coreService.openSnackBar('Fichier EXCEL ajouté avec succès !', '✔️', 3000); // Durée de 3000 ms pour succès
           } else {
             console.error('No data returned or data length is zero.');
@@ -99,9 +100,11 @@ export class DashboardComponent implements OnInit {
       response => {
         if (response.length > 0) {
           this.books = new MatTableDataSource(response);
-          console.log(response);
+          console.log("list of books : " + response);
           this.books.sort = this.sort;
           this.books.paginator = this.paginator;
+        }else {
+          this.books = new MatTableDataSource();
         }
       },
       error => {

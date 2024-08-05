@@ -36,3 +36,10 @@
         width: 100%;
     }
 }
+
+.no-data-message {
+    text-align: center;
+    font-size: 16px;
+    color: #888; // Couleur grise pour indiquer l'absence de données
+    padding: 20px;
+}

@@ -15,7 +15,7 @@
   </mat-form-field>
 
   <div class="table-container">
-    <table mat-table [dataSource]="books" matSort>
+    <table mat-table [dataSource]="books" matSort *ngIf="books && books.data.length > 0; else noDataTemplate">
 
 <!--       
       <ng-container matColumnDef="id">
@@ -96,6 +96,10 @@
         <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
       </tr>
     </table>
+
+    <ng-template #noDataTemplate>
+      <div class="no-data-message">No books found</div>
+    </ng-template>
 
     <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
   </div>
