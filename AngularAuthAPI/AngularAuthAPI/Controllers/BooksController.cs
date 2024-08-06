@@ -1,5 +1,11 @@
-﻿using AngularAuthAPI.Repository;
+﻿using AngularAuthAPI.Models;
+using AngularAuthAPI.Repository;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace AngularAuthAPI.Controllers
 {
@@ -90,5 +96,50 @@ namespace AngularAuthAPI.Controllers
             var bookExists = await _bookRepo.CheckIsbnExistsAsync(isbn);
             return Ok(bookExists);
         }
+
+        [HttpGet("genres")] 
+        public async Task<IActionResult> GetBooksByGenre()
+        {
+            var genreGroups = await _bookRepo.GetBooksByGenreAsync();
+
+            if (genreGroups == null || !genreGroups.Any())
+                return NotFound("No genres found.");
+
+            return Ok(genreGroups);
+        }
+        [HttpGet("books-by-year")]
+        public async Task<IActionResult> GetBooksByYear()
+        {
+            var yearGroups = await _bookRepo.GetBooksByYearAsync();
+
+            if (yearGroups == null || !yearGroups.Any())
+                return NotFound("No data found.");
+
+            return Ok(yearGroups);
+        }
+
+
+        [HttpGet("books-by-publisher")]
+        public async Task<IActionResult> GetBooksByPublisher()              
+        {
+            var publisherGroups = await _bookRepo.GetBooksByPublisherAsync();
+
+            if (publisherGroups == null || !publisherGroups.Any())
+                return NotFound("No publishers found.");    
+
+            return Ok(publisherGroups);
+        }
+        [HttpGet("books-by-author-and-year")]
+        public async Task<IActionResult> GetBooksByAuthorAndYear()
+        {
+            var authorYearGroups = await _bookRepo.GetBooksByAuthorAndYearAsync();
+
+            if (authorYearGroups == null || !authorYearGroups.Any())
+                return NotFound("No data found.");
+
+            return Ok(authorYearGroups);
+        }
+
+         
     }
 }

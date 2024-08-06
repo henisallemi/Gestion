@@ -1,45 +1,194 @@
-.toolbar {
-    background-color: #005cbb;
-    color: white;
+.dashboard-container {
+  padding: 20px;
+  background-color: #f4f4f4;
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  max-width: 1200px;
+  margin: auto;
+  position: relative; /* Make sure the button container can be positioned relative to this */
+
 }
 
-.example-spacer {
-    flex: 1 1 auto;
+.dashboard-title {
+  text-align: center;
+  margin-bottom: 0px;
+  color: #333;
+  font-size: 2.5em;
+  font-weight: bold;
 }
 
-.custom-input-group .input {
-    margin: auto;
-    height: 40px;
-    margin-bottom: 50px; 
-}
-.custom-input-group {
-    width: 50%; 
-    margin-top: 10px;
-    margin-left: 25%;
+.statistics {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
 }
 
+.statistic {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  flex: 1 1 calc(25% - 20px); /* 4 items per row, adjusted for gap */
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.statistic i.icon {
+  font-size: 2em;
+  margin-bottom: 10px;
+}
+
+.statistic.total-books {
+  background: #d1e7dd; /* Light green */
+  border-left: 5px solid #0f6e0f; /* Dark green */
+}
+
+.statistic.total-authors {
+  background: #dbe9f4; /* Light blue */
+  border-left: 5px solid #004b6f; /* Dark blue */
+}
+
+.statistic.total-editeurs {
+  background: #f8d7da; /* Light red */
+  border-left: 5px solid #a71d2a; /* Dark red */
+}
+
+.statistic.average-price {
+  background: #fff3cd; /* Light yellow */
+  border-left: 5px solid #856404; /* Dark yellow */
+}
+
+.statistic:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.statistic .statistic-title {
+  font-size: 1.3em;
+  color: #444;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.statistic .statistic-value {
+  font-size: 2em;
+  color: #555;
+  margin: 0;
+}
+
+.chart-container {
+  flex: 1 1 100%; /* Takes full width available */
+  margin-bottom: 20px; /* Space between charts */
+  padding: 20px;
+  background-color: #ffffff; /* White background for chart containers */
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.chart-title {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+/* Hide CanvasJS watermark */
+#chartContainer .canvasjs-watermark,
+#yearChartContainer .canvasjs-watermark {
+  display: none !important;
+}
+
+/* Container for all charts */
+.charts-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px; /* Adds space between chart cards */
+  padding: 20px; /* Adds padding around the container */
+  box-sizing: border-box; /* Ensures padding is included in the width/height calculations */
+}
+
+/* Individual chart card */
+.chart-card {
+  flex: 1 1 calc(50% - 20px); /* Two cards per row, adjusted for gap */
+  min-width: 300px; /* Ensures charts are at least 300px wide */
+  max-width: calc(50% - 20px); /* Ensures charts do not exceed 50% of the container width minus gap */
+  height: 370px; /* Fixed height for charts */
+  border: 1px solid #ddd; /* Light border around charts */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  background-color: #fff; /* White background for charts */
+  padding: 20px; /* Padding inside the chart cards */
+  box-sizing: border-box; /* Ensures padding is included in the width/height calculations */
+}
+
+/* Optional: Title styles for charts */
+.chart-card h3 {
+  margin-top: 0;
+  font-size: 18px;
+  color: #333;
+}
+
+
+
+.button-container {
+  display: flex;
+  justify-content: flex-end; /* Aligns the button to the right */
+  margin-bottom: 20px; /* Space between button and statistics */
+}
+
+.manage-books-button {
+  margin-bottom: 10px;
+  margin-left: 985px; 
+  height: 60px;
+  display: inline-flex;
+  align-items: center; 
+  background-color: #ff5100; /* Blue color for the button */
+  color: white; /* White text color */
+  font-size: 16px; /* Font size for the text */
+  padding: 10px 20px; /* Padding around the text and icon */
+  border: none;
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s; /* Smooth transition for hover effects */
+  text-decoration: none;
+} 
  
-.mat-table {
-    width: 100%;
-}
-  
-.mat-header-cell, .mat-cell {
-    text-align: center;
-    
-}
-
-.main-body{
-    padding-top: 20px;
-    margin: 0 auto;
-    max-width: 90%;
-    mat-form-field{
-        width: 100%;
-    }
+.manage-books-button i {
+  margin-right: 8px; /* Space between the icon and the text */
+  font-size: 1.4em; /* Size of the icon */
+} 
+ 
+.manage-books-button span {
+  font-weight: bold; /* Bold text for better emphasis */
 }
 
-.no-data-message {
-    text-align: center;
-    font-size: 16px;
-    color: #888; // Couleur grise pour indiquer l'absence de données
-    padding: 20px;
+.manage-books-button:hover {
+  background-color: #b33900; /* Darker shade on hover */
+  transform: translateY(-2px); /* Slight lift effect */
 }
+
+.manage-books-button:active {
+  background-color: #8d0081; /* Even darker shade when clicked */
+  transform: translateY(0); /* Reset lift effect on click */
+}
+/* CSS for the empty message */
+.empty-message {
+  background-color: #f8d7da; /* Light red background color */
+  color: #721c24; /* Dark red text color */
+  border: 1px solid #f5c6cb; /* Light red border */
+  border-radius: 5px; /* Rounded corners */
+  padding: 15px; /* Padding inside the container */
+  margin: 20px 0; /* Margin above and below the container */
+  font-weight: bold; /* Bold text */
+  text-align: center; /* Center align text */
+}
+
+.empty-message p {
+  margin: 0; /* Remove default margin from paragraph */
+  font-size: 16px; /* Adjust font size if necessary */
+}
+         

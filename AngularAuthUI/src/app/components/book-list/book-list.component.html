@@ -1,0 +1,92 @@
+<mat-toolbar class="toolbar">
+  <button mat-icon-button (click)="navigateToDashboard()" class="clear-button">
+    <mat-icon>arrow_back</mat-icon>
+  </button>   
+  <span>BOOKS MANAGEMENT</span>
+  <span class="example-spacer"></span>
+  <button mat-raised-button (click)="openAddEditBookForm()">Add Book</button>
+</mat-toolbar>
+
+<div class="main-body">
+
+  <mat-form-field>
+    <mat-label>Filter</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
+  </mat-form-field>
+
+  <div class="table-container">
+    <table mat-table [dataSource]="books" matSort *ngIf="books && books.data.length > 0; else noDataTemplate">
+
+      <!-- Column Definitions -->
+      <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Title </th>
+        <td mat-cell *matCellDef="let row"> {{row.title}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="author">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Author </th>
+        <td mat-cell *matCellDef="let row"> {{row.author}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="isbn">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> ISBN </th>
+        <td mat-cell *matCellDef="let row"> {{row.isbn}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="genre">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Genre </th>
+        <td mat-cell *matCellDef="let row"> {{row.genre}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="datePublication">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Date de Publication </th>
+        <td mat-cell *matCellDef="let row"> {{row.datePublication | date }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="editeur">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Editeur </th>
+        <td mat-cell *matCellDef="let row"> {{row.editeur}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="langue">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Langue </th>
+        <td mat-cell *matCellDef="let row"> {{row.langue}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="prix">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Prix </th>
+        <td mat-cell *matCellDef="let row"> {{row.prix | currency :'TND'}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Action </th>
+        <td mat-cell *matCellDef="let row">
+          <button mat-icon-button (click)="openEditBookForm(row)">
+            <mat-icon color="primary">edit</mat-icon>
+          </button>
+          <button mat-icon-button (click)="deleteBook(row.id)">
+            <mat-icon color="warn">delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <!-- Header and Data Rows -->
+      <tr mat-header-row *matHeaderRowDef="headers"></tr>
+      <tr mat-row *matRowDef="let row; columns: headers;"></tr>
+
+     
+    </table>
+ 
+    <ng-template #noDataTemplate>
+      <div class="no-data-message">No books found</div>
+    </ng-template>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of books"></mat-paginator>
+  </div>
+
+</div>
+
+<div class="input-group custom-input-group">
+  <input type="file" class="form-control input" (change)="onFileSelected($event)">
+  <button type="button" class="btn btn-success" (click)="onUpload()">Upload</button>
+</div>

@@ -13,5 +13,10 @@ namespace AngularAuthAPI.Repository
         Task DeleteBookAsync(int id);
         Task<bool> CheckIsbnExistsAsync(string isbn);
         Task<IEnumerable<Book>> UploadBooksFromFileAsync(IFormFile file);
+        Task<IEnumerable<GenrePercentage>> GetBooksByGenreAsync();
+        Task<IEnumerable<YearGroup>> GetBooksByYearAsync(); // Add this method
+        Task<IEnumerable<PublisherGroup>> GetBooksByPublisherAsync();
+        Task<IEnumerable<AuthorYearGroup>> GetBooksByAuthorAndYearAsync(); 
+
     }
 }        

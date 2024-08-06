@@ -3,32 +3,24 @@
   "WorkspaceRootPath": "C:\\Users\\21697\\OneDrive\\Documents\\Visual Studio\\HTML\\Angular\\Gestion\\AngularAuthAPI\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A3C6B37F-3548-4CB2-B13A-A0F2E8777F1B}|AngularAuthAPI\\AngularAuthAPI.csproj|c:\\users\\21697\\onedrive\\documents\\visual studio\\html\\angular\\gestion\\angularauthapi\\angularauthapi\\repository\\ibookrepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A3C6B37F-3548-4CB2-B13A-A0F2E8777F1B}|AngularAuthAPI\\AngularAuthAPI.csproj|solutionrelative:angularauthapi\\repository\\ibookrepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A3C6B37F-3548-4CB2-B13A-A0F2E8777F1B}|AngularAuthAPI\\AngularAuthAPI.csproj|c:\\users\\21697\\onedrive\\documents\\visual studio\\html\\angular\\gestion\\angularauthapi\\angularauthapi\\repository\\bookrepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A3C6B37F-3548-4CB2-B13A-A0F2E8777F1B}|AngularAuthAPI\\AngularAuthAPI.csproj|solutionrelative:angularauthapi\\repository\\bookrepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A3C6B37F-3548-4CB2-B13A-A0F2E8777F1B}|AngularAuthAPI\\AngularAuthAPI.csproj|c:\\users\\21697\\onedrive\\documents\\visual studio\\html\\angular\\gestion\\angularauthapi\\angularauthapi\\controllers\\bookscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A3C6B37F-3548-4CB2-B13A-A0F2E8777F1B}|AngularAuthAPI\\AngularAuthAPI.csproj|solutionrelative:angularauthapi\\controllers\\bookscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A3C6B37F-3548-4CB2-B13A-A0F2E8777F1B}|AngularAuthAPI\\AngularAuthAPI.csproj|c:\\users\\21697\\onedrive\\documents\\visual studio\\html\\angular\\gestion\\angularauthapi\\angularauthapi\\repository\\bookrepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A3C6B37F-3548-4CB2-B13A-A0F2E8777F1B}|AngularAuthAPI\\AngularAuthAPI.csproj|solutionrelative:angularauthapi\\repository\\bookrepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A3C6B37F-3548-4CB2-B13A-A0F2E8777F1B}|AngularAuthAPI\\AngularAuthAPI.csproj|c:\\users\\21697\\onedrive\\documents\\visual studio\\html\\angular\\gestion\\angularauthapi\\angularauthapi\\repository\\ibookrepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A3C6B37F-3548-4CB2-B13A-A0F2E8777F1B}|AngularAuthAPI\\AngularAuthAPI.csproj|solutionrelative:angularauthapi\\repository\\ibookrepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A3C6B37F-3548-4CB2-B13A-A0F2E8777F1B}|AngularAuthAPI\\AngularAuthAPI.csproj|c:\\users\\21697\\onedrive\\documents\\visual studio\\html\\angular\\gestion\\angularauthapi\\angularauthapi\\models\\book.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A3C6B37F-3548-4CB2-B13A-A0F2E8777F1B}|AngularAuthAPI\\AngularAuthAPI.csproj|solutionrelative:angularauthapi\\models\\book.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A3C6B37F-3548-4CB2-B13A-A0F2E8777F1B}|AngularAuthAPI\\AngularAuthAPI.csproj|c:\\users\\21697\\onedrive\\documents\\visual studio\\html\\angular\\gestion\\angularauthapi\\angularauthapi\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{A3C6B37F-3548-4CB2-B13A-A0F2E8777F1B}|AngularAuthAPI\\AngularAuthAPI.csproj|solutionrelative:angularauthapi\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A3C6B37F-3548-4CB2-B13A-A0F2E8777F1B}|AngularAuthAPI\\AngularAuthAPI.csproj|c:\\users\\21697\\onedrive\\documents\\visual studio\\html\\angular\\gestion\\angularauthapi\\angularauthapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A3C6B37F-3548-4CB2-B13A-A0F2E8777F1B}|AngularAuthAPI\\AngularAuthAPI.csproj|solutionrelative:angularauthapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A3C6B37F-3548-4CB2-B13A-A0F2E8777F1B}|AngularAuthAPI\\AngularAuthAPI.csproj|c:\\users\\21697\\onedrive\\documents\\visual studio\\html\\angular\\gestion\\angularauthapi\\angularauthapi\\repository\\iuserrepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A3C6B37F-3548-4CB2-B13A-A0F2E8777F1B}|AngularAuthAPI\\AngularAuthAPI.csproj|solutionrelative:angularauthapi\\repository\\iuserrepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A3C6B37F-3548-4CB2-B13A-A0F2E8777F1B}|AngularAuthAPI\\AngularAuthAPI.csproj|c:\\users\\21697\\onedrive\\documents\\visual studio\\html\\angular\\gestion\\angularauthapi\\angularauthapi\\models\\authoryeargroup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A3C6B37F-3548-4CB2-B13A-A0F2E8777F1B}|AngularAuthAPI\\AngularAuthAPI.csproj|solutionrelative:angularauthapi\\models\\authoryeargroup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -38,7 +30,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 7,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -46,28 +38,28 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "C:\\Users\\21697\\OneDrive\\Documents\\Visual Studio\\HTML\\Angular\\Gestion\\AngularAuthAPI\\AngularAuthAPI\\appsettings.json",
-              "RelativeDocumentMoniker": "AngularAuthAPI\\appsettings.json",
-              "ToolTip": "C:\\Users\\21697\\OneDrive\\Documents\\Visual Studio\\HTML\\Angular\\Gestion\\AngularAuthAPI\\AngularAuthAPI\\appsettings.json",
-              "RelativeToolTip": "AngularAuthAPI\\appsettings.json",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-07-31T10:33:33.925Z",
+              "DocumentIndex": 0,
+              "Title": "BookRepo.cs",
+              "DocumentMoniker": "C:\\Users\\21697\\OneDrive\\Documents\\Visual Studio\\HTML\\Angular\\Gestion\\AngularAuthAPI\\AngularAuthAPI\\Repository\\BookRepo.cs",
+              "RelativeDocumentMoniker": "AngularAuthAPI\\Repository\\BookRepo.cs",
+              "ToolTip": "C:\\Users\\21697\\OneDrive\\Documents\\Visual Studio\\HTML\\Angular\\Gestion\\AngularAuthAPI\\AngularAuthAPI\\Repository\\BookRepo.cs",
+              "RelativeToolTip": "AngularAuthAPI\\Repository\\BookRepo.cs",
+              "ViewState": "AQIAAOIAAAAAAAAAAAAqwPgAAAAfAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-06T13:12:03.646Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\21697\\OneDrive\\Documents\\Visual Studio\\HTML\\Angular\\Gestion\\AngularAuthAPI\\AngularAuthAPI\\Program.cs",
-              "RelativeDocumentMoniker": "AngularAuthAPI\\Program.cs",
-              "ToolTip": "C:\\Users\\21697\\OneDrive\\Documents\\Visual Studio\\HTML\\Angular\\Gestion\\AngularAuthAPI\\AngularAuthAPI\\Program.cs",
-              "RelativeToolTip": "AngularAuthAPI\\Program.cs",
-              "ViewState": "AQIAAA0AAAAAAAAAAAAAACEAAAAzAAAA",
+              "DocumentIndex": 2,
+              "Title": "IBookRepo.cs",
+              "DocumentMoniker": "C:\\Users\\21697\\OneDrive\\Documents\\Visual Studio\\HTML\\Angular\\Gestion\\AngularAuthAPI\\AngularAuthAPI\\Repository\\IBookRepo.cs",
+              "RelativeDocumentMoniker": "AngularAuthAPI\\Repository\\IBookRepo.cs",
+              "ToolTip": "C:\\Users\\21697\\OneDrive\\Documents\\Visual Studio\\HTML\\Angular\\Gestion\\AngularAuthAPI\\AngularAuthAPI\\Repository\\IBookRepo.cs",
+              "RelativeToolTip": "AngularAuthAPI\\Repository\\IBookRepo.cs",
+              "ViewState": "AQIAAAgAAAAAAAAAAAAmwBEAAAAnAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-17T11:19:49.588Z"
+              "WhenOpened": "2024-08-06T12:23:28.484Z"
             },
             {
               "$type": "Document",
@@ -77,10 +69,21 @@
               "RelativeDocumentMoniker": "AngularAuthAPI\\Controllers\\BooksController.cs",
               "ToolTip": "C:\\Users\\21697\\OneDrive\\Documents\\Visual Studio\\HTML\\Angular\\Gestion\\AngularAuthAPI\\AngularAuthAPI\\Controllers\\BooksController.cs",
               "RelativeToolTip": "AngularAuthAPI\\Controllers\\BooksController.cs",
-              "ViewState": "AQIAAAgAAAAAAAAAAAAAwB8AAABEAAAA",
+              "ViewState": "AQIAAHoAAAAAAAAAAAAQwIYAAAAkAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-17T11:29:49.838Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-06T09:56:32.437Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "AuthorYearGroup.cs",
+              "DocumentMoniker": "C:\\Users\\21697\\OneDrive\\Documents\\Visual Studio\\HTML\\Angular\\Gestion\\AngularAuthAPI\\AngularAuthAPI\\Models\\AuthorYearGroup.cs",
+              "RelativeDocumentMoniker": "AngularAuthAPI\\Models\\AuthorYearGroup.cs",
+              "ToolTip": "C:\\Users\\21697\\OneDrive\\Documents\\Visual Studio\\HTML\\Angular\\Gestion\\AngularAuthAPI\\AngularAuthAPI\\Models\\AuthorYearGroup.cs",
+              "RelativeToolTip": "AngularAuthAPI\\Models\\AuthorYearGroup.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAAUAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-06T09:56:26.088Z"
             },
             {
               "$type": "Document",
@@ -90,48 +93,9 @@
               "RelativeDocumentMoniker": "AngularAuthAPI\\Models\\Book.cs",
               "ToolTip": "C:\\Users\\21697\\OneDrive\\Documents\\Visual Studio\\HTML\\Angular\\Gestion\\AngularAuthAPI\\AngularAuthAPI\\Models\\Book.cs",
               "RelativeToolTip": "AngularAuthAPI\\Models\\Book.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAAkAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAAAMAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-17T11:28:48.171Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "IUserRepo.cs",
-              "DocumentMoniker": "C:\\Users\\21697\\OneDrive\\Documents\\Visual Studio\\HTML\\Angular\\Gestion\\AngularAuthAPI\\AngularAuthAPI\\Repository\\IUserRepo.cs",
-              "RelativeDocumentMoniker": "AngularAuthAPI\\Repository\\IUserRepo.cs",
-              "ToolTip": "C:\\Users\\21697\\OneDrive\\Documents\\Visual Studio\\HTML\\Angular\\Gestion\\AngularAuthAPI\\AngularAuthAPI\\Repository\\IUserRepo.cs",
-              "RelativeToolTip": "AngularAuthAPI\\Repository\\IUserRepo.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAAQAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-17T09:51:59.107Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "BookRepo.cs",
-              "DocumentMoniker": "C:\\Users\\21697\\OneDrive\\Documents\\Visual Studio\\HTML\\Angular\\Gestion\\AngularAuthAPI\\AngularAuthAPI\\Repository\\BookRepo.cs",
-              "RelativeDocumentMoniker": "AngularAuthAPI\\Repository\\BookRepo.cs",
-              "ToolTip": "C:\\Users\\21697\\OneDrive\\Documents\\Visual Studio\\HTML\\Angular\\Gestion\\AngularAuthAPI\\AngularAuthAPI\\Repository\\BookRepo.cs",
-              "RelativeToolTip": "AngularAuthAPI\\Repository\\BookRepo.cs",
-              "ViewState": "AQIAAHwAAAAAAAAAAAAYwJUAAAAMAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-17T11:29:25.28Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "IBookRepo.cs",
-              "DocumentMoniker": "C:\\Users\\21697\\OneDrive\\Documents\\Visual Studio\\HTML\\Angular\\Gestion\\AngularAuthAPI\\AngularAuthAPI\\Repository\\IBookRepo.cs",
-              "RelativeDocumentMoniker": "AngularAuthAPI\\Repository\\IBookRepo.cs",
-              "ToolTip": "C:\\Users\\21697\\OneDrive\\Documents\\Visual Studio\\HTML\\Angular\\Gestion\\AngularAuthAPI\\AngularAuthAPI\\Repository\\IBookRepo.cs",
-              "RelativeToolTip": "AngularAuthAPI\\Repository\\IBookRepo.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAuwAsAAAATAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-17T11:31:38.9Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-04T12:13:53.718Z"
             }
           ]
         }
