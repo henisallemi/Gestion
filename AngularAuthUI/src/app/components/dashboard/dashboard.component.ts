@@ -20,6 +20,9 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
   averagePrice: number = 0;
   isDataEmpty: boolean = false; // Add this flag
 
+  chartHeight: number = 330;
+  chartWidht: number = 592;
+
   constructor(
     private bookService: BookService,
     private router: Router // Inject Router
@@ -31,7 +34,7 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
   ngOnInit(): void {
     this.loadBookStatistics();
 
-    this.loadChartData();
+    this.loadGenreChartData();
     this.loadPublisherChartData();
     this.loadYearChartData();
     this.loadAuthorAndYearChartData();
@@ -39,7 +42,6 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
 
   ngAfterViewChecked(): void {
       const elementToDelete = document.querySelectorAll(".canvasjs-chart-credit")
-
       elementToDelete.forEach(el => el.remove())
   }
 
@@ -73,13 +75,13 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
     this.averagePrice = 0;
   }
 
-  private loadChartData(): void {
+  private loadGenreChartData(): void {
     this.bookService.getBooksByGenre().subscribe({
       next: (data) => {
-        const chartOptions = {
+        const genreChartOptions = {
           animationEnabled: true,
-          theme: "dark2",
-          exportEnabled: true,
+          theme: "light2",
+          //exportEnabled: true,
           title: {
             text: "Percentage of Books by Genre",
             fontSize: 16
@@ -88,10 +90,11 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
           copyright: {
             text: ''
           },
-          height: 330, // Set the desired height
-          width: 592,  // Set the desired width
-          data: [{
 
+          height: this.chartHeight, 
+          width: this.chartWidht,
+
+          data: [{
             indexLabel: "{name}: {y}%",
             toolTipContent: "{name}: {y}%",
             dataPoints: data.map(genre => ({
@@ -101,7 +104,7 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
           }]
         };
 
-        this.renderChart(chartOptions, 'chartContainer');
+        this.renderChart(genreChartOptions, 'genreChartContainer');
       },
       error: (err) => {
         console.error('Error loading chart data', err);
@@ -113,11 +116,11 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
   private loadPublisherChartData(): void {
     this.bookService.getBooksByPublisher().subscribe({
       next: (data) => {
-        console.log(data);
+
         const publisherChartOptions = {
           animationEnabled: true,
-          theme: "dark2",
-          exportEnabled: true,
+          theme: "light2",
+          //exportEnabled: true,
           title: {
             text: "Percentage of Books by Publisher",
             fontSize: 16
@@ -125,8 +128,10 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
           copyright: {
             text: ''
           },
-          height: 330, // Set the desired height
-          width: 592,  // Set the desired width
+          
+          height: this.chartHeight, 
+          width: this.chartWidht,
+
           data: [{
             type: "doughnut",
             startAngle: 90,
@@ -153,8 +158,8 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
       next: (data) => {
         const yearChartOptions = {
           animationEnabled: true,
-          theme: "dark2",
-          exportEnabled: true,
+          theme: "light2",
+          //exportEnabled: true,
           title: {
             text: "Percentage of Books by Publication Year",
             fontSize: 16
@@ -162,6 +167,10 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
           copyright: {
             text: ''
           },
+
+          height: this.chartHeight, 
+          width: this.chartWidht,
+          
           axisX: {
             title: "Year",
             interval: 1,  // Display each year
@@ -176,8 +185,7 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
             },
             maximum: 100, // Set maximum value if percentages are used
           },
-          height: 330, // Set the desired height
-          width: 592,  // Set the desired width
+          
           data: [{
             type: "bar",
             indexLabel: "{label}: {y}%",
@@ -232,13 +240,16 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
 
         const authorAndYearChartOptions = {
           animationEnabled: true,
-          theme: "dark2",
-          exportEnabled: true,
+          theme: "light2",
+          //exportEnabled: true,
           title: {
             text: "Number of Books by Year",
             fontSize: 16
-
           },
+
+          height: this.chartHeight, 
+          width: this.chartWidht,
+
           axisX: {
             title: "Year",
             interval: 1,  // Pour afficher chaque année
@@ -252,8 +263,7 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
             title: "Number of Books",
             includeZero: true
           },
-          height: 330, // Set the desired height
-          width: 592,  // Set the desired width
+          
           data: [{
             type: "line",  // Change to "bar" or other type if preferred
             indexLabel: "{indexLabel}", // Afficher le nombre total à côté de chaque point
@@ -280,7 +290,7 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
     if (typeof (window as any).CanvasJS !== 'undefined') {
       const chartContainer = document.getElementById(containerId);
       if (chartContainer) {
-        if (containerId === 'chartContainer' && this.chart) {
+        if (containerId === 'genderChartContainer' && this.chart) {
           this.chart.destroy();
         } else if (containerId === 'yearChartContainer' && this.yearChart) {
           this.yearChart.destroy();

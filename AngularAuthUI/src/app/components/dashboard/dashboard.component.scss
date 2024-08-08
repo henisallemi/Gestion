@@ -1,9 +1,33 @@
+.charts-container {
+  position: relative;
+  width: 100%;
+  padding: 20px;
+  display: grid;
+  grid-template-rows: repeat(2, 375px);
+  grid-template-columns: repeat(2,635px); // Changed to `repeat(2, 1fr)` for clarity
+  grid-gap: 30px;
+  justify-content: center;
+  align-content: center;
+}
+
+.chart-card {
+  background: #fff;
+  padding: 20px;
+  width: 100%;
+  height: 100%;
+  box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
+  border-radius: 20px;
+  display: flex; // Add flexbox for centering content within the card
+  justify-self: center;
+  align-self: center;
+}
+
 .dashboard-container {
   padding: 20px;
-  background-color: #f4f4f4;
+  background-color: #fff;
   border-radius: 12px;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-  max-width: 1200px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+  max-width: 1295px;
   margin: auto;
   position: relative; /* Make sure the button container can be positioned relative to this */
 
@@ -94,44 +118,6 @@
   font-size: 1.5em;
   font-weight: bold;
 }
-
-/* Hide CanvasJS watermark */
-#chartContainer .canvasjs-watermark,
-#yearChartContainer .canvasjs-watermark {
-  display: none !important;
-}
-
-/* Container for all charts */
-.charts-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px; /* Adds space between chart cards */
-  padding: 20px; /* Adds padding around the container */
-  box-sizing: border-box; /* Ensures padding is included in the width/height calculations */
-}
-
-/* Individual chart card */
-.chart-card {
-  flex: 1 1 calc(50% - 20px); /* Two cards per row, adjusted for gap */
-  min-width: 300px; /* Ensures charts are at least 300px wide */
-  max-width: calc(50% - 20px); /* Ensures charts do not exceed 50% of the container width minus gap */
-  height: 370px; /* Fixed height for charts */
-  border: 1px solid #ddd; /* Light border around charts */
-  border-radius: 8px; /* Rounded corners */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-  background-color: #fff; /* White background for charts */
-  padding: 20px; /* Padding inside the chart cards */
-  box-sizing: border-box; /* Ensures padding is included in the width/height calculations */
-}
-
-/* Optional: Title styles for charts */
-.chart-card h3 {
-  margin-top: 0;
-  font-size: 18px;
-  color: #333;
-}
-
-
 
 .button-container {
   display: flex;

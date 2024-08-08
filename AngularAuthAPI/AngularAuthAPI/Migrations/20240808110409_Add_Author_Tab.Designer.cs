@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AngularAuthAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240709120154_initial")]
-    partial class initial
+    [Migration("20240808110409_Add_Author_Tab")]
+    partial class Add_Author_Tab
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,6 +23,22 @@ namespace AngularAuthAPI.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("AngularAuthAPI.Models.Author", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Author");
+                });
 
             modelBuilder.Entity("AngularAuthAPI.Models.User", b =>
                 {
@@ -84,6 +100,9 @@ namespace AngularAuthAPI.Migrations
                     b.Property<string>("ISBN")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Id_Auth")
+                        .HasColumnType("int");
+
                     b.Property<string>("Langue")
                         .HasColumnType("nvarchar(max)");
 
@@ -98,7 +117,25 @@ namespace AngularAuthAPI.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Id_Auth");
+
                     b.ToTable("Books", (string)null);
+                });
+
+            modelBuilder.Entity("Book", b =>
+                {
+                    b.HasOne("AngularAuthAPI.Models.Author", "Auth")
+                        .WithMany("Books")
+                        .HasForeignKey("Id_Auth")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Auth");
+                });
+
+            modelBuilder.Entity("AngularAuthAPI.Models.Author", b =>
+                {
+                    b.Navigation("Books");
                 });
 #pragma warning restore 612, 618
         }

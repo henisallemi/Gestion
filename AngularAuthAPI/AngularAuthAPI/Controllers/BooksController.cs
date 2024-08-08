@@ -97,7 +97,7 @@ namespace AngularAuthAPI.Controllers
             return Ok(bookExists);
         }
 
-        [HttpGet("genres")] 
+        [HttpGet("books-by-genres")] 
         public async Task<IActionResult> GetBooksByGenre()
         {
             var genreGroups = await _bookRepo.GetBooksByGenreAsync();

@@ -23,12 +23,9 @@ builder.Services.AddCors(option => {
 
 builder.Services.AddDbContext<AppDbContext>(option =>
 {
-    option.UseSqlServer(builder.Configuration.GetConnectionString("SqlServerConnStr"));
+    option.UseSqlServer(builder.Configuration.GetConnectionString("SqlServerConnStr")).UseLazyLoadingProxies();
 }
 );
-
-builder.Services.AddDbContext<AppDbContext>(options => 
-    options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServerConnStrBook")));
 
 builder.Services.AddScoped<IUserRepo, UserRepo>();
 builder.Services.AddScoped<IBookRepo, BookRepo>(); 
