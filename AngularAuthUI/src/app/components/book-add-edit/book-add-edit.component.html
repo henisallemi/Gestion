@@ -47,8 +47,8 @@
 
             <mat-form-field appearance="outline" class="form-field">
                 <mat-label>Publication Date</mat-label>
-                <input matInput [matDatepicker]="picker" formControlName="datePublication" required>
-                <mat-hint>MM/DD/YYYY</mat-hint>
+                <input matInput [matDatepicker]="picker" formControlName="datePublication" placeholder="MM/DD/YYYY" required>
+                <!-- <mat-hint>MM/DD/YYYY</mat-hint> -->
                 <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
                 <mat-error *ngIf="bookForm.get('datePublication')?.hasError('required')">

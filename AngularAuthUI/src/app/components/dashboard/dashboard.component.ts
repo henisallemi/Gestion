@@ -61,7 +61,6 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
       },
       error => {
         console.error('Error loading book statistics', error);
-        // Handle error scenario
       }
     );
   }
