@@ -8,7 +8,8 @@ namespace AngularAuthAPI.Repository
     public interface IBookRepo
     {
         Task<IEnumerable<Book>> GetBooksAsync();
-        Task<Book> AddBookAsync(Book book);
+        Task<IEnumerable<Author>> GetAuthorsAsync();
+        Task<Book> AddBookAsync(Book book, string authorName);
         Task<Book> UpdateBookAsync(Book book);
         Task DeleteBookAsync(int id);
         Task<bool> CheckIsbnExistsAsync(string isbn);

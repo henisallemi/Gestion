@@ -22,40 +22,39 @@ namespace AngularAuthAPI.Repository
 
         public async Task<IEnumerable<Book>> GetBooksAsync()
         {
-            return await _context.Books.ToListAsync();
+            return await _context.Books.Include(b => b.Auth).ToListAsync();
         }
 
-        public async Task<Book> AddBookAsync(Book newBook)
+        public async Task<IEnumerable<Author>> GetAuthorsAsync()
+        {
+            return await _context.Authors.ToListAsync();
+        }
+
+        public async Task<Book> AddBookAsync(Book newBook, string authorName)
         {
             // Check if the author exists
-            var existingAuthor = await _context.Authors
-                .Where(a => a.Id == newBook.Id_Auth)
-                .FirstOrDefaultAsync();
+            var author = await _context.Authors
+                .FirstOrDefaultAsync(a => a.Name == authorName);
 
-            if (existingAuthor == null)
+            // If the author does not exist, create a new one
+            if (author == null)
             {
-                // Author does not exist, add the new author
-                var newAuthor = new Author
-                {
-                    Id = newBook.Id_Auth,
-                    Name = newBook.Auth.Name, // Assuming the Author object has a Name property
-                                              // Set other properties if necessary
-                };
-                _context.Authors.Add(newAuthor);
+                author = new Author { Name = authorName };
+                _context.Authors.Add(author);
                 await _context.SaveChangesAsync();
             }
-            else
-            {
-                // Author exists, use the existing author
-                newBook.Auth = existingAuthor;
-            }
 
-            // Add the book
+            // Set the book's author ID and reference
+            newBook.Id_Auth = author.Id;
+            newBook.Auth = author;
+
+            // Add the book to the database
             _context.Books.Add(newBook);
             await _context.SaveChangesAsync();
 
             return newBook;
         }
+
 
 
         public async Task<Book> UpdateBookAsync(Book book)

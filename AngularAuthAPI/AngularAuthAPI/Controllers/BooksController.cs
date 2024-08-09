@@ -27,6 +27,13 @@ namespace AngularAuthAPI.Controllers
             return Ok(books);
         }
 
+        [HttpGet("authors")]
+        public async Task<IActionResult> GetAuthors()
+        {
+            var authors = await _bookRepo.GetAuthorsAsync();
+            return Ok(authors);
+        }
+
         [HttpPost("upload")]
         public async Task<IActionResult> UploadFile(IFormFile file)
         {
@@ -45,12 +52,12 @@ namespace AngularAuthAPI.Controllers
         }
 
         [HttpPost("add")]
-        public async Task<IActionResult> AddBook([FromBody] Book book)
+        public async Task<IActionResult> AddBook([FromBody] Book book, string authorName)
         {
             if (book == null)
                 return BadRequest("Invalid book object.");
 
-            var addedBook = await _bookRepo.AddBookAsync(book);
+            var addedBook = await _bookRepo.AddBookAsync(book,authorName);
             return Ok(addedBook);
         }
 

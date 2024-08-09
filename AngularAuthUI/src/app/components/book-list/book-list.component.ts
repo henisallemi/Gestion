@@ -11,6 +11,8 @@ import { BookAddEditComponent } from '../book-add-edit/book-add-edit.component';
 import { CoreService } from '../../services/core.service';
 import { Router } from '@angular/router';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
+import { Author } from '../../../models/author.model';
+import { response } from 'express';
 
 @Component({
   selector: 'app-book-list', 
@@ -20,6 +22,7 @@ import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.compone
 export class BookListComponent implements OnInit {
   selectedFile: File | null = null;
   books!: MatTableDataSource<any>;
+  authors: Author[] = [];
   headers: string[] = [
     "title",
     "author",
@@ -30,8 +33,6 @@ export class BookListComponent implements OnInit {
     "prix",
     "action"
   ];
-
-  bookForm: FormGroup;
   addBookModal: NgbModalRef | undefined;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -41,22 +42,12 @@ export class BookListComponent implements OnInit {
 
   constructor(
     private bookService: BookService,
-    private fb: FormBuilder,
     private _dialog: MatDialog,
     private dialog: MatDialog,
     private _coreService: CoreService,
     private router: Router,
 
   ) {
-    this.bookForm = this.fb.group({
-      title: [''],
-      author: [''], 
-      isbn: [''],
-      datePublication: [''],
-      editeur: [''],
-      langue: [''],     
-      prix: [''],   
-    });
   }
 
   newBook: any = {}; // Définissez newBook pour stocker les données du formulaire
@@ -68,6 +59,7 @@ export class BookListComponent implements OnInit {
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0] ?? null;
   }
+  
   onUpload() {
     if (this.selectedFile) {
       this.bookService.uploadFile(this.selectedFile).subscribe(
@@ -97,6 +89,14 @@ export class BookListComponent implements OnInit {
         
   
   loadBooks() {
+    this.bookService.getAuthors().subscribe(
+      data => {
+        this.authors = data;
+        console.log(this.authors)
+      },
+      error => console.error('Error fetching authors', error)
+      
+    );
     this.bookService.getBooks().subscribe(
       response => {
         if (response.length > 0) {
@@ -114,6 +114,10 @@ export class BookListComponent implements OnInit {
     );
   }
   
+  getAuthorNameById(id: number): string {
+    const author = this.authors.find(a => a.id === id);
+    return author ? author.name : 'Unknown';
+  }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
