@@ -73,11 +73,16 @@ namespace AngularAuthAPI.Repository
                     headers.Add(cells[0, col].StringValue.ToLower());
                 }
 
+                var authors = await _context.Authors.ToListAsync();
+
                 for (int row = 1; row <= cells.MaxDataRow; row++)
                 {
                     var book = new Book();
                     bool isTitleEmpty = true;
                     bool isPriceEmpty = true;
+
+                    Author author = null;
+                    int? authorId = null;
 
                     for (int col = 0; col <= cells.MaxDataColumn; col++)
                     {
@@ -95,7 +100,30 @@ namespace AngularAuthAPI.Repository
                                 break;
                             case "author":
                             case "auteur":
-                                book.Author = cellValue;
+                                if (!string.IsNullOrEmpty(cellValue))
+                                {
+                                    var lowerCellValue = cellValue.ToLower(); // Convert to lowercase
+                                    author = await _context.Authors
+                                        .Include(a => a.Auth_books) // Ensure Books list is loaded
+                                        .FirstOrDefaultAsync(a => a.Name.ToLower() == lowerCellValue); // Case-insensitive comparison
+
+                                    if (author == null)
+                                    {
+                                        author = new Author
+                                        {
+                                            Name = cellValue,
+                                            Auth_books = new List<Book>()
+                                        };
+                                        await _context.Authors.AddAsync(author);
+                                        await _context.SaveChangesAsync();
+
+                                    }
+
+                                    authorId = author.Id;
+                                    book.Auth = author;
+                                    book.Id_Auth = authorId.Value;
+                                    author.Auth_books.Add(book);
+                                }
                                 break;
                             case "isbn":
                                 book.ISBN = cellValue;
@@ -138,6 +166,7 @@ namespace AngularAuthAPI.Repository
                         throw new ArgumentException("Please fill in the Title or Price fields for all books in the uploaded file.");
                     }
 
+                    //book.Id = 0;
                     books.Add(book);
                 }
             }
@@ -269,11 +298,11 @@ namespace AngularAuthAPI.Repository
                 return Enumerable.Empty<AuthorYearGroup>();
 
             var authorYearGroups = books
-                .GroupBy(b => new { b.Author, Year = DateTime.TryParse(b.DatePublication, out DateTime date) ? date.Year.ToString() : "Unknown" })
+                .GroupBy(b => new { b.Auth.Name, Year = DateTime.TryParse(b.DatePublication, out DateTime date) ? date.Year.ToString() : "Unknown" })
                 .Where(g => g.Key.Year != "Unknown") // Exclure les formats inconnus
                 .Select(g => new AuthorYearGroup
                 {
-                    Author = g.Key.Author,
+                    Author = g.Key.Name,
                     PublicationYear = g.Key.Year,
                     Count = g.Count()
                 })

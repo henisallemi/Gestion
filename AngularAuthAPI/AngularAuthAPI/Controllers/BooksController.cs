@@ -76,7 +76,7 @@ namespace AngularAuthAPI.Controllers
                 return NotFound();
 
             book.Title = updatedBook.Title;
-            book.Author = updatedBook.Author;
+            book.Auth.Name = updatedBook.Auth.Name;
             book.ISBN = updatedBook.ISBN;
             book.Genre = updatedBook.Genre;
             book.DatePublication = updatedBook.DatePublication;

@@ -573,3 +573,5 @@ C:\Users\henis\OneDrive\Bureau\PFA-project\Gestion\AngularAuthAPI\AngularAuthAPI
 C:\Users\henis\OneDrive\Bureau\PFA-project\Gestion\AngularAuthAPI\AngularAuthAPI\obj\Debug\net8.0\AngularAuthAPI.pdb
 C:\Users\henis\OneDrive\Bureau\PFA-project\Gestion\AngularAuthAPI\AngularAuthAPI\obj\Debug\net8.0\AngularAuthAPI.genruntimeconfig.cache
 C:\Users\henis\OneDrive\Bureau\PFA-project\Gestion\AngularAuthAPI\AngularAuthAPI\obj\Debug\net8.0\ref\AngularAuthAPI.dll
+C:\Users\21697\OneDrive\Documents\Visual Studio\HTML\Angular\Gestion\AngularAuthAPI\AngularAuthAPI\bin\Debug\net8.0\Castle.Core.dll
+C:\Users\21697\OneDrive\Documents\Visual Studio\HTML\Angular\Gestion\AngularAuthAPI\AngularAuthAPI\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Proxies.dll

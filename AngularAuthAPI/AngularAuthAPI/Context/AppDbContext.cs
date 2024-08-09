@@ -11,11 +11,13 @@ namespace AngularAuthAPI.Context
 
         public DbSet<Book> Books { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Author> Authors { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Book>().ToTable("Books"); 
             modelBuilder.Entity<User>().ToTable("Users");
+            modelBuilder.Entity<Author>().ToTable("Authors");
         }
     }
 }

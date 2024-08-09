@@ -17,6 +17,9 @@ namespace AngularAuthAPI.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "8.0.6")
+                .HasAnnotation("Proxies:ChangeTracking", false)
+                .HasAnnotation("Proxies:CheckEquality", false)
+                .HasAnnotation("Proxies:LazyLoading", true)
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -34,7 +37,7 @@ namespace AngularAuthAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Author");
+                    b.ToTable("Authors", (string)null);
                 });
 
             modelBuilder.Entity("AngularAuthAPI.Models.User", b =>
@@ -79,9 +82,6 @@ namespace AngularAuthAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Author")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("DatePublication")
                         .HasColumnType("nvarchar(max)");
 
@@ -122,7 +122,7 @@ namespace AngularAuthAPI.Migrations
             modelBuilder.Entity("Book", b =>
                 {
                     b.HasOne("AngularAuthAPI.Models.Author", "Auth")
-                        .WithMany("Books")
+                        .WithMany("Auth_books")
                         .HasForeignKey("Id_Auth")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -132,7 +132,7 @@ namespace AngularAuthAPI.Migrations
 
             modelBuilder.Entity("AngularAuthAPI.Models.Author", b =>
                 {
-                    b.Navigation("Books");
+                    b.Navigation("Auth_books");
                 });
 #pragma warning restore 612, 618
         }
