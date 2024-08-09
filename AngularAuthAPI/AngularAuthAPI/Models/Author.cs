@@ -1,4 +1,6 @@
-﻿namespace AngularAuthAPI.Models
+﻿using System.Text.Json.Serialization;
+
+namespace AngularAuthAPI.Models
 {
     public class Author
     {
@@ -6,6 +8,7 @@
 
         public string Name { get; set; }
 
-        public virtual List<Book> Auth_books { get; set; }
+        [JsonIgnore]
+        public virtual ICollection<Book> Auth_books { get; set; }
     }
 }

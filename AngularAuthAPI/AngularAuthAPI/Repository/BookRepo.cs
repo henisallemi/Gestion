@@ -25,12 +25,38 @@ namespace AngularAuthAPI.Repository
             return await _context.Books.ToListAsync();
         }
 
-        public async Task<Book> AddBookAsync(Book book)
+        public async Task<Book> AddBookAsync(Book newBook)
         {
-            _context.Books.Add(book);
+            // Check if the author exists
+            var existingAuthor = await _context.Authors
+                .Where(a => a.Id == newBook.Id_Auth)
+                .FirstOrDefaultAsync();
+
+            if (existingAuthor == null)
+            {
+                // Author does not exist, add the new author
+                var newAuthor = new Author
+                {
+                    Id = newBook.Id_Auth,
+                    Name = newBook.Auth.Name, // Assuming the Author object has a Name property
+                                              // Set other properties if necessary
+                };
+                _context.Authors.Add(newAuthor);
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                // Author exists, use the existing author
+                newBook.Auth = existingAuthor;
+            }
+
+            // Add the book
+            _context.Books.Add(newBook);
             await _context.SaveChangesAsync();
-            return book;
+
+            return newBook;
         }
+
 
         public async Task<Book> UpdateBookAsync(Book book)
         {
@@ -57,125 +83,138 @@ namespace AngularAuthAPI.Repository
         public async Task<IEnumerable<Book>> UploadBooksFromFileAsync(IFormFile file)
         {
             var books = new List<Book>();
+            var newAuthors = new List<Author>();
 
-            using (var stream = new MemoryStream())
+            try
             {
-                await file.CopyToAsync(stream);
-                stream.Position = 0;
-
-                var workbook = new Workbook(stream);
-                var worksheet = workbook.Worksheets[0];
-                var cells = worksheet.Cells;
-
-                var headers = new List<string>();
-                for (int col = 0; col <= cells.MaxDataColumn; col++)
+                using (var stream = new MemoryStream())
                 {
-                    headers.Add(cells[0, col].StringValue.ToLower());
-                }
+                    await file.CopyToAsync(stream);
+                    stream.Position = 0;
 
-                var authors = await _context.Authors.ToListAsync();
+                    var workbook = new Workbook(stream);
+                    var worksheet = workbook.Worksheets[0];
+                    var cells = worksheet.Cells;
 
-                for (int row = 1; row <= cells.MaxDataRow; row++)
-                {
-                    var book = new Book();
-                    bool isTitleEmpty = true;
-                    bool isPriceEmpty = true;
-
-                    Author author = null;
-                    int? authorId = null;
-
+                    var headers = new List<string>();
                     for (int col = 0; col <= cells.MaxDataColumn; col++)
                     {
-                        var cellValue = cells[row, col].StringValue;
-                        switch (headers[col])
-                        {
-                            case "title":
-                            case "titre":
-                            case "titr":
-                                if (!string.IsNullOrEmpty(cellValue))
-                                {
-                                    book.Title = cellValue;
-                                    isTitleEmpty = false;
-                                }
-                                break;
-                            case "author":
-                            case "auteur":
-                                if (!string.IsNullOrEmpty(cellValue))
-                                {
-                                    var lowerCellValue = cellValue.ToLower(); // Convert to lowercase
-                                    author = await _context.Authors
-                                        .Include(a => a.Auth_books) // Ensure Books list is loaded
-                                        .FirstOrDefaultAsync(a => a.Name.ToLower() == lowerCellValue); // Case-insensitive comparison
-
-                                    if (author == null)
-                                    {
-                                        author = new Author
-                                        {
-                                            Name = cellValue,
-                                            Auth_books = new List<Book>()
-                                        };
-                                        await _context.Authors.AddAsync(author);
-                                        await _context.SaveChangesAsync();
-
-                                    }
-
-                                    authorId = author.Id;
-                                    book.Auth = author;
-                                    book.Id_Auth = authorId.Value;
-                                    author.Auth_books.Add(book);
-                                }
-                                break;
-                            case "isbn":
-                                book.ISBN = cellValue;
-                                break;
-                            case "genre":
-                                book.Genre = cellValue;
-                                break;
-                            case "datepublication":
-                            case "date_publication":
-                            case "date":
-                                book.DatePublication = cellValue;
-                                break;
-                            case "editeur":
-                                book.Editeur = cellValue;
-                                break;
-                            case "langue":
-                                book.Langue = cellValue;
-                                break;
-                            case "description":
-                                book.Description = cellValue;
-                                break;
-                            case "nb_page":
-                            case "pages":
-                                if (int.TryParse(cellValue, out int nbPages))
-                                    book.Nb_Page = nbPages;
-                                break;
-                            case "prix":
-                            case "price":
-                                if (float.TryParse(cellValue, out float prix))
-                                {
-                                    book.Prix = prix;
-                                    isPriceEmpty = false;
-                                }
-                                break;
-                        }
+                        headers.Add(cells[0, col].StringValue.ToLower());
                     }
 
-                    if (isTitleEmpty || isPriceEmpty)
+                    var existingAuthors = await _context.Authors.ToListAsync();
+
+                    for (int row = 1; row <= cells.MaxDataRow; row++)
                     {
-                        throw new ArgumentException("Please fill in the Title or Price fields for all books in the uploaded file.");
+                        var book = new Book();
+                        bool isTitleEmpty = true;
+                        bool isPriceEmpty = true;
+
+                        Author author = null;
+                        int? authorId = null;
+
+                        for (int col = 0; col <= cells.MaxDataColumn; col++)
+                        {
+                            var cellValue = cells[row, col].StringValue;
+                            switch (headers[col])
+                            {
+                                case "title":
+                                case "titre":
+                                case "titr":
+                                    if (!string.IsNullOrEmpty(cellValue))
+                                    {
+                                        book.Title = cellValue;
+                                        isTitleEmpty = false;
+                                    }
+                                    break;
+                                case "author":
+                                case "auteur":
+                                    if (!string.IsNullOrEmpty(cellValue))
+                                    {
+                                        var lowerCellValue = cellValue.ToLower();
+                                        author = existingAuthors.FirstOrDefault(a => a.Name.ToLower() == lowerCellValue);
+
+                                        if (author == null)
+                                        {
+                                            author = new Author
+                                            {
+                                                Name = cellValue,
+                                                Auth_books = new List<Book>()
+                                            };
+                                            newAuthors.Add(author);
+                                        }
+
+                                        authorId = author.Id;
+                                        book.Auth = author;
+                                        book.Id_Auth = authorId.Value;
+                                        author.Auth_books.Add(book);
+                                    }
+                                    break;
+                                case "isbn":
+                                    book.ISBN = cellValue;
+                                    break;
+                                case "genre":
+                                    book.Genre = cellValue;
+                                    break;
+                                case "datepublication":
+                                case "date_publication":
+                                case "date":
+                                    book.DatePublication = cellValue;
+                                    break;
+                                case "editeur":
+                                    book.Editeur = cellValue;
+                                    break;
+                                case "langue":
+                                    book.Langue = cellValue;
+                                    break;
+                                case "description":
+                                    book.Description = cellValue;
+                                    break;
+                                case "nb_page":
+                                case "pages":
+                                    if (int.TryParse(cellValue, out int nbPages))
+                                        book.Nb_Page = nbPages;
+                                    break;
+                                case "prix":
+                                case "price":
+                                    if (float.TryParse(cellValue, out float prix))
+                                    {
+                                        book.Prix = prix;
+                                        isPriceEmpty = false;
+                                    }
+                                    break;
+                            }
+                        }
+
+                        if (isTitleEmpty || isPriceEmpty)
+                        {
+                            // Log warning or error and continue processing other books
+                            // Example: _logger.LogWarning($"Book at row {row} has missing title or price.");
+                            continue;
+                        }
+
+                        books.Add(book);
                     }
-
-                    //book.Id = 0;
-                    books.Add(book);
                 }
-            }
 
-            await _context.Books.AddRangeAsync(books);
-            await _context.SaveChangesAsync();
+                if (newAuthors.Any())
+                {
+                    await _context.Authors.AddRangeAsync(newAuthors);
+                }
+
+                await _context.Books.AddRangeAsync(books);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                // Log exception
+                // Example: _logger.LogError(ex, "An error occurred while uploading books.");
+                throw;
+            }
 
             return books;
         }
+
 
         public async Task<IEnumerable<GenrePercentage>> GetBooksByGenreAsync()
         {

@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AngularAuthAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240809095537_V2")]
+    [Migration("20240809110534_V2")]
     partial class V2
     {
         /// <inheritdoc />

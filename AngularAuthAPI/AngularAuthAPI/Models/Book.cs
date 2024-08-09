@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using AngularAuthAPI.Models;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 public class Book
 {
@@ -18,5 +19,6 @@ public class Book
     public int Id_Auth { get; set; }
 
     [ForeignKey("Id_Auth")]
+    [JsonIgnore]
     public virtual Author Auth { get; set; }
 }           
