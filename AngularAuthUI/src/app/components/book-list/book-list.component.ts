@@ -12,7 +12,7 @@ import { CoreService } from '../../services/core.service';
 import { Router } from '@angular/router';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { Author } from '../../../models/author.model';
-import { response } from 'express';
+
 
 @Component({
   selector: 'app-book-list', 
@@ -92,15 +92,12 @@ export class BookListComponent implements OnInit {
     this.bookService.getAuthors().subscribe(
       data => {
         this.authors = data;
-        console.log(this.authors)
       },
       error => console.error('Error fetching authors', error)
-      
     );
     this.bookService.getBooks().subscribe(
       response => {
         if (response.length > 0) {
-          console.log(response);
           this.books = new MatTableDataSource(response);
           this.books.sort = this.sort;
           this.books.paginator = this.paginator;
@@ -131,9 +128,7 @@ export class BookListComponent implements OnInit {
   deleteBook(id: number) {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       width: '300px',
-      
     });   
-  
     dialogRef.afterClosed().subscribe(result => {
       if (result) { 
         this.bookService.deleteBook(id).subscribe({
@@ -150,8 +145,13 @@ export class BookListComponent implements OnInit {
     });
   }
 
-  openAddEditBookForm() {
-    const dialogRef = this._dialog.open(BookAddEditComponent);
+  openAddBookForm() {
+    const dialogRef = this._dialog.open(BookAddEditComponent, {
+        data: {
+          authors : this.authors
+        }
+      }
+    );
     dialogRef.afterClosed().subscribe({
       next: (val) => {
         if (val) {
@@ -163,16 +163,22 @@ export class BookListComponent implements OnInit {
 
   openEditBookForm(data: any) {
     const dialogRef = this._dialog.open(BookAddEditComponent, {
-      data,
+      data: {
+        book: data,
+        authorName: this.getAuthorNameById(data.id_Auth), // Pass the author name if needed
+        authors : this.authors
+      }
     });
+  
     dialogRef.afterClosed().subscribe({
       next: (val) => {
         if (val) {
           this.loadBooks();
         }
       }
-    })
+    });
   }
+
   navigateToDashboard() {
     this.router.navigate(['/dashboard']); // Adjust the route according to your app's routing configuration
   }

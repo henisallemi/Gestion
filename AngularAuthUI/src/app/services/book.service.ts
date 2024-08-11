@@ -17,8 +17,12 @@ export class BookService {
     return this.http.post<any[]>(`${this.apiUrl}/upload`, formData);
   }
 
-  addBook(newBook: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/add`, newBook);
+  addBook(newBook: any, authorName : string): Observable<any> {
+    const requestPayload = {
+      book: newBook,
+      authorName: authorName
+    };
+    return this.http.post<any>(`${this.apiUrl}/add`, requestPayload);
   }
 
   updateBook(id: number, data: any): Observable<any> {

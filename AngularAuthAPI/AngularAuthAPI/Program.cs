@@ -28,7 +28,9 @@ builder.Services.AddDbContext<AppDbContext>(option =>
 );
 
 builder.Services.AddScoped<IUserRepo, UserRepo>();
-builder.Services.AddScoped<IBookRepo, BookRepo>(); 
+builder.Services.AddScoped<IBookRepo, BookRepo>();
+builder.Services.AddScoped<IAuthorRepo, authorRepo>();
+
 
 var app = builder.Build();
 

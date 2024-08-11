@@ -52,12 +52,12 @@ namespace AngularAuthAPI.Controllers
         }
 
         [HttpPost("add")]
-        public async Task<IActionResult> AddBook([FromBody] Book book, string authorName)
+        public async Task<IActionResult> AddBook([FromBody] AddBookRequest request)
         {
-            if (book == null)
-                return BadRequest("Invalid book object.");
+            if (request == null || request.Book == null || string.IsNullOrWhiteSpace(request.AuthorName))
+                return BadRequest("Invalid book object or author name.");
 
-            var addedBook = await _bookRepo.AddBookAsync(book,authorName);
+            var addedBook = await _bookRepo.AddBookAsync(request.Book, request.AuthorName);
             return Ok(addedBook);
         }
 

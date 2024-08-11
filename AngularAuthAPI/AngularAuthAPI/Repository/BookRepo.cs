@@ -14,10 +14,12 @@ namespace AngularAuthAPI.Repository
     public class BookRepo : IBookRepo
     {
         private readonly AppDbContext _context;
+        private readonly IAuthorRepo _authorRepo;
 
-        public BookRepo(AppDbContext context)
+        public BookRepo(AppDbContext context, IAuthorRepo authorRepo)
         {
             _context = context;
+            _authorRepo = authorRepo;
         }
 
         public async Task<IEnumerable<Book>> GetBooksAsync()
@@ -33,15 +35,13 @@ namespace AngularAuthAPI.Repository
         public async Task<Book> AddBookAsync(Book newBook, string authorName)
         {
             // Check if the author exists
-            var author = await _context.Authors
-                .FirstOrDefaultAsync(a => a.Name == authorName);
+            var author = await _authorRepo.GetAuthorByNameAsync(authorName);
 
             // If the author does not exist, create a new one
             if (author == null)
             {
                 author = new Author { Name = authorName };
-                _context.Authors.Add(author);
-                await _context.SaveChangesAsync();
+                await _authorRepo.CreateAuthorAsync(authorName);
             }
 
             // Set the book's author ID and reference
@@ -101,7 +101,8 @@ namespace AngularAuthAPI.Repository
                         headers.Add(cells[0, col].StringValue.ToLower());
                     }
 
-                    var existingAuthors = await _context.Authors.ToListAsync();
+                    // Fetch existing authors from the repository
+                    var existingAuthors = await _authorRepo.GetAllAuthorsAsync();
 
                     for (int row = 1; row <= cells.MaxDataRow; row++)
                     {
@@ -135,18 +136,16 @@ namespace AngularAuthAPI.Repository
 
                                         if (author == null)
                                         {
-                                            author = new Author
-                                            {
-                                                Name = cellValue,
-                                                Auth_books = new List<Book>()
-                                            };
-                                            newAuthors.Add(author);
+                                            authorId = await _authorRepo.CreateAuthorAsync(cellValue);
+                                            author = await _authorRepo.GetAuthorByIdAsync(authorId.Value);
+                                        }
+                                        else
+                                        {
+                                            authorId = author.Id;
                                         }
 
-                                        authorId = author.Id;
                                         book.Auth = author;
                                         book.Id_Auth = authorId.Value;
-                                        author.Auth_books.Add(book);
                                     }
                                     break;
                                 case "isbn":
@@ -198,7 +197,8 @@ namespace AngularAuthAPI.Repository
 
                 if (newAuthors.Any())
                 {
-                    await _context.Authors.AddRangeAsync(newAuthors);
+                    // Note: This is no longer needed because we create authors directly in the process above.
+                    // await _context.Authors.AddRangeAsync(newAuthors);
                 }
 
                 await _context.Books.AddRangeAsync(books);
