@@ -27,11 +27,6 @@ namespace AngularAuthAPI.Repository
             return await _context.Books.Include(b => b.Auth).ToListAsync();
         }
 
-        public async Task<IEnumerable<Author>> GetAuthorsAsync()
-        {
-            return await _context.Authors.ToListAsync();
-        }
-
         public async Task<Book> AddBookAsync(Book newBook, string authorName)
         {
             // Check if the author exists
@@ -62,6 +57,13 @@ namespace AngularAuthAPI.Repository
             _context.Books.Update(book);
             await _context.SaveChangesAsync();
             return book;
+        }
+
+        public async Task<Book> GetBookByIdAsync(int id)
+        {
+            return await _context.Books
+                .Include(b => b.Auth) // Include author details if needed
+                .FirstOrDefaultAsync(b => b.Id == id);
         }
 
         public async Task DeleteBookAsync(int id)

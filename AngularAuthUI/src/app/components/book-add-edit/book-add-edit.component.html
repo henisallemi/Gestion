@@ -17,17 +17,31 @@
 
         <!-- Auteur et ISBN -->
         <div class="row">
-            <mat-form-field appearance="outline" class="form-field">
+            <!-- <mat-form-field appearance="outline" class="form-field">
                 <mat-label>Author</mat-label>
                 <input matInput formControlName="author" required>
                 <mat-error *ngIf="bookForm.get('author')?.hasError('required')">
                     Author is required
                 </mat-error>
+            </mat-form-field> -->
+
+            <mat-form-field appearance="outline" class="form-field">
+                <mat-label>Author</mat-label>
+                <input type="text"
+                       placeholder="Exp : Melek"
+                       matInput
+                       formControlName="author"
+                       [matAutocomplete]="auto">
+                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                  @for (option of filteredAuthorsNames | async; track option) {
+                    <mat-option [value]="option">{{option}}</mat-option>
+                  }
+                </mat-autocomplete>
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="form-field">
                 <mat-label>ISBN</mat-label>
-                <input matInput formControlName="isbn" required appIntegerValidator>
+                <input matInput formControlName="isbn" required >
                 <mat-error *ngIf="bookForm.get('isbn')?.hasError('required')">
                     ISBN is required
                 </mat-error>

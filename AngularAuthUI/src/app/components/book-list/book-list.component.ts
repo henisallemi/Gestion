@@ -12,6 +12,7 @@ import { CoreService } from '../../services/core.service';
 import { Router } from '@angular/router';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { Author } from '../../../models/author.model';
+import { AuthorService } from '../../services/author.service';
 
 
 @Component({
@@ -42,6 +43,7 @@ export class BookListComponent implements OnInit {
 
   constructor(
     private bookService: BookService,
+    private authorService : AuthorService,
     private _dialog: MatDialog,
     private dialog: MatDialog,
     private _coreService: CoreService,
@@ -89,7 +91,7 @@ export class BookListComponent implements OnInit {
         
   
   loadBooks() {
-    this.bookService.getAuthors().subscribe(
+    this.authorService.getAuthors().subscribe(
       data => {
         this.authors = data;
       },

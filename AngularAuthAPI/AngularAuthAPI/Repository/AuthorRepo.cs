@@ -46,6 +46,28 @@ namespace AngularAuthAPI.Repository
             await _context.SaveChangesAsync();
         }
 
+        public async Task UpdateBookWithAuthorAsync(Book book, string authorName)
+        {
+            // Fetch the author by name in a case-insensitive manner
+            var author = await _context.Authors
+                .Where(a => a.Name.ToLower() == authorName.ToLower())
+                .FirstOrDefaultAsync();
+
+            if (author == null)
+            {
+                // Create a new author if not found
+                int authorId = await CreateAuthorAsync(authorName);
+                author = await _context.Authors.FindAsync(authorId);
+            }
+
+            // Update the book's author
+            book.Id_Auth = author.Id;
+            _context.Books.Update(book);
+
+            await _context.SaveChangesAsync();
+        }
+
+
         public async Task DeleteAuthorAsync(int id)
         {
             var author = await GetAuthorByIdAsync(id);

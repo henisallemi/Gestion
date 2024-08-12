@@ -25,16 +25,17 @@ export class BookService {
     return this.http.post<any>(`${this.apiUrl}/add`, requestPayload);
   }
 
-  updateBook(id: number, data: any): Observable<any> {
-    return this.http.put(`${this.apiUrl}/${id}`, data)
+  updateBook(id: number, bookData: any, authorName: string): Observable<any> {
+    const dataToSend = {
+      Book: bookData,
+      AuthorName: authorName
+    };
+    console.log(dataToSend)
+    return this.http.put(`${this.apiUrl}/${id}`, dataToSend);
   }
-
+  
   getBooks(): Observable<any[]> {
     return this.http.get<any[]>(this.apiUrl);
-  }
-
-  getAuthors(): Observable<Author[]> {
-    return this.http.get<Author[]>(`${this.apiUrl}/authors`);
   }
 
   deleteBook(id: number): Observable<any> {

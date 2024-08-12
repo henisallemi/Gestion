@@ -13,11 +13,13 @@ namespace AngularAuthAPI.Controllers
     [Route("[controller]")] 
     public class BooksController : ControllerBase
     {
-        private readonly IBookRepo _bookRepo;
+        private readonly IBookRepo _bookRepo; 
+        private readonly IAuthorRepo _authorRepo;
 
-        public BooksController(IBookRepo bookRepo)
+        public BooksController(IBookRepo bookRepo, IAuthorRepo authorRepo)
         {
             _bookRepo = bookRepo;
+            _authorRepo = authorRepo;
         }
 
         [HttpGet]
@@ -25,13 +27,6 @@ namespace AngularAuthAPI.Controllers
         {
             var books = await _bookRepo.GetBooksAsync();
             return Ok(books);
-        }
-
-        [HttpGet("authors")]
-        public async Task<IActionResult> GetAuthors()
-        {
-            var authors = await _bookRepo.GetAuthorsAsync();
-            return Ok(authors);
         }
 
         [HttpPost("upload")]
@@ -68,22 +63,24 @@ namespace AngularAuthAPI.Controllers
             return Ok(new { message = "Book deleted successfully." });
         }
 
-     
 
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateBook(int id, [FromBody] Book updatedBook)
+        public async Task<IActionResult> UpdateBook(int id, [FromBody] AddBookRequest request)
         {
-            if (updatedBook == null)
+            if (request == null || request.Book == null)
                 return BadRequest("Invalid book data.");
 
-            var books = await _bookRepo.GetBooksAsync();
-            var book = books.FirstOrDefault(b => b.Id == id);
+            var updatedBook = request.Book;
+            var authorName = request.AuthorName;
+
+            // Fetch the existing book
+            var book = await _bookRepo.GetBookByIdAsync(id);
             if (book == null)
                 return NotFound();
 
+            // Update book properties
             book.Title = updatedBook.Title;
-            book.Auth.Name = updatedBook.Auth.Name;
             book.ISBN = updatedBook.ISBN;
             book.Genre = updatedBook.Genre;
             book.DatePublication = updatedBook.DatePublication;
@@ -93,9 +90,13 @@ namespace AngularAuthAPI.Controllers
             book.Nb_Page = updatedBook.Nb_Page;
             book.Prix = updatedBook.Prix;
 
-            var updated = await _bookRepo.UpdateBookAsync(book);
-            return Ok(updated);
+            // Use the repository to handle author updates
+            await _authorRepo.UpdateBookWithAuthorAsync(book, authorName);
+
+            return Ok(book);
         }
+
+
 
         [HttpGet("check-isbn/{isbn}")]
         public async Task<IActionResult> CheckIsbnExists(string isbn)

@@ -27,6 +27,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { MatAutocompleteModule } from '@angular/material/autocomplete'; 
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
     MatSnackBarModule,
     BrowserAnimationsModule,
     MatGridListModule,
+    MatAutocompleteModule,
 
   ],
   exports: [

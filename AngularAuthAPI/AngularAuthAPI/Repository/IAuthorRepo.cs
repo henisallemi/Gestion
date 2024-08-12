@@ -9,6 +9,7 @@ namespace AngularAuthAPI.Repository
         Task<Author> GetAuthorByNameAsync(string name);
         Task<int> CreateAuthorAsync(string name);
         Task UpdateAuthorAsync(Author author);
+        Task UpdateBookWithAuthorAsync(Book book, string authorName);
         Task DeleteAuthorAsync(int id);
     }
 
