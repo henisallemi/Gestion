@@ -18,6 +18,7 @@ export class BookAddEditComponent implements OnInit{
   authors: Author[] = [];
   filteredAuthorsNames: Observable<string[]> | undefined;
   authorsNames: string[] = [];
+  isEditMode: boolean;
 
   constructor(private _fb : FormBuilder,
     private _bookservice : BookService,
@@ -26,6 +27,8 @@ export class BookAddEditComponent implements OnInit{
     private _coreService: CoreService
     
   ){
+    this.isEditMode = data.isEditMode;
+
     this.book = data.book;
     this.authorName = data.authorName;
     this.authors = data.authors;

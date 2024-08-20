@@ -9,10 +9,17 @@ import { Router } from '@angular/router';
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit, AfterViewChecked {
+
+  private customColors = [
+    "#1F77B4", "#FF7F0E", "#2CA02C", "#D62728",
+    "#9467BD", "#8C564B", "#E377C2", "#7F7F7F"
+  ];
+
   private chart: any;
   private yearChart: any;
   private publisherChart: any;
   private authorAndYearChart: any;
+  
   // Statistiques
   totalBooks: number = 0;
   totalAuthors: number = 0;
@@ -20,8 +27,9 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
   averagePrice: number = 0;
   isDataEmpty: boolean = false; // Add this flag
 
-  chartHeight: number = 330;
-  chartWidht: number = 592;
+  chartHeight: number = 300;
+  chartWidht: number = 500;
+  chartBackgroundColor: string = "#f7fbff";
 
   constructor(
     private bookService: BookService,
@@ -31,7 +39,10 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
   navigateToBookList(): void {
     this.router.navigate(['/book-list']);
   }
+
+  
   ngOnInit(): void {
+    (window as any).CanvasJS.addColorSet("customColorSet", this.customColors);
     this.loadBookStatistics();
 
     this.loadGenreChartData();
@@ -81,6 +92,8 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
         const genreChartOptions = {
           animationEnabled: true,
           theme: "light2",
+          colorSet: "customColorSet",
+          backgroundColor: this.chartBackgroundColor,
           //exportEnabled: true,
           title: {
             text: "Percentage of Books by Genre",
@@ -120,6 +133,8 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
         const publisherChartOptions = {
           animationEnabled: true,
           theme: "light2",
+          colorSet: "customColorSet",
+          backgroundColor: this.chartBackgroundColor,
           //exportEnabled: true,
           title: {
             text: "Percentage of Books by Publisher",
@@ -159,6 +174,8 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
         const yearChartOptions = {
           animationEnabled: true,
           theme: "light2",
+          colorSet: "customColorSet",
+          backgroundColor: this.chartBackgroundColor,
           //exportEnabled: true,
           title: {
             text: "Percentage of Books by Publication Year",
@@ -241,6 +258,8 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
         const authorAndYearChartOptions = {
           animationEnabled: true,
           theme: "light2",
+          colorSet: "customColorSet",
+          backgroundColor: this.chartBackgroundColor,
           //exportEnabled: true,
           title: {
             text: "Number of Books by Year",
@@ -254,6 +273,7 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
             title: "Year",
             interval: 1,  // Pour afficher chaque année
             labelAngle: -45, // Inclinaison des labels pour éviter le chevauchement
+            labelFontSize: 10,
             labelFormatter: function (e: any) {
               // Assurez-vous que l'année est affichée correctement
               return e.value.toString();

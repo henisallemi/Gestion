@@ -26,6 +26,7 @@
     "@fortawesome/fontawesome-free": "^6.6.0",
     "@ng-bootstrap/ng-bootstrap": "^17.0.0",
     "@popperjs/core": "^2.11.8",
+    "angular-auth-ui": "file:",
     "bootstrap": "^5.3.3",
     "canvasjs": "^1.8.3",
     "chart.js": "^4.4.3",

@@ -39,8 +39,6 @@ export class BookListComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  //@ViewChild('addBookModal') addBookModalContent!: TemplateRef<any>; // Reference to the modal content
-
   constructor(
     private bookService: BookService,
     private authorService : AuthorService,
@@ -97,6 +95,7 @@ export class BookListComponent implements OnInit {
       },
       error => console.error('Error fetching authors', error)
     );
+    
     this.bookService.getBooks().subscribe(
       response => {
         if (response.length > 0) {
@@ -150,6 +149,7 @@ export class BookListComponent implements OnInit {
   openAddBookForm() {
     const dialogRef = this._dialog.open(BookAddEditComponent, {
         data: {
+          isEditMode: false,
           authors : this.authors
         }
       }
@@ -166,6 +166,7 @@ export class BookListComponent implements OnInit {
   openEditBookForm(data: any) {
     const dialogRef = this._dialog.open(BookAddEditComponent, {
       data: {
+        isEditMode: true,
         book: data,
         authorName: this.getAuthorNameById(data.id_Auth), // Pass the author name if needed
         authors : this.authors

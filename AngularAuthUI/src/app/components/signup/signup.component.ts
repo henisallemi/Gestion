@@ -43,6 +43,7 @@ export class SignupComponent {
     if (this.signUpFrom.valid) {
       this.auth.signUp(this.signUpFrom.value).subscribe({
         next: (res) => {
+          console.log(this.signUpFrom.value)
           this.snackBar.open(res.message, 'Close', { duration: 4500 }); // Affichage du message via MatSnackBar
           this.signUpFrom.reset();
           this.router.navigate(['login']);

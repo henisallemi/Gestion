@@ -1,44 +1,61 @@
-.charts-container {
+.statistic-container {
+  padding-top: 1%;
+  padding-bottom: 1%;
+  padding-left: 3%;
+  padding-right: 3%;
+  background-color: #fafafa;
+  margin: auto;
   position: relative;
+}
+
+.inner-container {
+  background-color: #f7fbff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  max-width: 1300px;
+  margin: auto;
+  position: relative; /* Make sure the button container can be positioned relative to this */
+}
+
+.dashboard-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.dashboard-title {
+  margin: 0;
+  font-size: 2.0em; /* Reduced size to keep title on one line */
+  font-weight: bold;
+  font-family: Audiowide, sans-serif;
+  color: #333;
+  white-space: nowrap; /* Prevent text from wrapping */
+  overflow: hidden; /* Prevent overflow */
+  text-overflow: ellipsis; /* Add ellipsis if necessary */
+}
+
+.charts-container {
+  background-color: #fafafa;
   width: 100%;
   padding: 20px;
   display: grid;
   grid-template-rows: repeat(2, 375px);
-  grid-template-columns: repeat(2,635px); // Changed to `repeat(2, 1fr)` for clarity
-  grid-gap: 30px;
-  justify-content: center;
-  align-content: center;
+  grid-template-columns: repeat(2, 1fr); /* Used 1fr for better responsiveness */
+  grid-gap: 10px;
 }
 
 .chart-card {
-  background: #fff;
+  background: #f7fbff;
+  align-items: end;
   padding: 20px;
-  width: 100%;
-  height: 100%;
+  width: 73%;
+  height: 90%;
   box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
   border-radius: 20px;
-  display: flex; // Add flexbox for centering content within the card
   justify-self: center;
   align-self: center;
-}
-
-.dashboard-container {
-  padding: 20px;
-  background-color: #fff;
-  border-radius: 12px;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
-  max-width: 1295px;
-  margin: auto;
-  position: relative; /* Make sure the button container can be positioned relative to this */
-
-}
-
-.dashboard-title {
-  text-align: center;
-  margin-bottom: 0px;
-  color: #333;
-  font-size: 2.5em;
-  font-weight: bold;
 }
 
 .statistics {
@@ -54,34 +71,31 @@
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   text-align: center;
-  flex: 1 1 calc(25% - 20px); /* 4 items per row, adjusted for gap */
+  flex: 1 1 calc(25% - 20px);
   position: relative;
   transition: all 0.3s ease;
 }
 
 .statistic i.icon {
+  color: white;
   font-size: 2em;
   margin-bottom: 10px;
 }
 
 .statistic.total-books {
-  background: #d1e7dd; /* Light green */
-  border-left: 5px solid #0f6e0f; /* Dark green */
+  background: #1F77B4;
 }
 
 .statistic.total-authors {
-  background: #dbe9f4; /* Light blue */
-  border-left: 5px solid #004b6f; /* Dark blue */
+  background: #FF7F0E;
 }
 
 .statistic.total-editeurs {
-  background: #f8d7da; /* Light red */
-  border-left: 5px solid #a71d2a; /* Dark red */
+  background: #2CA02C;
 }
 
 .statistic.average-price {
-  background: #fff3cd; /* Light yellow */
-  border-left: 5px solid #856404; /* Dark yellow */
+  background: #D62728;
 }
 
 .statistic:hover {
@@ -91,90 +105,78 @@
 
 .statistic .statistic-title {
   font-size: 1.3em;
-  color: #444;
+  color: #ffffff;
   margin-bottom: 10px;
   font-weight: bold;
 }
 
 .statistic .statistic-value {
   font-size: 2em;
-  color: #555;
+  color: #fff;
   margin: 0;
-}
-
-.chart-container {
-  flex: 1 1 100%; /* Takes full width available */
-  margin-bottom: 20px; /* Space between charts */
-  padding: 20px;
-  background-color: #ffffff; /* White background for chart containers */
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .chart-title {
   text-align: center;
   margin-bottom: 20px;
-  color: #333;
   font-size: 1.5em;
   font-weight: bold;
 }
 
 .button-container {
   display: flex;
-  justify-content: flex-end; /* Aligns the button to the right */
-  margin-bottom: 20px; /* Space between button and statistics */
+  justify-content: flex-end;
+  margin-bottom: 20px;
 }
 
 .manage-books-button {
-  margin-bottom: 10px;
-  margin-left: 985px; 
   height: 60px;
   display: inline-flex;
-  align-items: center; 
-  background-color: #ff5100; /* Blue color for the button */
-  color: white; /* White text color */
-  font-size: 16px; /* Font size for the text */
-  padding: 10px 20px; /* Padding around the text and icon */
+  align-items: center;
+  background-color: #FF7F0E;
+  color: white;
+  font-size: 16px;
+  padding: 10px 20px;
   border: none;
-  border-radius: 8px; /* Rounded corners */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   cursor: pointer;
-  transition: background-color 0.3s, transform 0.3s; /* Smooth transition for hover effects */
+  transition: background-color 0.3s, transform 0.3s;
   text-decoration: none;
-} 
- 
+}
+
 .manage-books-button i {
-  margin-right: 8px; /* Space between the icon and the text */
-  font-size: 1.4em; /* Size of the icon */
-} 
- 
+  margin-right: 8px;
+  font-size: 1.4em;
+}
+
 .manage-books-button span {
-  font-weight: bold; /* Bold text for better emphasis */
+  font-weight: bold;
 }
 
 .manage-books-button:hover {
-  background-color: #b33900; /* Darker shade on hover */
-  transform: translateY(-2px); /* Slight lift effect */
+  background-color: #c1610c;
+  transform: translateY(-2px);
 }
 
 .manage-books-button:active {
-  background-color: #8d0081; /* Even darker shade when clicked */
-  transform: translateY(0); /* Reset lift effect on click */
+  background-color: #8d0081;
+  transform: translateY(0);
 }
+
 /* CSS for the empty message */
 .empty-message {
-  background-color: #f8d7da; /* Light red background color */
-  color: #721c24; /* Dark red text color */
-  border: 1px solid #f5c6cb; /* Light red border */
-  border-radius: 5px; /* Rounded corners */
-  padding: 15px; /* Padding inside the container */
-  margin: 20px 0; /* Margin above and below the container */
-  font-weight: bold; /* Bold text */
-  text-align: center; /* Center align text */
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+  border-radius: 5px;
+  padding: 15px;
+  margin: 20px 0;
+  font-weight: bold;
+  text-align: center;
 }
 
 .empty-message p {
-  margin: 0; /* Remove default margin from paragraph */
-  font-size: 16px; /* Adjust font size if necessary */
+  margin: 0;
+  font-size: 16px;
 }
-         

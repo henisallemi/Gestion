@@ -1,43 +1,50 @@
-<div class="dashboard-container">
-  <h1 class="dashboard-title">Book Statistics Dashboard</h1>
+<div class="statistic-container">
   
-  <button class="manage-books-button" (click)="navigateToBookList()">
-    <i class="fas fa-book"></i>
-    <span>Manage Books</span>
-  </button>
-
-  <!-- Basic Statistics -->
-  <div class="statistics">
-    <div class="statistic total-books">
-      <i class="icon fas fa-book"></i>
-      <h2 class="statistic-title">Total Books</h2>
-      <p class="statistic-value">{{ totalBooks }}</p>
+  <div class="inner-container">
+    <div class="dashboard-nav">
+      <h1 class="dashboard-title">Statistics Dashboard</h1>
+      <button class="manage-books-button" (click)="navigateToBookList()">
+        <i class="fas fa-book"></i>
+        <span>Manage Books</span>
+      </button>
     </div>
-
-    <div class="statistic total-authors">
-      <i class="icon fas fa-user"></i>
-      <h2 class="statistic-title">Total Authors</h2>
-      <p class="statistic-value">{{ totalAuthors }}</p>
+    
+  
+    <!-- Basic Statistics -->
+    <div class="statistics">
+      <div class="statistic total-books">
+        <i class="icon fas fa-book"></i>
+        <h2 class="statistic-title">Total Books</h2>
+        <p class="statistic-value">{{ totalBooks }}</p>
+      </div>
+  
+      <div class="statistic total-authors">
+        <i class="icon fas fa-user"></i>
+        <h2 class="statistic-title">Total Authors</h2>
+        <p class="statistic-value">{{ totalAuthors }}</p>
+      </div>
+  
+      <div class="statistic total-editeurs">
+        <i class="icon fas fa-book-reader"></i>
+        <h2 class="statistic-title">Total Editeurs</h2>
+        <p class="statistic-value">{{ totalEditeurs }}</p>
+      </div>
+  
+      <div class="statistic average-price">
+        <i class="icon fas fa-coins"></i>
+        <h2 class="statistic-title">Average Price</h2>
+        <p class="statistic-value">{{ averagePrice | currency:'TND' }}</p>
+      </div>
     </div>
-
-    <div class="statistic total-editeurs">
-      <i class="icon fas fa-book-reader"></i>
-      <h2 class="statistic-title">Total Editeurs</h2>
-      <p class="statistic-value">{{ totalEditeurs }}</p>
-    </div>
-
-    <div class="statistic average-price">
-      <i class="icon fas fa-coins"></i>
-      <h2 class="statistic-title">Average Price</h2>
-      <p class="statistic-value">{{ averagePrice | currency:'TND' }}</p>
+  
+          
+    <!-- Message for empty database -->
+    <div *ngIf="isDataEmpty" class="empty-message">
+      <p>No data available. Please add some books to view the statistics.</p>
     </div>
   </div>
+  
 </div>
-        
-<!-- Message for empty database -->
-<div *ngIf="isDataEmpty" class="empty-message">
-  <p>No data available. Please add some books to view the statistics.</p>
-</div> 
 
 <!-- Charts Container -->
 <div *ngIf="!isDataEmpty" class="charts-container">
