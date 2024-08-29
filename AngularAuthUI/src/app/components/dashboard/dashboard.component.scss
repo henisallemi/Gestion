@@ -1,18 +1,51 @@
+.toolbar-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.toolbar{
+  background-color: #f2edf3;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  h3{
+    margin-left: 1%;
+    font-family: "SUSE", sans-serif;
+    font-size: large;
+    font-weight: 800;
+    font-style: normal;
+  }
+}
+
+.icons-right {
+  mat-icon {
+    height: 30px;
+    width: 30px;
+    font-size: 30px; /* Adjust the size of the icons */
+  }
+  margin-right: 3%;
+  display: flex;
+  gap: 15px; /* Space between the icons */
+}
+
+.spacer {
+  flex: 1;
+}
+
 .statistic-container {
   padding-top: 1%;
-  padding-bottom: 1%;
   padding-left: 3%;
   padding-right: 3%;
-  background-color: #fafafa;
-  margin: auto;
+  background-color: #f2edf3;
+
   position: relative;
 }
 
 .inner-container {
-  background-color: #f7fbff;
-  padding: 20px;
+  background-color: transparent;
   border-radius: 12px;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  //box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
   max-width: 1300px;
   margin: auto;
   position: relative; /* Make sure the button container can be positioned relative to this */
@@ -37,12 +70,12 @@
 }
 
 .charts-container {
-  background-color: #fafafa;
+  background-color: #f2edf3;
   width: 100%;
   padding: 20px;
   display: grid;
   grid-template-rows: repeat(2, 375px);
-  grid-template-columns: repeat(2, 1fr); /* Used 1fr for better responsiveness */
+  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr)); 
   grid-gap: 10px;
 }
 
@@ -83,19 +116,19 @@
 }
 
 .statistic.total-books {
-  background: #1F77B4;
+  background: #1C4E80;
 }
 
 .statistic.total-authors {
-  background: #FF7F0E;
+  background: #A5D8DD;
 }
 
 .statistic.total-editeurs {
-  background: #2CA02C;
+  background: #EA6A47;
 }
 
 .statistic.average-price {
-  background: #D62728;
+  background: #0091D5;
 }
 
 .statistic:hover {
@@ -133,7 +166,7 @@
   height: 60px;
   display: inline-flex;
   align-items: center;
-  background-color: #FF7F0E;
+  background-color: #1C4E80;
   color: white;
   font-size: 16px;
   padding: 10px 20px;

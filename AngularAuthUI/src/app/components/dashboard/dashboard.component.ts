@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 export class DashboardComponent implements OnInit, AfterViewChecked {
 
   private customColors = [
-    "#1F77B4", "#FF7F0E", "#2CA02C", "#D62728",
+    "#1C4E80", "#A5D8DD", "#EA6A47", "#0091D5",
     "#9467BD", "#8C564B", "#E377C2", "#7F7F7F"
   ];
 
@@ -27,8 +27,6 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
   averagePrice: number = 0;
   isDataEmpty: boolean = false; // Add this flag
 
-  chartHeight: number = 300;
-  chartWidht: number = 500;
   chartBackgroundColor: string = "#f7fbff";
 
   constructor(
@@ -104,9 +102,6 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
             text: ''
           },
 
-          height: this.chartHeight, 
-          width: this.chartWidht,
-
           data: [{
             indexLabel: "{name}: {y}%",
             toolTipContent: "{name}: {y}%",
@@ -143,9 +138,7 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
           copyright: {
             text: ''
           },
-          
-          height: this.chartHeight, 
-          width: this.chartWidht,
+        
 
           data: [{
             type: "doughnut",
@@ -184,9 +177,6 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
           copyright: {
             text: ''
           },
-
-          height: this.chartHeight, 
-          width: this.chartWidht,
           
           axisX: {
             title: "Year",
@@ -266,9 +256,6 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
             fontSize: 16
           },
 
-          height: this.chartHeight, 
-          width: this.chartWidht,
-
           axisX: {
             title: "Year",
             interval: 1,  // Pour afficher chaque année
@@ -301,11 +288,6 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
     });
   }
 
-
-
-
-
-
   private renderChart(options: any, containerId: string): void {
     if (typeof (window as any).CanvasJS !== 'undefined') {
       const chartContainer = document.getElementById(containerId);
@@ -319,10 +301,15 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
         } else if (containerId === 'authorAndYearChartContainer' && this.authorAndYearChart) {
           this.authorAndYearChart.destroy();
         }
-
-        const chart = new (window as any).CanvasJS.Chart(chartContainer, options);
+  
+        const chart = new (window as any).CanvasJS.Chart(chartContainer, {
+          ...options,
+          width: chartContainer.clientWidth-40,  // Dynamically set the width based on the container
+          height: chartContainer.clientHeight-40 // Dynamically set the height based on the container
+        });
+  
         chart.render();
-
+  
         if (containerId === 'chartContainer') {
           this.chart = chart;
         } else if (containerId === 'yearChartContainer') {
@@ -337,5 +324,6 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
       console.error('CanvasJS is not loaded');
     }
   }
+  
 
 } 
