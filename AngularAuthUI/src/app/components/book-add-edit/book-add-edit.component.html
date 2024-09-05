@@ -1,5 +1,5 @@
 <div>
-    <h3>Book Form</h3>
+    <h3>{{ data.isEditMode ? 'Edit book' : 'Add book' }}</h3>
 </div>
 <form [formGroup]="bookForm" (ngSubmit)="onFormSubmit()">
     <div class="container">

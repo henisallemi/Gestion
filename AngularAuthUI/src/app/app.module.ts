@@ -28,6 +28,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatMenuModule } from '@angular/material/menu';
+import { UserMenuComponent } from './components/user-menu/user-menu.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +41,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     IntegerValidatorDirective,
     OnlyLettersDirective,
     DashboardComponent, // Declare DashboardComponent here
-    ConfirmDialogComponent,
+    ConfirmDialogComponent, UserMenuComponent,
   ],
   imports: [
     BrowserModule,
@@ -62,7 +64,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     BrowserAnimationsModule,
     MatGridListModule,
     MatAutocompleteModule,
-
+    MatMenuModule
   ],
   exports: [
     IntegerValidatorDirective, // Export the directive if needed elsewhere

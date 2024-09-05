@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import ValidateForm from '../../helpers/validateform';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
@@ -13,6 +13,9 @@ export class LoginComponent {
   type: string = "password";
   isText: boolean = false;
   eyeIcon: string = "fa-eye-slash";
+
+  username: string = '';
+  password: string = '';
 
   loginForm!: FormGroup;
   constructor(private fb: FormBuilder, private auth: AuthService, private router: Router) { }
@@ -36,6 +39,7 @@ export class LoginComponent {
 
       this.auth.login(this.loginForm.value).subscribe({
         next: (res) => {
+          this.auth.setUsername(this.loginForm.get('username')?.value);
           alert(res.message)
           this.loginForm.reset();
           this.router.navigate(['dashboard'])   

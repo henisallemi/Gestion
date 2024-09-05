@@ -1,0 +1,11 @@
+<mat-icon [matMenuTriggerFor]="userMenu">supervised_user_circle</mat-icon>
+
+<mat-menu #userMenu="matMenu">
+  <div style="padding: 10px; text-align: center;">
+    <h4>{{ username }}</h4>
+    <button class="logoff-button" (click)="onLogout()">
+      <mat-icon>power_settings_new</mat-icon>
+      Log Off
+    </button>
+  </div>
+</mat-menu>

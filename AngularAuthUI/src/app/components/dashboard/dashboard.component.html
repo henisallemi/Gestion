@@ -1,9 +1,9 @@
 <div class="toolbar-container">
   <mat-toolbar class="toolbar">
-    <h3 >Hi Melek, welcome back!</h3>
+    <h3 >Hi {{ username }}, welcome back!</h3>
     <span class="spacer"></span>
     <div class="icons-right">
-      <mat-icon>supervised_user_circle</mat-icon>
+      <app-user-menu [username]="username" (logout)="onLogout()"></app-user-menu>
       <mat-icon>info</mat-icon>
     </div>
   </mat-toolbar>
@@ -11,7 +11,7 @@
 
 <div class="statistic-container">
   
-  <div class="inner-container">
+  <div class="statistic-inner-container">
     <div class="dashboard-nav">
       <h1 class="dashboard-title">Statistics Dashboard</h1>
       <button class="manage-books-button" (click)="navigateToBookList()">
@@ -24,27 +24,35 @@
     <!-- Basic Statistics -->
     <div class="statistics">
       <div class="statistic total-books">
-        <i class="icon fas fa-book"></i>
-        <h2 class="statistic-title">Total Books</h2>
+        <div class="statistic-header">
+          <h2 class="statistic-title">Total Books</h2>
+          <i class="icon fas fa-book"></i>
+        </div> 
         <p class="statistic-value">{{ totalBooks }}</p>
       </div>
   
       <div class="statistic total-authors">
-        <i class="icon fas fa-user"></i>
-        <h2 class="statistic-title">Total Authors</h2>
+        <div class="statistic-herder">
+          <h2 class="statistic-title">Total Authors</h2>
+          <i class="icon fas fa-user"></i>
+        </div>
         <p class="statistic-value">{{ totalAuthors }}</p>
       </div>
   
       <div class="statistic total-editeurs">
-        <i class="icon fas fa-book-reader"></i>
-        <h2 class="statistic-title">Total Editeurs</h2>
+        <div class="statistic-herder">
+          <h2 class="statistic-title">Total Editeurs</h2>
+          <i class="icon fas fa-book-reader"></i>
+        </div>
         <p class="statistic-value">{{ totalEditeurs }}</p>
       </div>
   
       <div class="statistic average-price">
-        <i class="icon fas fa-coins"></i>
-        <h2 class="statistic-title">Average Price</h2>
-        <p class="statistic-value">{{ averagePrice | currency:'TND' }}</p>
+        <div class="statistic-header">
+          <h2 class="statistic-title">Average Price</h2>
+          <i class="icon fas fa-coins"></i>
+        </div>
+        <p class="statistic-value">{{ averagePrice | currency:'USD' }}</p>
       </div>
     </div>
   
@@ -59,8 +67,10 @@
 
 <!-- Charts Container -->
 <div *ngIf="!isDataEmpty" class="charts-container">
-  <div id="genreChartContainer" class="chart-card"sty></div>
-  <div id="publisherChartContainer" class="chart-card"></div>
-  <div id="yearChartContainer" class="chart-card"></div>
-  <div id="authorAndYearChartContainer" class="chart-card"></div> 
+  <div class="charts-inner-container">
+    <div id="genreChartContainer" class="chart-card"></div>
+    <div id="publisherChartContainer" class="chart-card"></div>
+    <div id="yearChartContainer" class="chart-card"></div>
+    <div id="authorAndYearChartContainer" class="chart-card"></div>
+  </div>
 </div>

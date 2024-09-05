@@ -1,0 +1,36 @@
+.mat-menu-panel {
+  min-width: 200px; /* Minimum width of the dropdown */
+}
+
+h4 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.logoff-button {
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: left;
+  padding: 10px 15px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease;  // Smooth transition for hover effect
+
+  mat-icon {
+    margin-right: 10px;
+    color: #000;
+    transition: transform 0.3s ease; // Smooth animation for the icon
+  }
+
+  &:hover {
+    background-color: rgba(128, 234, 206, 0.4352941176); // Background color on hover
+    border-radius: 20px;
+
+    mat-icon {
+      //color: rgba(128, 234, 206, 0.4352941176);  // Change icon color on hover
+      transform: rotate(20deg); // Animate the icon on hover (slight rotation)
+    }
+  }
+}

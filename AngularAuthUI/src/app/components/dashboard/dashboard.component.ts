@@ -1,7 +1,7 @@
 import { AfterViewChecked, Component, OnInit } from '@angular/core';
 import { BookService } from '../../services/book.service';
 import { Router } from '@angular/router';
-//import {MatGridListModule} from '@angular/material/grid-list';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -9,10 +9,12 @@ import { Router } from '@angular/router';
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit, AfterViewChecked {
+  username: string | null = '';
 
   private customColors = [
-    "#1C4E80", "#A5D8DD", "#EA6A47", "#0091D5",
-    "#9467BD", "#8C564B", "#E377C2", "#7F7F7F"
+    "#5ade35", "#59d1e3", "#80eace",
+    "#5ade35", "#59d1e3", "#80eace",
+    "#5ade35", "#59d1e3", "#80eace",
   ];
 
   private chart: any;
@@ -27,11 +29,12 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
   averagePrice: number = 0;
   isDataEmpty: boolean = false; // Add this flag
 
-  chartBackgroundColor: string = "#f7fbff";
+  chartBackgroundColor: string = "#ffffff00";
 
   constructor(
     private bookService: BookService,
-    private router: Router // Inject Router
+    private router: Router, // Inject Router
+    private auth: AuthService
   ) { }
 
   navigateToBookList(): void {
@@ -40,9 +43,14 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
 
   
   ngOnInit(): void {
-    (window as any).CanvasJS.addColorSet("customColorSet", this.customColors);
-    this.loadBookStatistics();
 
+    this.auth.currentUsername.subscribe((name) => {
+      this.username = name;
+    });
+
+    (window as any).CanvasJS.addColorSet("customColorSet", this.customColors);
+    
+    this.loadBookStatistics();
     this.loadGenreChartData();
     this.loadPublisherChartData();
     this.loadYearChartData();
@@ -325,5 +333,9 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
     }
   }
   
+  onLogout() {
+    this.auth.clearUsername(); // Clear username from AuthService and LocalStorage
+    this.router.navigate(['/login']); // Navigate back to the login page
+  }
 
 } 
